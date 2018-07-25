@@ -1,0 +1,16 @@
+.main {
+  height: 100%;
+}
+
+.mapContainer {
+  height: 100%;
+  width: 100%;
+}
+
+.mapEur {
+  background: url(http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg);
+}
+
+.mapPac {
+  background: url(http://res.cloudinary.com/druzhkwmt/image/upload/v1456179470/evnyvf9x1ehyxt3ksrkp.jpg);
+}
