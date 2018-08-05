@@ -23,7 +23,7 @@ class Country {
     public innerColor: Color;
     public lineColor: Color;
     public shadow: Color;
-    public flagImage: string;
+    public flagImage: HTMLImageElement | null;
     public forcepoolGroupings: ForcepoolGrouping[];
     public colonies: object;
     public units: Unit[];
@@ -46,7 +46,7 @@ class Country {
         this.innerColor = colors.inner;
         this.lineColor = colors.line;
         this.shadow = colors.shadow;
-        this.flagImage = '';
+        this.flagImage = null;
 
         this.forcepoolGroupings = [];
         this.colonies = []

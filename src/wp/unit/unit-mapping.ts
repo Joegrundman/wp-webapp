@@ -1,0 +1,72 @@
+import Unit from './unit';
+import * as Air from './unit-ui-air';
+import * as Ground from './unit-ui-ground';
+import * as Misc from './unit-ui-misc';
+import * as Naval from './unit-ui-naval';
+
+export default (ctx: CanvasRenderingContext2D, unit: Unit) => {
+
+  switch (unit.type.toLowerCase()) {
+    case "aaf": Air.drawAaf(ctx, unit); break;
+    case "aas-attack": Air.drawAasAttack(ctx, unit); break;
+    case "aas-cover": Air.drawAasCover(ctx, unit); break;
+    case "aas-search": Air.drawAasSearch(ctx, unit); break;
+    case "advsub": case "adv sub": Naval.drawAdvSub(ctx, unit); break;
+    case "airbase": Misc.drawAirbase(ctx, unit); break;
+    case "airborne": Ground.drawAirborne(ctx, unit); break;
+    case "airtransport": case "at": case "air trans": Air.drawAirTransport(ctx, unit); break;
+    case "alliedpartisan": Ground.drawAlliedPartisan(ctx, unit); break;
+    case "armor": case "arm": Ground.drawArmor(ctx, unit); break;
+    case "asw": Naval.drawAsw(ctx, unit); break;
+    case "atomicattack": case "atomic attack": Misc.drawAtomicAttack(ctx, unit); break;
+    case "avg": Air.drawAvg(ctx, unit); break;
+    case "axispartisan": Ground.drawAxisPartisan(ctx, unit); break;
+    case "battleship": case "b": case "bc": case "pb": Naval.drawBattleship(ctx, unit); break;
+    case "beachdefense": Misc.drawBeachDefense(ctx, unit); break;
+    case "bomber": Air.drawBomber(ctx, unit); break;
+    case "pacificbomber": case "pac bomber": Air.drawPacificBomber(ctx, unit); break;
+    case "partialsupply": Misc.drawPartialSupply(ctx, unit); break;
+    case "breakthrough": Misc.drawBreakthrough(ctx, unit); break;
+    case "bridgehead": Misc.drawBridgehead(ctx, unit); break;
+    case "chindit": Ground.drawChindit(ctx, unit); break;
+    case "commando": Ground.drawCommando(ctx, unit); break;
+    case "communistpartisan": case "compartisan": Ground.drawCommunistPartisan(ctx, unit); break;
+    case "cruiser": Naval.drawCruiser(ctx, unit); break;
+    case "carrier": case "cv": Naval.drawCarrier(ctx, unit); break;
+    case "cve": Naval.drawCve(ctx, unit); break;
+    case "damage": Misc.drawDamage(ctx, unit); break;
+    case "destroyer": case "dd": Naval.drawDestroyer(ctx, unit); break;
+    case "done": Misc.drawDone(ctx, unit); break;
+    case "enas": case "elitenas": Air.drawEnas(ctx, unit); break;
+    case "exploit": Misc.drawExploit(ctx, unit); break;
+    case "firestorm": Misc.drawFireStorm(ctx, unit); break;
+    case "flak": Misc.drawFlak(ctx, unit); break;
+    case "fortress": case "ft": Misc.drawFortress(ctx, unit); break;
+    case "grant": Misc.drawGrant(ctx, unit); break;
+    case "ic": case "IC": Misc.drawIc(ctx, unit); break;
+    case "infantry": case "i": Ground.drawInfantry(ctx, unit); break;
+    case "information": case "inf": Misc.drawInformation(ctx, unit); break;
+    case "interceptor": Air.drawInterceptor(ctx, unit); break;
+    case "isolation": Misc.drawIsolation(ctx, unit); break;
+    case "jet": Air.drawJet(ctx, unit); break;
+    case "jetsquadron": Air.drawJetSquadron(ctx, unit); break;
+    case "kamikaze": Air.drawKamikaze(ctx, unit); break;
+    case "lent": Misc.drawLent(ctx, unit); break;
+    case "marine": Ground.drawMarine(ctx, unit); break;
+    case "mechanized": case "mech": Ground.drawMechanized(ctx, unit); break;
+    case "nas": Air.drawNas(ctx, unit); break;
+    case "oil": Misc.drawOil(ctx, unit); break;
+    case "oilplant": Misc.drawOilPlant(ctx, unit); break;
+    case "partisan": case "pw": case "px": case "pc": Ground.drawPartisan(ctx, unit); break;
+    case "port": Misc.drawPort(ctx, unit); break;
+    case "railhead": Misc.drawRailhead(ctx, unit); break;
+    case "replacement": case "rep": Ground.drawReplacement(ctx, unit); break;
+    case "rocket": Misc.drawRocket(ctx, unit); break;
+    case "spyring": Misc.drawSpyRing(ctx, unit); break;
+    case "sub": Naval.drawSub(ctx, unit); break;
+    case "taskforce": Naval.drawTaskForce(ctx, unit); break;
+    case "transport": case "tr": Naval.drawTransport(ctx, unit); break;
+    case "turn": Misc.drawTurn(ctx, unit); break;
+    default: alert("Unknown unit type: " + unit.type + ".");
+  }
+}

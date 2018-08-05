@@ -12,6 +12,16 @@ import {
 import Country from '../country/Country';
 import Stack from '../stack/Stack';
 import { IUnitParams } from './i-unit-params';
+import drawUnit from './unit-mapping';
+import { drawBase } from './unit-ui';
+import * as UI from './unit-ui';
+import * as Misc from './unit-ui-misc';
+
+const initialCountry: Country = new Country();
+
+interface IMockHex {
+    isPort: boolean;
+}
 
 class Unit {
     public id: number;
@@ -23,22 +33,24 @@ class Unit {
     public strength: number;
     public movement: number;
     public location?: number;
-    public hex: object | null;
+    public hex: IMockHex | null;
     public hexIdAtTurnStart: number | null;
     public image: string;
-    public owner: Country | null;
+    public owner: Country;
     public taskforceOwner: object | null;
     public yard: object | null;
     public holderX: number | null;
     public holderY: number | null;
     public isDamaged: boolean;
-    public isHighlighted: boolean;
+    public highlight: string | null;
     public isEliminated: boolean;
+    public isPacific: boolean;
     public isSlow: boolean;
     public isSunk: boolean;
     public isInverted: boolean;
     public isExploiting: boolean;
     public isIsolated: boolean;
+    public isLent: boolean;
     public stack: Stack | null;
 
     constructor (params: IUnitParams) {
@@ -57,7 +69,7 @@ class Unit {
         this.hex = params.hex || null;
         this.hexIdAtTurnStart = null;
         this.image = '';
-        this.owner = null;
+        this.owner = initialCountry;
 
         this.taskforceOwner = null;
         this.yard = null;
@@ -66,7 +78,8 @@ class Unit {
 
         this.isDamaged = false;
         this.isEliminated = false;
-        this.isHighlighted = false;
+        this.isPacific = false;
+        this.highlight = null;
         this.isSlow = !!params.isSlow;
         this.isSunk = !!params.isSunk;
         this.isInverted = !!params.isInverted;
@@ -95,10 +108,11 @@ class Unit {
         return sinkableUnitTypes.indexOf(this.type.toLowerCase()) > -1;
     }
        
-    public breakdownAndCreate (strengthOfNewUnit: number): Unit | undefined {
-        if (strengthOfNewUnit >= this.strength) { 
-            return
-        };
+    public breakdownAndCreate (strengthOfNewUnit: number): Unit {
+        // if (strengthOfNewUnit >= this.strength) { 
+        //     return;
+        // }
+
         const oldUnit = this;
         oldUnit.strength -= strengthOfNewUnit;
         const newParams: IUnitParams = {
@@ -143,6 +157,28 @@ class Unit {
         return exploitableUnitTypes.indexOf(this.type.toLowerCase()) > -1;
     }
 
+    public draw (ctx: CanvasRenderingContext2D, x: number, y: number) {
+        ctx.save();
+        x = Math.floor(x);
+        y = Math.floor(y);
+        ctx.translate(x, y);
+        drawBase(ctx, this);
+        drawUnit(ctx, this);
+
+        if (this.isEliminated) { UI.drawEliminated(ctx, this); }
+        else if (this.isInverted) { UI.drawInverted(ctx, this); }
+        else if (this.isIsolated) { UI.drawIsolated(ctx, this); }
+        if (this.isDamaged) { UI.drawDamaged(ctx, this); }
+        if (this.isExploiting) { UI.drawExploiting(ctx, this); }
+        if (this.isLent) { Misc.drawLent(ctx, this); }
+        UI.drawUnitTexture(ctx);
+        // if (game.selectedUnit === this || this.highlight) {
+        //     UI.drawHighlight(ctx, this);
+        // }
+
+        ctx.restore();
+}
+
     /**
      * checks to see if this.unit is in one of a group of passed stacks
      */
@@ -177,23 +213,22 @@ class Unit {
     /**
      * returns unit to forcepool
      */    
-    // public returnToForcepool () {
-    //     this.location = 1;
-    //     this.fpg = 0;
+    public returnToForcepool () {
+        this.location = 1;
+        this.fpg = 0;
 
-    //     if (this.factorable) {
-    //         for (let i = 0; i < this.owner.units.length; i++) {
-    //             const unit: Unit = this.owner.units[i];
-    //             if (unit === this) { continue }
-    //             if (unit.location !== 1 || unit.fpg !== 0) { continue }
-    //             if (unit.canCombineWith(this)) {
-    //                 unit.strength += this.strength
-    //                 this.owner.removeUnit(this)
-    //                 break
-    //             }
-    //         }
-    //     }
-    // }
+        if (this.factorable) {
+            for (const unit of this.owner.units) {
+                if (unit === this) { continue }
+                if (unit.location !== 1 || unit.fpg !== 0) { continue }
+                if (unit.canCombineWith(this)) {
+                    unit.strength += this.strength
+                    this.owner.removeUnit(this)
+                    break
+                }
+            }
+        }
+    }
 
     /**
      * sets the Hex Id At turn start to match the fileloaded position
@@ -216,6 +251,10 @@ class Unit {
     //     this.holderY = y;
     // }
    
+    public toString (): string {
+        return `${this.type}, name: ${this.name}, strength: ${this.strength}, movement: ${this.movement}, id: ${this.id}`;
+    }
+
     public unitHasSameAddress (stack: Stack): boolean {
         const that = this;
         return stack.units.some((unit: Unit) => (unit.holderX === that.holderX) && (unit.holderY === that.holderY))
@@ -225,6 +264,7 @@ class Unit {
         const that = this;
         return stack.units.some((unit: Unit): boolean => unit.type === that.type && unit.strength === that.strength);
     }
+    
 }
 
 export default Unit;

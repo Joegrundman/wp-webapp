@@ -1,3 +1,7 @@
+interface IMockHex {
+  isPort: boolean;
+}
+
 export interface IUnitParams {
   id: number;
   fpg: number;
@@ -6,7 +10,7 @@ export interface IUnitParams {
   strength: number;
   movement: number;
   location?: number;
-  hex?: object;
+  hex?: IMockHex;
   isSlow?: boolean;
   isSunk?: boolean;
   isDamaged?: boolean;
