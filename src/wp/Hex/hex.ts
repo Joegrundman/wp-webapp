@@ -1,5 +1,6 @@
 'use strict';
 import Country from '../country/Country';
+import game from '../Game';
 import { toAscii } from '../misc/convert';
 import Point from '../misc/Point';
 import Unit from '../unit/unit';

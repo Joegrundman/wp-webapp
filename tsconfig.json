@@ -21,6 +21,9 @@
   "exclude": [
     "node_modules",
     "build",
+    "config",
+    "public",
+    ".sonarlint",
     "scripts",
     "acceptance-tests",
     "webpack",

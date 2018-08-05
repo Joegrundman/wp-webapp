@@ -1,5 +1,9 @@
 'use strict';
 import Country from '../country/Country';
+import Hex from '../Hex/hex';
+import Map from '../Map/Map';
+import Shipyard from '../Shipyard/shipyard';
+import ShipyardUnit from '../Shipyard/shipyard-unit';
 import Unit from '../unit/unit';
 
 class Game {
@@ -9,16 +13,16 @@ class Game {
     public zoomLevel: number;
     public type: null;
     public countries: Country[];
-    public maps: object;
-    public currentMap: string;
+    public maps: Map[];
+    public currentMap: Map;
     public selectedUnit: Unit | null;
     public gameType: string;
-    public shipyards: any[];
+    public shipyards: Shipyard[];
     public taskforces: any[];
     public selectedTaskforce: any;
     public state: number;
     public newspaper: string;
-    public codebreakingResults: object;
+    public codebreakingResults: any[];
     public hexControlDialogIsOpen: boolean;
     public currentYear: number;
     public currentSeason: string;
@@ -28,14 +32,18 @@ class Game {
     public showUnitTexture: boolean;
     public noSwastikas: boolean;
 
-    constructor () {
-        this.name = 'not set'
+
+    constructor (name: string ) {
+        this.name = name
         this.mapIndex = 0
         this.zoomLevel = 1
         this.type = null
         this.countries = []
-        this.maps = {}
-        this.currentMap = ''
+        this.maps = [
+            new Map("euro", 0),
+            new Map("pac", 1)
+        ]
+        this.currentMap = this.maps[0]
         this.selectedUnit = null
         this.gameType = ''
         this.shipyards = []
@@ -43,215 +51,94 @@ class Game {
         this.selectedTaskforce = null
         this.state = 0;
         this.newspaper = "";
-        this.codebreakingResults = {};
+        this.codebreakingResults = [];
         this.hexControlDialogIsOpen = false;
         this.currentYear = 2011;
         this.currentSeason = "Season";
         this.currentPhaseId = 0;
         this.currentCoalition = null;
         this.currentPhase = 0;
-        // Settings
+
         this.showUnitTexture = true;
         this.noSwastikas = true;
+
+        this.maps[0].createHexes(0);
+        this.maps[1].createHexes(1);
     }
-    /**
-     * Build a game instance
-     * @static
-     * gameBuilder
-     */
-    static gameBuilder () {
-        game = new WP.Game()
-        game.name = "new"
-        game.countries = []
-        game.shipyards = []
-        game.maps = new Array(2)
-        game.maps[0] = new WP.Map("euro", 0)
-        game.maps[0].createHexes(0)
-        game.maps[1] = new WP.Map("pac", 1)
-        game.maps[1].createHexes(1)
-        game.currentMap = game.maps[0]
-        return game
-    }
-    /**
-     * adds a country to the game countries array
-     * @param {object}  country - country to be added
-     */
-    addCountry (country) {
-        if (!this.countries) this.countries = [];
+
+    public addCountry (country: Country) {
         this.countries.push(country);       
     }
-    /**
-     * adds a codebreaking result to the game codebreakingResults array
-     * @param {object} result - result to be added
-     */   
-    addCodebreakingResult (result) {
-        if (!this.codebreakingResults) this.codebreakingResults = [];
+  
+    public addCodebreakingResult (result: any) {
         this.codebreakingResults.push(result);
     }
-    /**
-     * adds a shipyards to the game shipyards array
-     * @param {object}  shipyard - shipyard to be added
-     */
-    addShipyard (shipyard) {
-        if (!this.shipyards) this.shipyards = [];
+
+    public addShipyard (shipyard: Shipyard) {
         this.shipyards.push(shipyard);       
     }
-    /**
-     * adds a taskforce to the game taskforces array
-     * @param {object}  taskforce - taskforce to be added
-     */
-    addTaskforce (taskforce) {
-        if (!this.taskforces) this.taskforces = [];
+
+    public addTaskforce (taskforce: any) {
         this.taskforces.push(taskforce);        
     }
-    /**
-     * adds a unit to a hex
-     * @param {object}  unit - unit to be added
-     * @param {object}  hex - hex to which unit is added
-     * @param {object}  stack - stack to which unit is added
-     */
-    addUnitToHex (unit, hex, stack) {
-        var hexDetails = hex.split('/');
-        var map = this.maps[hexDetails[0]];
-        var addHex = map.getHex(hexDetails[1]);
-        addHex.addUnit(unit, stack)
-    }
-     /**
-     * gets all currently highlighted units
-     * @returns {object} array of units
-     */
-    getAllHighlightedUnits () {
-        var units = []
-        var i = -1;
 
-        for (var ci = 0; ci < this.countries.length; ci++) {
-            var ctry = this.countries[ci];
-            for (var ui = 0; ui < ctry.units.length; ui++) {
-                var unit = ctry.units.length[ui];
-                if (!unit) continue;
-                if (unit.highlighted)
-                units[++i] = unit;
-            }
-        }  
-        return units;
+    public addUnitToHex (unit: Unit, hex: string) {
+        const hexDetails: string[] = hex.split('/');
+        const map: Map = this.maps[hexDetails[0]];
+        const addHex: Hex = map.getHex(parseInt(hexDetails[1], 10));
+        addHex.addUnit(unit)
     }
-     /**
-     * gets country by id
-     * @param {number} id - id of the country
-     * @returns {object}  country
-     */    
-    getCountry (id) {
-        var res = null
-        this.countries.forEach(cty => {
-            if(cty.id == id) { res = cty }
-        })
-        if (res == null) {
-         console.log("Game.getCountry(id): Unknown country: " + id);           
-        }
 
-        return res;
+    // public getAllHighlightedUnits () {
+    //     var units = []
+    //     var i = -1;
+
+    //     for (var ci = 0; ci < this.countries.length; ci++) {
+    //         var ctry = this.countries[ci];
+    //         for (var ui = 0; ui < ctry.units.length; ui++) {
+    //             var unit = ctry.units.length[ui];
+    //             if (!unit) continue;
+    //             if (unit.highlighted)
+    //             units[++i] = unit;
+    //         }
+    //     }  
+    //     return units;
+    // }
+
+    public getCountry (id: number): Country {
+        return this.countries.find((country: Country) => country.id === id) as Country;
     }
-    /**
-     * gets the current map Id
-     * @returns {number}  the map id
-     */
-    getCurrentMapId () {
-        var mapId = 0;
-        if (game.currentMap == game.maps[1]) mapId = 1;
-        return mapId;       
+
+    public getCurrentMapId (): number {
+        return this.currentMap.id;     
     }
-     /**
-     * gets country by name
-     * @param {string} name - name of the country
-     * @returns {object}  country
-     */     
-    getCountryFromName (name) {
-        var res = null
-        this.countries.forEach(cty => {
-            if (cty.name == name) { res = cty }
-        })
-        if (res == null){
-            console.log("Game.getCountryFromName: Unknown country: " + name);
-        }
-        return res;
+   
+    public getCountryFromName (name: string): Country {
+        return this.countries.find((country: Country) => country.name === name) as Country;
     }
-    /**
-     *  sets the current date 
-     * @param {number} currentPhaseId - the current Phase Id
-     * @param {number} year - the current year
-     * @param {number} season - the current season
-     */
-    setCurrentDate (currentPhaseId, year, season) {
-        if (!phase) phase = new WP.Phase();
-        phase.initPhases();
-        phase.processLoadedPhase(currentPhaseId, year, season);
-        phase.refreshPhase();  
+
+    // public setCurrentDate (currentPhaseId, year, season) {
+    //     if (!phase) phase = new WP.Phase();
+    //     phase.initPhases();
+    //     phase.processLoadedPhase(currentPhaseId, year, season);
+    //     phase.refreshPhase();  
+    // }
+
+    public getShipyard (id: number): Shipyard {
+        return this.shipyards.find((shipyard: Shipyard) => shipyard.id === id) as Shipyard;     
     }
-     /**
-     * gets shipyard by id
-     * @param {number} id - shipyard id number
-     * @returns {object}  shipyard
-     */    
-    getShipyards (id) {
-        var res = null
-        this.shipyards.forEach(sy => {
-            if (sy.id == id) { res = sy }
-        })
-        if (res == null) {
-             alert("Game.getShipyards: Unknown shipyard: " + id);
-        }
-        return res;      
+  
+    public getShipyardFromName (name: string): Shipyard {
+        return this.shipyards.find((shipyard: Shipyard) => shipyard.name === name) as Shipyard;          
     }
-     /**
-     * gets shipyard by name
-     * @param {string} name - name of the shipyard
-     * @returns {object}  shipyard
-     */    
-    getShipyardFromName (name) {
-        var res = null
-        this.shipyards.forEach(sy => {
-            if (sy.name == name) { res = sy }
-        })
-        if(res == null) {
-            alert("Game.getShipyardFromName: Unknown shipyard: " + name);
-        }
-        return res        
-    }
-     /**
-     * gets shipyard from the urrently selected unit
-     * @param {number} unitId - currently selected unitId
-     * @returns {object}  shipyard
-     */   
-    getShipyardFromUnit (unitId) {
-        var res = null
-        this.shipyards.forEach(sy => {
-            sy.shipyardUnits.forEach(syu => {
-                if (syu.id == unitId) { res = sy }
-            })
-        })
-        if (res == null) {
-         alert("Game.getShipyard from unit: Unknown shipyard with: " + unitId);           
-        }
-        return res;      
-    }
-     /**
-     * gets taskforce from the currently selected unit id
-     * @param {number} unitId - currently selected unit id
-     * @returns {object}  taskforce
-     */    
-    getTaskforceFromUnit (unitId) {
-        var res = null
-        this.taskforces.forEach(tf => {
-            tf.taskforceUnits.forEach(tfu => {
-                if (tfu.id == unitId) { res = tf }
-            })
-        })
-        if (res == null) {
-         alert("Game.getTaskforce from unit: Unknown taskforce with: " + unitId);           
-        }
-        return res;   
-    }
+ 
+    public getShipyardFromUnit (unitId: number): Shipyard {
+        return this.shipyards.find((shipyard: Shipyard) =>
+            shipyard.shipyardUnits.some((unit: ShipyardUnit) => unit.id === unitId)
+        ) as Shipyard;     
     
+    }
+
     /**
      * gets a unit from the shipyard
      * @param {number} id - the unit id
@@ -259,199 +146,181 @@ class Game {
      * @param {number} y - y coordinate of unit (in the shipyard)
      * @results {object}  unit
      */
-    getUnitForShipyard (id, x, y) {
-        var res = null
-        this.countries.forEach(cty => {
-            cty.units.forEach(cu => {
-                if (cu.id == id) {
-                    cu.holderX = x
-                    cu.holderY = y
-                    res = cu
-                }
-            })
-        })
-        return res       
-    }
-     /**
-     * gets taskforce by id
-     * @param {number} id - taskforce id number
-     * @returns {object}  taskforce
-     */ 
-    getTaskforces (id) {
-        var res = null
-        this.taskforces.forEach(tf => {
-            if (tf.id == id) { res = tf }
-        })
-        if (res == null){
-          alert("Game.getTaskforces: Unknown taskforce: " + id);          
-        }
-        return res;        
-    }
-     /**
-     * gets taskforce by owner
-     * @param {object} owner - the owning country
-     * @returns {object} taskforce
-     */     
-    getTaskforceFromOwner (owner) {
-        var res = null
-        this.taskforces.forEach(tf => {
-            if (tf.owner == owner) { res = tf }
-        })
-        if (res == null) {
-         alert("Game.getTaskforce: Unknown taskforce: " + owner);           
-        }
-        return res;
-    }
-    /**
-     * gets a unit from the taskforce
-     * @param {number} id - the unit id
-     * @param {number} x - x coordinate of unit (in the taskforce)
-     * @param {number} y - y coordinate of unit (in the taskforce)
-     * @results {object}  unit
-     */    
-    getUnitForTaskforce (id, x, y) {
-        var res = null
-        this.countries.forEach(cty => {
-            cty.units.forEach(cu => {
-                if (cu.id == id) {
-                    cu.holderX = x
-                    cu.holderY = y
-                    res = cu
-                }
-            })
-        })
-        if (res == null) {
-           alert("Game.getUnit forTaskforce: Unknown unit: " + id);           
-        }
-        return res        
-    }
-     /**
-     * gets a unit from the country for a shipyard or taskforce
-     * @param {number} id - the unit id
-     * @param {number} x - x coordinate of unit (in the dialog)
-     * @param {number} y - y coordinate of unit (in the dialog)
-     * @results {object}  unit
-     */   
-    getUnitFromCountryForGridDialog (id, x, y) {
-        var res = null
-        this.countries.forEach(cty => {
-            cty.units.forEach(cu => {
-                if (cu.id == id) {
-                    cu.holderX = x
-                    cu.holderY = y
-                    res = cu
-                }
-            })
-        })
-        return res    
-    }
+ 
+    // public getUnitForShipyard (id: number, x: number, y: number): Unit {
+    //     let res = null
+    //     this.countries.forEach(cty => {
+    //         cty.units.forEach(cu => {
+    //             if (cu.id === id) {
+    //                 cu.holderX = x
+    //                 cu.holderY = y
+    //                 res = cu
+    //             }
+    //         })
+    //     })
+
+        
+    //     return res as Unit     
+    // }
+ 
+    // public getTaskforceFromUnit (unitId) {
+    //     var res = null
+    //     this.taskforces.forEach(tf => {
+    //         tf.taskforceUnits.forEach(tfu => {
+    //             if (tfu.id == unitId) { res = tf }
+    //         })
+    //     })
+    //     if (res == null) {
+    //      alert("Game.getTaskforce from unit: Unknown taskforce with: " + unitId);           
+    //     }
+    //     return res;   
+    // }
+    
+
+    // public getTaskforces (id) {
+    //     var res = null
+    //     this.taskforces.forEach(tf => {
+    //         if (tf.id == id) { res = tf }
+    //     })
+    //     if (res == null){
+    //       alert("Game.getTaskforces: Unknown taskforce: " + id);          
+    //     }
+    //     return res;        
+    // }
+   
+    // public getTaskforceFromOwner (owner) {
+    //     var res = null
+    //     this.taskforces.forEach(tf => {
+    //         if (tf.owner == owner) { res = tf }
+    //     })
+    //     if (res == null) {
+    //      alert("Game.getTaskforce: Unknown taskforce: " + owner);           
+    //     }
+    //     return res;
+    // }
+
+    // public getUnitForTaskforce (id, x, y) {
+    //     var res = null
+    //     this.countries.forEach(cty => {
+    //         cty.units.forEach(cu => {
+    //             if (cu.id == id) {
+    //                 cu.holderX = x
+    //                 cu.holderY = y
+    //                 res = cu
+    //             }
+    //         })
+    //     })
+    //     if (res == null) {
+    //        alert("Game.getUnit forTaskforce: Unknown unit: " + id);           
+    //     }
+    //     return res        
+    // }
+ 
+    // public getUnitFromCountryForGridDialog (id, x, y) {
+    //     var res = null
+    //     this.countries.forEach(cty => {
+    //         cty.units.forEach(cu => {
+    //             if (cu.id == id) {
+    //                 cu.holderX = x
+    //                 cu.holderY = y
+    //                 res = cu
+    //             }
+    //         })
+    //     })
+    //     return res    
+    // }
     /**
      * gets the list of major powers
      * @returns {object}  array of major powers
      */    
-    getMajorPowers () {
-        var majors = []
-        this.countries.forEach(cty => {
-            if (cty.isMajorPower) { majors.push(cty) }
-        })
-        return majors;      
-    }
-     /**
-     * redraws hexes upon select and unselect unit
-     */   
-    handleSelectUnselectOnBoard (unit) {
-        if (unit && unit.hex) {
-            unit.hex.draw();
-        }        
-    }
-      /**
-     * redraws dialog upon select and unselect unit
-     */     
-    handleSelectUnselectInDialog (unit, dialog) {
-        if (!dialog) return;
-        if (!dialog.unitHolder) return;
-        var stack = dialog.unitHolder.findStackContaining(unit);
-        if (stack) {
-            dialog.unitHolder.drawStack(stack);
-        }    
-    }
-     /**
-     * handles infobar buttons - not used anymore in this ui
-     */      
-    setInfoBarButtons () {
-        $("#infoBarTopLeftWebsiteDiv").hide();
-        $("#infoBarTopLeftGameDiv").show();        
-    }
-     /**
-     * sets currently selected taskforce
-     * @param{object} taskforce - the taskforce to mark as currently selected
-     */      
-    setSelectedTaskforce (taskforce) {
-        if (taskforce == this.selectedTaskforce) return;
-        this.selectedTaskforce = taskforce;     
-    }
-      /**
-     * sets currently selected unit - triggers redrawing upon change
-     * @param{object} unit - the unit to mark as currently selected
-     */      
-    setSelectedUnit (unit) {
-        if (unit == this.selectedUnit) return;
+    // public getMajorPowers () {
+    //     var majors = []
+    //     this.countries.forEach(cty => {
+    //         if (cty.isMajorPower) { majors.push(cty) }
+    //     })
+    //     return majors;      
+    // }
+ 
+    // public handleSelectUnselectOnBoard (unit) {
+    //     if (unit && unit.hex) {
+    //         unit.hex.draw();
+    //     }        
+    // }
+    
+    // public handleSelectUnselectInDialog (unit, dialog) {
+    //     if (!dialog) return;
+    //     if (!dialog.unitHolder) return;
+    //     var stack = dialog.unitHolder.findStackContaining(unit);
+    //     if (stack) {
+    //         dialog.unitHolder.drawStack(stack);
+    //     }    
+    // }
+    
+    // public setInfoBarButtons () {
+    //     $("#infoBarTopLeftWebsiteDiv").hide();
+    //     $("#infoBarTopLeftGameDiv").show();        
+    // }
+     
+    // public setSelectedTaskforce (taskforce) {
+    //     if (taskforce == this.selectedTaskforce) return;
+    //     this.selectedTaskforce = taskforce;     
+    // }
+    
+    public setSelectedUnit (unit: Unit) {
+        if (unit === this.selectedUnit) { return; }
 
-        var oldUnit = this.selectedUnit;
+        // const oldUnit = this.selectedUnit;
         this.selectedUnit = unit;
 
-        this.handleSelectUnselectOnBoard(oldUnit);
-        this.handleSelectUnselectInDialog(oldUnit, forcepool);
-        this.handleSelectUnselectInDialog(oldUnit, shipsAtSea);
-        this.handleSelectUnselectInDialog(oldUnit, shipyard);
-        this.handleSelectUnselectInDialog(oldUnit, taskforce);
-        this.handleSelectUnselectInDialog(oldUnit, unitCounter);
+        // this.handleSelectUnselectOnBoard(oldUnit);
+        // this.handleSelectUnselectInDialog(oldUnit, forcepool);
+        // this.handleSelectUnselectInDialog(oldUnit, shipsAtSea);
+        // this.handleSelectUnselectInDialog(oldUnit, shipyard);
+        // this.handleSelectUnselectInDialog(oldUnit, taskforce);
+        // this.handleSelectUnselectInDialog(oldUnit, unitCounter);
 
-        this.handleSelectUnselectOnBoard(unit);
-        this.handleSelectUnselectInDialog(unit, forcepool);
-        this.handleSelectUnselectInDialog(unit, shipsAtSea);
-        this.handleSelectUnselectInDialog(unit, shipyard);
-        this.handleSelectUnselectInDialog(unit, taskforce);
-        this.handleSelectUnselectInDialog(unit, unitCounter);       
+        // this.handleSelectUnselectOnBoard(unit);
+        // this.handleSelectUnselectInDialog(unit, forcepool);
+        // this.handleSelectUnselectInDialog(unit, shipsAtSea);
+        // this.handleSelectUnselectInDialog(unit, shipyard);
+        // this.handleSelectUnselectInDialog(unit, taskforce);
+        // this.handleSelectUnselectInDialog(unit, unitCounter);       
     }
-     /**
-     * switched between europe and pacific theaters
-     */   
-    switchTheaters () {
-        WP.Misc.Ui.closeAllDialogs();
-        game.selectedUnit = null;
-        game.state = 0;
-        if (game.currentMap == game.maps[0]) game.currentMap = game.maps[1];
-        else game.currentMap = game.maps[0];
-        onWindowResize();        
-    }
-    /**
-     * refreshes current theater
-     */    
-    refreshCurrentTheater () {
-        WP.Misc.Ui.closeAllDialogs();
-        game.selectedUnit = null;
-        game.state = 0;
-        onWindowResize();
-    }
+ 
+    // public switchTheaters () {
+    //     WP.Misc.Ui.closeAllDialogs();
+    //     game.selectedUnit = null;
+    //     game.state = 0;
+    //     if (game.currentMap == game.maps[0]) game.currentMap = game.maps[1];
+    //     else game.currentMap = game.maps[0];
+    //     onWindowResize();        
+    // }
+    // /**
+
+    // public refreshCurrentTheater () {
+    //     WP.Misc.Ui.closeAllDialogs();
+    //     game.selectedUnit = null;
+    //     game.state = 0;
+    //     onWindowResize();
+    // }
     /**
      * toggles unit texture on and off
      * @param {boolean}  showTexture 
      */    
-    toggleShowUnitTexture (showTexture) {
-        if (showTexture) { game.showUnitTexture = true; }
-        else { game.showUnitTexture = false; }
-        game.refreshCurrentTheater();       
-    }
+    // public toggleShowUnitTexture (showTexture) {
+    //     if (showTexture) { game.showUnitTexture = true; }
+    //     else { game.showUnitTexture = false; }
+    //     game.refreshCurrentTheater();       
+    // }
     /**
      * toggles swastikas on and off
      * @param {boolean}  noSwastikas 
      */   
-    toggleNoSwastikas(noSwastikas) {
-        if (noSwastikas) { game.noSwastikas = true }
-        else { game.noSwastikas = false }
-        game.refreshCurrentTheater();
-    }
+    // public toggleNoSwastikas(noSwastikas) {
+    //     if (noSwastikas) { game.noSwastikas = true }
+    //     else { game.noSwastikas = false }
+    //     game.refreshCurrentTheater();
+    // }
     
 }
 

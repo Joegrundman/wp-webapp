@@ -1,4 +1,5 @@
 'use strict';
+import game from '../Game';
 import Hex from '../Hex/hex';
 import Stack from '../stack/Stack';
 import Unit from '../unit/unit';
@@ -8,6 +9,7 @@ interface IDialog {
         findStackContaining: (unit: Unit) => Stack;
     }
     removeUnitFrom: (dialog: IDialog, unit: Unit) => void;
+    draw: () => void;
 }
 
 const ctrlPressed = (): boolean => false;
@@ -79,227 +81,229 @@ class Map {
         }
         
         hex.addOrCombineUnit(unit);
-        hex.clear();
-        hex.draw();
+        // hex.clear();
+        // hex.draw();
         dialog.removeUnitFrom(dialog, unit) 
-        
-        game.setSelectedUnit(stack.getTopUnit());
+        const topUnit = stack.getTopUnit();
+        if(topUnit) {
+            game.setSelectedUnit(topUnit);
+        }
         dialog.draw();
     }
     
-    public displayCoordinates () {
-        var coord = "&nbsp;(" + this.currentX + ", " + this.currentY + ")";
-        if (this.currentHex) coord += ": " + this.currentHex.toString();
+    // public displayCoordinates () {
+    //     var coord = "&nbsp;(" + this.currentX + ", " + this.currentY + ")";
+    //     if (this.currentHex) coord += ": " + this.currentHex.toString();
 
-        var mapDiv = $("#mapDiv");
-        var hexReport = "";
-        if (this.currentHex) { hexReport = " id: " + this.currentHex.id + " x: " + this.currentHex.coordinate.x + " y: " + this.currentHex.coordinate.y; }
-        coord += " map[" + mapDiv.width() + ", " + mapDiv.height() + "]" + hexReport;
-        $("#mousePosition").html(coord);
-    }
+    //     var mapDiv = $("#mapDiv");
+    //     var hexReport = "";
+    //     if (this.currentHex) { hexReport = " id: " + this.currentHex.id + " x: " + this.currentHex.coordinate.x + " y: " + this.currentHex.coordinate.y; }
+    //     coord += " map[" + mapDiv.width() + ", " + mapDiv.height() + "]" + hexReport;
+    //     $("#mousePosition").html(coord);
+    // }
     
-    public displayMapUnitsInHexInfo (force) {
-        if (this.currentHex) {
-		if (!window.hexInfo) window.hexInfo = new WP.HexInfo();
-            hexInfo.updateFor(this.currentHex, force);
-        }
-    }
+    // public displayMapUnitsInHexInfo (force) {
+    //     if (this.currentHex) {
+	// 	if (!window.hexInfo) window.hexInfo = new WP.HexInfo();
+    //         hexInfo.updateFor(this.currentHex, force);
+    //     }
+    // }
     
-    public getHexAt (point) {
-        for (var x = 0; x < this.hexes.length; x++) {
-            var hex = this.hexes[x];
-            if (!hex || !hex.pixelPoint) continue;
-            if (point.x > hex.pixelPoint.x) {
-                if (point.x < hex.pixelPoint.x + hex.width) {
-                    if (point.y > hex.pixelPoint.y + (hex.size / 4)) {
-                        if (point.y < hex.pixelPoint.y + (hex.size * 1.6)) {
-                            return hex;
-                        }
-                    }
-                }
-            }
-        }
-        return null;
-    }
+    // public getHexAt (point) {
+    //     for (var x = 0; x < this.hexes.length; x++) {
+    //         var hex = this.hexes[x];
+    //         if (!hex || !hex.pixelPoint) continue;
+    //         if (point.x > hex.pixelPoint.x) {
+    //             if (point.x < hex.pixelPoint.x + hex.width) {
+    //                 if (point.y > hex.pixelPoint.y + (hex.size / 4)) {
+    //                     if (point.y < hex.pixelPoint.y + (hex.size * 1.6)) {
+    //                         return hex;
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return null;
+    // }
     
-    public getHexFromId (id) {
-        var res = null
-        this.hexes.forEach(h => { if (h.id == id) {res = h}})
-        if (res == null){alert('map.getHexById - invalid hex:' + id)}
-        return res
-    }
+    // public getHexFromId (id) {
+    //     var res = null
+    //     this.hexes.forEach(h => { if (h.id == id) {res = h}})
+    //     if (res == null){alert('map.getHexById - invalid hex:' + id)}
+    //     return res
+    // }
     
-    public handleHexClick () {
-        if (game.hexControlDialogIsOpen) { hexControl.handleHexClick(this.currentHex); return; }
-        var unit = game.selectedUnit;
-        if (unit && unit.location == 1 && this.currentHex) {
-            this.placeUnitFrom(forcepool, unit, this.currentHex);
-        }
-        if (unit && unit.location == 3 && this.currentHex) {
-            this.placeUnitFrom(shipyard, unit, this.currentHex);
-        }
-        if (unit && unit.location == 4 && this.currentHex) {
-            this.placeUnitFrom(taskforce, unit, this.currentHex);
-        }
-        else {
-            this.selectUnit();
-            if (game.selectedUnit) {
-                this.dragging = true;
-            }
-        }
+    // public handleHexClick () {
+    //     if (game.hexControlDialogIsOpen) { hexControl.handleHexClick(this.currentHex); return; }
+    //     var unit = game.selectedUnit;
+    //     if (unit && unit.location == 1 && this.currentHex) {
+    //         this.placeUnitFrom(forcepool, unit, this.currentHex);
+    //     }
+    //     if (unit && unit.location == 3 && this.currentHex) {
+    //         this.placeUnitFrom(shipyard, unit, this.currentHex);
+    //     }
+    //     if (unit && unit.location == 4 && this.currentHex) {
+    //         this.placeUnitFrom(taskforce, unit, this.currentHex);
+    //     }
+    //     else {
+    //         this.selectUnit();
+    //         if (game.selectedUnit) {
+    //             this.dragging = true;
+    //         }
+    //     }
 
-    }
+    // }
     
-    public moveUnitTo (unit, hex) {
-        if (unit.hex == hex) return;
+    // public moveUnitTo (unit, hex) {
+    //     if (unit.hex == hex) return;
 
-        if (unit.hex) {
-                var oldHex = unit.hex;
-                oldHex.removeUnit(game.selectedUnit);
-                //setTimeout(function () {
-                oldHex.clear();
-                oldHex.draw();
-                //}, 0)
-             }
-            hex.addUnit(unit);
-            hex.clear();
-            hex.draw();
-    }
+    //     if (unit.hex) {
+    //             var oldHex = unit.hex;
+    //             oldHex.removeUnit(game.selectedUnit);
+    //             //setTimeout(function () {
+    //             oldHex.clear();
+    //             oldHex.draw();
+    //             //}, 0)
+    //          }
+    //         hex.addUnit(unit);
+    //         hex.clear();
+    //         hex.draw();
+    // }
     
-    public onDoubleClick () {
-       	var unit = game.selectedUnit;
-        if (unit && unit.location == 1 && map.currentHex) {
-            return;
-        }
-        game.setSelectedUnit(null);
-        var map = game.currentMap;
-        if (map.currentHex) {
-            if (map.currentHex.units && map.currentHex.units.length > 1) {
-                map.currentHex.rotateUnits();
-                map.currentHex.draw();
-                hexInfo.units = null;
-                map.displayMapUnitsInHexInfo(true);
-            }
-        }
-    }
+    // public onDoubleClick () {
+    //    	var unit = game.selectedUnit;
+    //     if (unit && unit.location == 1 && map.currentHex) {
+    //         return;
+    //     }
+    //     game.setSelectedUnit(null);
+    //     var map = game.currentMap;
+    //     if (map.currentHex) {
+    //         if (map.currentHex.units && map.currentHex.units.length > 1) {
+    //             map.currentHex.rotateUnits();
+    //             map.currentHex.draw();
+    //             hexInfo.units = null;
+    //             map.displayMapUnitsInHexInfo(true);
+    //         }
+    //     }
+    // }
     
-    public onMouseMove (e) {
-        var map = game.currentMap;
-        map.setCurrentHex(e);
-        map.displayMapUnitsInHexInfo(false);
-        map.displayCoordinates();
+    // public onMouseMove (e) {
+    //     var map = game.currentMap;
+    //     map.setCurrentHex(e);
+    //     map.displayMapUnitsInHexInfo(false);
+    //     map.displayCoordinates();
 
-        if (game.selectedUnit && map.dragging && map.currentHex) {
-            if (map.currentHex != game.selectedUnit.hex) {
-                map.moveUnitTo(game.selectedUnit, map.currentHex);
-            }
-        }
-    }
+    //     if (game.selectedUnit && map.dragging && map.currentHex) {
+    //         if (map.currentHex != game.selectedUnit.hex) {
+    //             map.moveUnitTo(game.selectedUnit, map.currentHex);
+    //         }
+    //     }
+    // }
     
-    public onMouseDown () {
-        var map = game.currentMap;
-        if (game.state == 0) {
-            map.handleHexClick();
-        }
-        else if (game.state == 1) {
-            attrition.handleHexClick();
-        }        
-    }
+    // public onMouseDown () {
+    //     var map = game.currentMap;
+    //     if (game.state == 0) {
+    //         map.handleHexClick();
+    //     }
+    //     else if (game.state == 1) {
+    //         attrition.handleHexClick();
+    //     }        
+    // }
     
-    public onMouseUp () {
-        var map = game.currentMap;
-    	map.dragging = false;
-    }
+    // public onMouseUp () {
+    //     var map = game.currentMap;
+    // 	map.dragging = false;
+    // }
     
-    public setCurrentHex (e) {
-        var point = getPoint('mapCanvas', e);
-        point.x += $("#mapDiv").scrollLeft();
-        point.y += $("#mapDiv").scrollTop();
+    // public setCurrentHex (e) {
+    //     var point = getPoint('mapCanvas', e);
+    //     point.x += $("#mapDiv").scrollLeft();
+    //     point.y += $("#mapDiv").scrollTop();
 
-        this.currentX = point.x;
-        this.currentY = point.y;
-        this.currentHex = this.getHexAt(point);       
-    }
+    //     this.currentX = point.x;
+    //     this.currentY = point.y;
+    //     this.currentHex = this.getHexAt(point);       
+    // }
     
-    public selectUnit () {
-        var unit = null;
-        if (this.currentHex) { unit = this.currentHex.getTopUnit(); }
-        game.setSelectedUnit(unit);
-    }
+    // public selectUnit () {
+    //     var unit = null;
+    //     if (this.currentHex) { unit = this.currentHex.getTopUnit(); }
+    //     game.setSelectedUnit(unit);
+    // }
     
-    public drawBackground () {
-        var mapImage = new Image()
-        var map = this
+    // public drawBackground () {
+    //     var mapImage = new Image()
+    //     var map = this
         
-        mapImage.crossOrigin = "Anonymous"
+    //     mapImage.crossOrigin = "Anonymous"
 
-        mapImage.onload = function() {
-            var mapDiv = $("#mapDiv")
-            var menuDiv = $("#menuDiv")
+    //     mapImage.onload = function() {
+    //         var mapDiv = $("#mapDiv")
+    //         var menuDiv = $("#menuDiv")
 
-            // mapDiv.hide()
-            // menuDiv.hide()
-            map.width = mapImage.width
-            map.height = mapImage.height
+    //         // mapDiv.hide()
+    //         // menuDiv.hide()
+    //         map.width = mapImage.width
+    //         map.height = mapImage.height
 
-            WP.Canvas.resizeCanvas(mapCanvas, map)
-            WP.Canvas.resizeCanvas(backgroundCanvas, map)
+    //         WP.Canvas.resizeCanvas(mapCanvas, map)
+    //         WP.Canvas.resizeCanvas(backgroundCanvas, map)
 
-            backgroundCtx.drawImage(mapImage, 0, 0, map.width, map.height)
+    //         backgroundCtx.drawImage(mapImage, 0, 0, map.width, map.height)
 
-            if(WP.Misc.Ui.isiPad() || WP.Misc.Ui.isiPod()) {
-                    mapCtx.drawImage(mapImage, 0, 0, mapDiv.width(), mapDiv.height(), 0, 0, mapDiv.width(), mapDiv.height())
-            } else {
-            $('#mapBackgroundDiv').css("background-image", "url(" + url + ")")
-        }
+    //         if(WP.Misc.Ui.isiPad() || WP.Misc.Ui.isiPod()) {
+    //                 mapCtx.drawImage(mapImage, 0, 0, mapDiv.width(), mapDiv.height(), 0, 0, mapDiv.width(), mapDiv.height())
+    //         } else {
+    //         $('#mapBackgroundDiv').css("background-image", "url(" + url + ")")
+    //     }
 
-        map.drawHexes()
-        mapNav.refresh()
+    //     map.drawHexes()
+    //     mapNav.refresh()
 
-        var mapBackgroundDiv = $("#mapBackgroundDiv")
-        mapBackgroundDiv.height(mapImage.height)
-        mapBackgroundDiv.width(mapImage.width)
+    //     var mapBackgroundDiv = $("#mapBackgroundDiv")
+    //     mapBackgroundDiv.height(mapImage.height)
+    //     mapBackgroundDiv.width(mapImage.width)
 
-        mapDiv.show()
+    //     mapDiv.show()
 
-        scrollDivRight(getCookie("rightscroll"))
-        scrollDivDown(getCookie("downscroll"))
-        }
-        // this line assumes the main maps are in the Content/Maps folder, and not from cdn
-        //var url = "/Content/Maps/WP" + this.theater + (game.zoomLevel *10) + ".jpg"
-        var url = ''
-        if (this.theater == 'euro') {
-            url = "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg"
-        } else {
-            url = "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179470/evnyvf9x1ehyxt3ksrkp.jpg"
-        }
+    //     scrollDivRight(getCookie("rightscroll"))
+    //     scrollDivDown(getCookie("downscroll"))
+    //     }
+    //     // this line assumes the main maps are in the Content/Maps folder, and not from cdn
+    //     //var url = "/Content/Maps/WP" + this.theater + (game.zoomLevel *10) + ".jpg"
+    //     var url = ''
+    //     if (this.theater == 'euro') {
+    //         url = "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg"
+    //     } else {
+    //         url = "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179470/evnyvf9x1ehyxt3ksrkp.jpg"
+    //     }
         
-        mapImage.src = url
-    }
+    //     mapImage.src = url
+    // }
     
-    public drawHexes () {
-       this.hexes.forEach(h => h.draw())
-    }
+    // public drawHexes () {
+    //    this.hexes.forEach(h => h.draw())
+    // }
     
     public draw () {
         this.setZoom()
-        this.drawBackground()  
+        // this.drawBackground()  
     }
     
     public setZoom () {
         this.hexes.forEach(h => h.setZoom(h))
     }
     
-    public redrawHexesContainingUnits (units) {
-        this.hexes.forEach(h =>{
-            h.units.forEach(hu => {
-                if (units.some(un => un == hu)){
-                    h.clear()
-                    h.draw()
-                }
-            })
-        })
-    }
+    // public redrawHexesContainingUnits (units) {
+    //     this.hexes.forEach(h =>{
+    //         h.units.forEach(hu => {
+    //             if (units.some(un => un == hu)){
+    //                 h.clear()
+    //                 h.draw()
+    //             }
+    //         })
+    //     })
+    // }
     
 }
 
