@@ -11,12 +11,12 @@ import ForcepoolGrouping from './ForcepoolGrouping';
 class Country {
     public id: number;
     public name: string;
-    public ally: number | null;
-    public colonyOf: object | null;
+    public ally: Country | null;
+    public colonyOf: number | null;
     public coalition: number | null;
     public isOrganization: boolean;
     public isMajorPower: boolean;
-    public partOf: object | null;
+    public partOf: Country | null;
     public pacific: boolean;
     public backColor: Color;
     public foreColor: Color;
@@ -25,7 +25,7 @@ class Country {
     public shadow: Color;
     public flagImage: HTMLImageElement | null;
     public forcepoolGroupings: ForcepoolGrouping[];
-    public colonies: object;
+    public colonies: Country[];
     public units: Unit[];
     public codebreaking: object | null;
 
@@ -58,11 +58,10 @@ class Country {
    /**
     * adds a colony to the colonies array property
     */
-    // addColony (colony) {
-    //     colony.colonyOf = this
-    //     this.colonies.push(colony)
-    //     colony.colonyOf = this
-    // }
+    public addColony (colony: Country) {
+        colony.colonyOf = this.id;
+        this.colonies.push(colony);
+    }
    /**
     * adds a forcepoolGrouping to the forcepoolGroupings array property
     */    

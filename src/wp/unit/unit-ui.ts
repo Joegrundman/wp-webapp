@@ -1,4 +1,3 @@
-'use strict';
 import { unitArc } from '../../constants/game/unit-constants';
 import Color from '../misc/Color';
 import Unit from './unit';
@@ -238,7 +237,7 @@ export const drawSunk = (ctx: CanvasRenderingContext2D, unit: Unit) => {
 	ctx.fillRect(0.5, 12, 39, 13);
 	ctx.fillStyle = seabedCol.toRgb();
 	ctx.fillRect(0.5, 21, 39, 4);
-	if (unit.hex && unit.hex.isPort) { ctx.fillStyle = skyCol.toRgb(); ctx.fillRect(1, 12, 40, 4); }
+	if (unit.hex && unit.hex.ports) { ctx.fillStyle = skyCol.toRgb(); ctx.fillRect(1, 12, 40, 4); }
 }
 
 export const drawUnitTexture = (ctx: CanvasRenderingContext2D) => {

@@ -10,6 +10,7 @@ import {
     unitPxSize
 } from '../../constants/game/unit-constants';
 import Country from '../country/Country';
+import Hex from '../Hex/hex';
 import Stack from '../stack/Stack';
 import { IUnitParams } from './i-unit-params';
 import drawUnit from './unit-mapping';
@@ -18,10 +19,6 @@ import * as UI from './unit-ui';
 import * as Misc from './unit-ui-misc';
 
 const initialCountry: Country = new Country();
-
-interface IMockHex {
-    isPort: boolean;
-}
 
 class Unit {
     public id: number;
@@ -33,7 +30,7 @@ class Unit {
     public strength: number;
     public movement: number;
     public location?: number;
-    public hex: IMockHex | null;
+    public hex: Hex | null;
     public hexIdAtTurnStart: number | null;
     public image: string;
     public owner: Country;

@@ -1,5 +1,3 @@
-import Country from '../country/Country';
-// import game from '../Game';
 import Unit from '../unit/unit';
 import ShipyardUnit from './shipyard-unit';
 
@@ -7,7 +5,7 @@ class Shipyard {
 
     public id: number;
     public name: string;
-    public owner: Country;
+    public owner: string
     public rate: number;
     public unitHolder: object;
     public shipyardUnits: ShipyardUnit[];
@@ -16,7 +14,7 @@ class Shipyard {
     public currentSquareY: number;
    
 
-    constructor (id: number, name: string, owner: Country, rate: number) {
+    constructor (id: number, name: string, owner: string, rate: number) {
  
      	this.id = id;
         this.name = name;

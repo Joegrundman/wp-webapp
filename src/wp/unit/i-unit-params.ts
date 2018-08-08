@@ -1,6 +1,4 @@
-interface IMockHex {
-  isPort: boolean;
-}
+import Hex from '../Hex/hex';
 
 export interface IUnitParams {
   id: number;
@@ -10,7 +8,7 @@ export interface IUnitParams {
   strength: number;
   movement: number;
   location?: number;
-  hex?: IMockHex;
+  hex?: Hex;
   isSlow?: boolean;
   isSunk?: boolean;
   isDamaged?: boolean;

@@ -1,21 +1,27 @@
 import * as React from 'react';
-
 import MainMap from '../../atom/mainMap/MainMap';
-
 import { urlMapEur, urlMapPac } from '../../constants/ui-constants';
-
+import game from '../../wp/init/init';
 import locals from './Game.css';
 
 interface IGameState {
   currentMap: string;
+  game: any
 }
 
 class Game extends React.Component<{}, IGameState> {
   constructor(props: {}) {
     super(props);
     this.state = {
-      currentMap: urlMapEur
+      currentMap: urlMapEur,
+      game: null
     }
+  }
+
+  public componentDidMount() {
+    this.setState({
+      game
+    })
   }
 
   public toggleMap = () => {

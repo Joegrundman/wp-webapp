@@ -1,14 +1,9 @@
-'use strict';
 import Country from '../country/Country';
 import game from '../Game';
 import { toAscii } from '../misc/convert';
 import Point from '../misc/Point';
 import Unit from '../unit/unit';
 import { setHexZoom } from './hex-ui';
-
-/**
- * creates a Hex. This object has the details of the hex, from terrain, cities, ports and map location and dimensions, to owning country, and units on it
- */
 
 class Hex {
     /**
@@ -30,10 +25,10 @@ class Hex {
     public width: number;
     public owner: Country | null;
     public cityName: string;
-    public isPort: boolean;
+    public ports: number;
     public isCapital: boolean;
     public isBeach: boolean;
-    public isTerrain: boolean;
+    public terrain: number;
     public isIsland: boolean;
     public units: Unit[];
     public coordinate: Point;
@@ -53,10 +48,10 @@ class Hex {
         this.width = 0;
         this.owner = null;
         this.cityName = '';
-        this.isPort = false;
+        this.ports = 0;
         this.isCapital = false;
         this.isBeach = false;
-        this.isTerrain = false;
+        this.terrain = 0;
         this.isIsland = false;
         this.units = new Array();
         this.coordinate = new Point(x, y);
