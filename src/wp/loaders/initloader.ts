@@ -6,7 +6,7 @@ import Shipyard from '../Shipyard/shipyard';
 import Taskforce from '../Taskforce/taskforce';
 
 export interface ICountryData {
-  id: number;
+  id: string;
   name: string;
   alliedWith?: string | undefined;
   coalition?: string | undefined;
@@ -46,9 +46,8 @@ export interface IHexData {
 export interface IMapData {
   id: number;
   type: string;
-  hexes: IHexData[];
+  hexes: { hex: IHexData[]; };
 }
-
 
 const loadHex = ((hexData: IHexData, id: number, map: Map, game: Game) => {
   const hex = map.getHex(id);
@@ -75,7 +74,7 @@ const loadHex = ((hexData: IHexData, id: number, map: Map, game: Game) => {
 
 const loadCountries = (countries: ICountryData[], game: Game) => {
   countries.forEach((cty: ICountryData) => {
-    const id: number = cty.id;
+    const id: number = parseInt(cty.id, 10);
     const name: string = cty.name;
     const country: Country = new Country(id, name);
 
@@ -86,6 +85,15 @@ const loadCountries = (countries: ICountryData[], game: Game) => {
       country.ally = ally;
     }
 
+    //   countryNode.find('codebreaking').each(function () {
+    //     WP.CommonLoader.readCodebreaking($(this), country);
+    // });
+
+    // WP.Country.UI.loadFlag(country);
+  });
+
+  countries.forEach((cty: ICountryData) => {
+    const country: Country = game.getCountry(parseInt(cty.id, 10));
     if (cty.colonyOf) {
       country.colonyOf = parseInt(cty.colonyOf, 10);
       const colonyOwner: Country = game.getCountry(country.colonyOf);
@@ -109,21 +117,13 @@ const loadCountries = (countries: ICountryData[], game: Game) => {
       const partOfCountry: Country = game.getCountry(partOfId);
       country.partOf = partOfCountry;
     }
-
-
-    //   countryNode.find('codebreaking').each(function () {
-    //     WP.CommonLoader.readCodebreaking($(this), country);
-    // });
-
-    // WP.Country.UI.loadFlag(country);
-  });
+  })
 };
-
 
 const loadMaps = (maps: IMapData[], game: Game) => {
   maps.forEach((m: IMapData) => {
     const map: Map = game.maps[m.id];
-    m.hexes.forEach((hex: IHexData, i: number) => {
+    m.hexes.hex.forEach((hex: IHexData, i: number) => {
       loadHex(hex, i, map, game);
     });
   });
@@ -139,24 +139,17 @@ const loadShipyards = ((shipyards: IShipyardData[], game: Game) => {
 
 const loadTaskforces = ((taskforces: ITaskforceData[], game: Game) => {
   taskforces.forEach((tf: ITaskforceData, id: number) => {
-    const { owner, size } = tf;
-    const taskforce = new Taskforce(id, owner, parseInt(size, 10));
+    const taskforce = new Taskforce(id, tf.owner, parseInt(tf.size, 10));
     game.addTaskforce(taskforce);
   });
 })
 
-
 export default (initFile: any, game: Game): void => {
   const countries: ICountryData[] = initFile.games.game.countries.country;
-  const {
-    maps,
-    shipyards,
-    taskforces,
-  }: { 
-    maps: IMapData[],
-    shipyards: IShipyardData[],
-    taskforces: ITaskforceData[]
-  } = initFile.games.game;
+  const maps: IMapData[] = initFile.games.game.maps.map;
+  const shipyards: IShipyardData[] = initFile.games.game.shipyards.shipyard;
+  const taskforces: ITaskforceData[] = initFile.games.game.taskforces.taskforce;
+
   loadCountries(countries, game);
   loadMaps(maps, game);
   loadShipyards(shipyards, game);
