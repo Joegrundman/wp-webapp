@@ -4,6 +4,7 @@ import Game from '../Game/game';
 import Map from '../Map/Map';
 import Shipyard from '../Shipyard/shipyard';
 import Taskforce from '../Taskforce/taskforce';
+import { loadCodebreaking } from'./commonloader';
 
 export interface ICountryData {
   id: string;
@@ -86,9 +87,9 @@ const loadCountries = (countries: ICountryData[], game: Game) => {
       country.ally = ally;
     }
 
-    //   countryNode.find('codebreaking').each(function () {
-    //     WP.CommonLoader.readCodebreaking($(this), country);
-    // });
+    if(cty.codebreaking) {
+      loadCodebreaking(cty.codebreaking, country);
+    }
 
     // WP.Country.UI.loadFlag(country);
   });

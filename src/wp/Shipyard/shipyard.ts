@@ -63,19 +63,13 @@ class Shipyard {
     //     $("#syCapacity").html(capacity);
     //     shipyard.draw();
     // }
-    /**
-     * Increments the shipyard building rate
-     * @param {number} id -  the id of the shipyard
-     */     
+
     public changeRateUp () {
         // var shipyard = game.getShipyards(id);
         this.rate++;
         // shipyard.handleShipyardSelected(id);
     }
-    /**
-     * Decrements the shipyard building rate
-     * @param {number} id -  the id of the shipyard
-     */      
+     
     public changeRateDown () {
         // var shipyard = game.getShipyards(id);
         this.rate--;

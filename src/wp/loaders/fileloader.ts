@@ -1,7 +1,13 @@
+import CodebreakingResult from '../codebreaking/CodebreakingResult';
 import Country from '../country/Country';
+import ForcepoolGroup from '../country/ForcepoolGrouping';
 import Game from '../Game/game';
 import Hex from '../Hex/hex';
 import Map from '../Map/Map';
+import Shipyard from '../Shipyard/shipyard';
+import ShipyardUnit from '../Shipyard/shipyard-unit';
+import Taskforce from '../Taskforce/taskforce';
+import TaskforceUnit from '../Taskforce/taskforce-unit';
 import { IUnitParams } from '../unit/i-unit-params';
 import Unit from '../unit/unit';
 import { ICodebreakingData, loadCodebreaking } from'./commonloader';
@@ -12,6 +18,15 @@ export interface IGameDetails {
   currentPhaseId: string;
 }
 
+export interface ICodebreakingResult {
+  value: string;
+}
+
+export interface IForcepoolGroupData {
+  i: string;
+  name: string;
+}
+
 export interface ICountryData {
   id: string;
   name: string;
@@ -19,12 +34,44 @@ export interface ICountryData {
   coalition?: string;
   ally?: string;
   codebreaking?: ICodebreakingData;
+  groupings?: {
+    g: IForcepoolGroupData[]
+  }
 }
 
 export interface IFLMapData {
   current?: string;
   id: string;
   hexes: string;
+}
+
+export interface IShipyardUnitData {
+  id: string,
+  x: string,
+  y: string
+}
+
+export interface ITaskforceUnitData {
+  id: string,
+  x: string,
+  y: string
+}
+
+export interface IFLShipyardData {
+  owner : string;
+  name: string;
+  rate: string;
+  units?: {
+    unit: IShipyardUnitData[];
+  }
+}
+
+export interface IFLTaskforceData {
+  owner: string;
+  size: string;
+  units?: {
+    unit: ITaskforceUnitData[]
+  }
 }
 
 export interface IUnitData {
@@ -43,6 +90,15 @@ export interface IUnitData {
   inverted?: string;
   exploiting?: string;
   isolated?: string;
+}
+
+const loadForcepoolGroup = (fpgs: IForcepoolGroupData[], country: Country) => {
+  fpgs.forEach((fpg) => {
+    const id: number = parseInt(fpg.i,10);
+    const name: string = fpg.name;
+    const group = new ForcepoolGroup(id, name);
+    country.addForcepoolGrouping(group);
+  });
 }
 
 const loadUnits = (units: IUnitData[], country: Country, game: Game) => {
@@ -104,12 +160,20 @@ const loadCountries = ((countries: ICountryData[], game: Game) => {
       loadUnits(unitData, country, game);
     }
 
-
-//         countryNode.find('g').each(function() {
-//             loader.readForcepoolGrouping($(this), country);
-//         });
+    if(cty.groupings && cty.groupings.g) {
+      const fpgs: IForcepoolGroupData[] = cty.groupings.g
+      loadForcepoolGroup(fpgs, country);
+    }
   });
 });
+
+const loadCodebreakingResults = (codebreakingResults: ICodebreakingResult[], game: Game) => {
+  codebreakingResults.forEach((cbr: ICodebreakingResult) => {
+    const codebreakingResult = new CodebreakingResult();
+    codebreakingResult.readFrom(cbr.value);
+    game.addCodebreakingResult(CodebreakingResult)
+  })
+}
 
 const loadGameDetails = (gameDetails: IGameDetails, game: Game) => {
   const year: number = parseInt(gameDetails.startingYear, 10);
@@ -146,170 +210,62 @@ const loadMaps = ((mapsData: IFLMapData[], game: Game) => {
   });
 });
 
+const loadShipyardUnits = ((shipyardUnits: IShipyardUnitData[], shipyard: Shipyard, game: Game) => {
+  shipyardUnits.forEach((syu) => {
+    const id = parseInt(syu.id, 10);
+    const x = parseInt(syu.x, 10);
+    const y = parseInt(syu.y, 10);
+    const shipyardUnit = new ShipyardUnit(id, x, y);
+        shipyard.addShipyardUnit(shipyardUnit);
+  })
+})
+
+const loadShipyards = (shipyards: IFLShipyardData[], game: Game) => {
+  shipyards.forEach((sy) => {
+    const shipyard: Shipyard = game.getShipyardFromName(sy.name);
+    shipyard.rate = parseInt(sy.rate, 10);
+    if(sy.units && sy.units.unit) {
+      loadShipyardUnits(sy.units.unit, shipyard, game);
+    }
+  });
+}
+
+const loadTaskforceUnits = ((taskforceUnits: ITaskforceUnitData[], taskforce: Taskforce, game: Game) => {
+  taskforceUnits.forEach((tfu) => {
+    const id = parseInt(tfu.id, 10);
+    const x = parseInt(tfu.x, 10);
+    const y = parseInt(tfu.y, 10);
+    const taskforceUnit = new TaskforceUnit(id, x, y);
+        taskforce.addTaskforceUnit(taskforceUnit);
+  })
+})
+
+const loadTaskforces = ((taskforces: IFLTaskforceData[], game: Game) => {
+  taskforces.forEach((tf: IFLTaskforceData) => {
+    const owner = tf.owner;
+    const taskforce = game.getTaskforceFromOwner(owner);
+    if (tf.units && tf.units.unit) {
+      loadTaskforceUnits(tf.units.unit, taskforce, game);
+    }
+  });
+});
+
 export default ((gamefile: any, game: Game): void => {
   const gameDetails: IGameDetails = {
     currentPhaseId: gamefile.game.currentPhaseId ? gamefile.game.currentPhaseId : '0',
     startingSeason: gamefile.game.startingSeason,
     startingYear: gamefile.game.startingYear,
   }
+  const codebreakingResults: ICodebreakingResult[] = gamefile.game.codebreaking_history.codebreaking;
   const countries: ICountryData[] = gamefile.game.countries.country;
   const maps: IFLMapData[] = gamefile.game.maps.map;
+  const shipyards: IFLShipyardData[] = gamefile.game.shipyards.shipyard;
+  const taskforces: IFLTaskforceData[] = gamefile.game.taskforces.taskforce;
+
   loadGameDetails(gameDetails, game);
+  loadCodebreakingResults(codebreakingResults, game);
   loadCountries(countries, game);
   loadMaps(maps, game)
+  loadShipyards(shipyards, game);
+  loadTaskforces(taskforces, game);
 });
-
-// 'use strict';
-
-// WP.FileLoader = class {
-  
-//             success: function (xml) {
-//                 loader.processGameDetails(xml);
-//                 loader.processCountries(xml);
-//                 loader.processCodebreakingRecords(xml);
-//                 loader.processMaps(xml);
-//                 loader.processShipyards(xml);
-//                 loader.processTaskforces(xml);
-//                 loader.processPostLoad();
-//             }
-//         }); 
-//     }
-    
-//     processCodebreakingRecords (xml) {
-//         var loader = this;
-//         $(xml).find('codebreaking_history').each(function() {
-//             loader.readCodebreakingHistory($(this));
-//         });
-//     }
-    
-//     processMaps (xml) {
-//        var loader = this;
-// 	   $(xml).find('map').each(function () {
-// 		  loader.readMap($(this));
-// 	   });
-//     }
-    
-//     processGameDetails (xml) {
-//         var loader = this;
-//         $(xml).find('game').each(function () {
-//             loader.readGameDetails($(this));
-//         });
-//     }
-    
-//     processShipyards (xml) {
-//         var loader = this;
-// 	    $(xml).find('shipyard').each(function() {
-// 		  loader.readShipyard($(this));
-// 	   });
-//     }
-    
-//     processTaskforces (xml) {
-//         var loader = this;
-//         $(xml).find('taskforce').each(function() {
-//         loader.readTaskforce($(this));
-//         });
-//     }
-    
-//     processPostLoad () {
-//         onWindowResize();
-//     }
-    
-//     readGameDetails (gameNode) {
-//         var currentPhaseId = null;
-//         var year = parseInt(gameNode.attr('starting-year'));
-//         var season = gameNode.attr('starting-season');
-//         if (gameNode.attr('current-phase-id')){
-//             currentPhaseId = parseInt(gameNode.attr('current-phase-id'));
-//         }
-//         game.setCurrentDate(currentPhaseId, year, season);
-//     }
-    
-//     readCodebreakingDraw (drawNode) {
-//         var cbr = new WP.CodebreakingResult();
-//         cbr.readFrom(drawNode.attr('value'));
-//         game.addCodebreakingResult(cbr);
-//     }
-    
-//     readCodebreakingHistory (historyNode) {
-//         var loader = this;
-//         historyNode.find('codebreaking').each(function() {
-//             loader.readCodebreakingDraw($(this));
-//         });
-//     }
-    
-    
-//     readForcepoolGrouping (groupingNode, country) {
-//         var id = parseInt(groupingNode.attr('i'));
-//         var name = groupingNode.attr('name');
-//         var grouping = WP.Country.forcepoolGroupingBuilder(id, name);
-//         country.addForcepoolGrouping(grouping);
-//     }
-    
-//     readShipyard (shipyardNode) {
-//      	var name = shipyardNode.attr('name');
-//         var shipyard = game.getShipyardFromName(name);
-//         var rate = shipyardNode.attr('rate');
-//         shipyard.rate = rate;
-//         var loader = this;
-//         shipyardNode.find('unit').each(function() {
-//             loader.readShipyardUnit($(this), shipyard);
-//         });   
-//     }
-    
-//     readShipyardUnit (unitNode, shipyard) {
-//         var id = parseInt(unitNode.attr('id'));
-//         var x = parseInt(unitNode.attr('x'));
-//         var y = parseInt(unitNode.attr('y'));
-//         var shipyardUnit = WP.ShipyardUnit.shipyardUnitBuilder(id, x, y);
-//         shipyard.addShipyardUnit(shipyardUnit);
-//     }
-    
-//     readTaskforce (taskforceNode) {
-//         var owner = taskforceNode.attr('owner');
-//         var taskforce = game.getTaskforceFromOwner(owner);
-//         var loader = this;
-//         taskforceNode.find('unit').each(function() {
-//             loader.readTaskforceUnit($(this), taskforce);
-//         });
-//     }
-    
-//     readTaskforceUnit (unitNode, taskforce) {
-//         var id = parseInt(unitNode.attr('id'));
-//         var x = parseInt(unitNode.attr('x'));
-//         var y = parseInt(unitNode.attr('y'));
-//         var taskforceUnit = WP.TaskforceUnit.taskforceUnitBuilder(id, x, y);
-//         taskforce.addTaskforceUnit(taskforceUnit);
-//     }
-    
-//     readHexes (map, hexList) {
-//         var hexes = hexList.split('/');
-//         for (var i = 0; i < hexes.length; i++) {
-//             if (hexes[i]) {
-//                 var hexDetails = hexes[i].split('^');
-//                 var hexId = parseInt(hexDetails[0].replace("i", ""));
-//                 var hex = map.getHex(hexId);
-//                 var countryId = parseInt(hexDetails[1].replace("o", ""));
-//                 var owner = game.getCountry(countryId);
-//                 hex.owner = owner;
-//             }
-//         }
-//     }   
-        
-//     readMap (mapNode) {
-//         var loader = this;
-//         var id = parseInt(mapNode.attr('id'));
-//         var current = parseInt(mapNode.attr('current'));
-//         if (current == 1) game.switchTheaters();
-//         var map = game.maps[id];
-//         mapNode.find('hexes').each(function () {
-//             var hexes = $(this).text();
-//             loader.readHexes(map, hexes);
-//         }); 
-//     }
-    
-
-        
-//     }
-    
-// }
-

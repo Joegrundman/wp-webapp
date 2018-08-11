@@ -5,6 +5,7 @@ import Map from '../Map/Map';
 import Phase from '../Phase/phase';
 import Shipyard from '../Shipyard/shipyard';
 import ShipyardUnit from '../Shipyard/shipyard-unit';
+import Taskforce from '../Taskforce/taskforce';
 import Unit from '../unit/unit';
 
 class Game {
@@ -83,7 +84,7 @@ class Game {
         this.taskforces.push(taskforce);        
     }
 
-public addUnitToHex (unit: Unit, hex: Hex/*hex: string*/) {
+    public addUnitToHex (unit: Unit, hex: Hex/*hex: string*/) {
         // const hexDetails: string[] = hex.split('/');
         // const map: Map = this.maps[hexDetails[0]];
         // const addHex: Hex = map.getHex(parseInt(hexDetails[1], 10));
@@ -139,6 +140,10 @@ public addUnitToHex (unit: Unit, hex: Hex/*hex: string*/) {
             shipyard.shipyardUnits.some((unit: ShipyardUnit) => unit.id === unitId)
         ) as Shipyard;     
     
+    }
+
+    public getTaskforceFromOwner (owner: string): Taskforce {
+        return this.taskforces.find((taskforce: Taskforce) => taskforce.owner === owner);
     }
 
     /**
