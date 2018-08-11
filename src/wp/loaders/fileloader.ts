@@ -4,6 +4,8 @@ import Hex from '../Hex/hex';
 import Map from '../Map/Map';
 import { IUnitParams } from '../unit/i-unit-params';
 import Unit from '../unit/unit';
+import { ICodebreakingData, loadCodebreaking } from'./commonloader';
+
 export interface IGameDetails {
   startingYear: string;
   startingSeason: string;
@@ -16,6 +18,7 @@ export interface ICountryData {
   units: { unit: IUnitData[]; }
   coalition?: string;
   ally?: string;
+  codebreaking?: ICodebreakingData;
 }
 
 export interface IFLMapData {
@@ -92,10 +95,10 @@ const loadCountries = ((countries: ICountryData[], game: Game) => {
     if (cty.ally) {
       country.ally = game.getCountry(parseInt(cty.ally, 10));
     }
+    if (cty.codebreaking) {
+      loadCodebreaking(cty.codebreaking, country);
+    }
 
-//         countryNode.find('codebreaking').each(function() {
-//         	WP.CommonLoader.readCodebreaking($(this), country);
-//         });
     if(cty.units && cty.units.unit) {
       const unitData: IUnitData[] = cty.units.unit;
       loadUnits(unitData, country, game);
