@@ -133,13 +133,6 @@ const loadUnits = (units: IUnitData[], country: Country, game: Game) => {
     if (hex) {
       game.addUnitToHex(unit, hex);
     }
-    
-    // if (u.loc === '2') {
-    //   // const stackId: number = parseInt(u.stack, 10);
-    //   const hex: string = u.hex as string;
-    //   game.addUnitToHex(unit, hex);
-    //   // unit.setHexIdAtTurnStart();
-    // }
   });
 }
 
@@ -179,7 +172,9 @@ const loadGameDetails = (gameDetails: IGameDetails, game: Game) => {
   const year: number = parseInt(gameDetails.startingYear, 10);
   const season: string = gameDetails.startingSeason;
   const currentPhaseId: number = parseInt(gameDetails.currentPhaseId, 10);
-
+  game.currentYear = year;
+  game.currentSeason = season;
+  game.currentPhaseId = currentPhaseId;
   game.setCurrentDate(currentPhaseId, year, season);
 };
 

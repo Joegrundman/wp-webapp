@@ -174,42 +174,26 @@ class Unit {
         // }
 
         ctx.restore();
-}
+    }
 
-    /**
-     * checks to see if this.unit is in one of a group of passed stacks
-     */
     public findStackThatMatches (stacks: Stack[]) {
         const _this = this
         return stacks.findIndex((stack: Stack) => _this.unitTypeExistsInStack(stack));
     }
-
-
-    /**
-     * searches stacks to find if a unit with the same address is in
-     */    
+  
     public findStackWithSameAddress (stacks: Stack[]) {
         const _this = this;
         return stacks.findIndex((stack: Stack) => _this.unitHasSameAddress(stack));
     }
 
-    /**_
-     * checks to see if unit is in forcepool
-     */
     public inForcepool () {
         return this.location === 1;
     }
 
-    /**
-     * checks to see if unit is on map
-     */
     public onMap () {
         return this.location === 2;
     }
-
-    /**
-     * returns unit to forcepool
-     */    
+ 
     public returnToForcepool () {
         this.location = 1;
         this.fpg = 0;
@@ -232,9 +216,11 @@ class Unit {
      * later should be modified to be at turn start
      * this will allow undo moves
      */
-    // public setHexIdAtTurnStart() {
-    //     this.hexIdAtTurnStart = this.hex.id
-    // }
+    public setHexIdAtTurnStart() {
+        if(this.hex) {
+            this.hexIdAtTurnStart = this.hex.id
+        }
+    }
 
     // public setShipyardAddress (yard: object, x: number, y: number) {
     //    this.yard = yard;

@@ -151,14 +151,13 @@ export const drawIc = (ctx: CanvasRenderingContext2D, unit: Unit) => {
 }
 
 export const drawInformation = (ctx: CanvasRenderingContext2D, unit: Unit) => {
-	if(!unit.owner.flagImage) { return; }
 	ctx.lineWidth = 3;
 	ctx.strokeStyle = UI.getHighlightColor(unit.owner.backColor).toRgb();
 	ctx.strokeRect(2, 2, unit.size - 6, unit.size - 6);
 	ctx.lineWidth = 0;
-	ctx.drawImage(unit.owner.flagImage, 6.5, 4);
+	if(unit.owner.flagImage) { ctx.drawImage(unit.owner.flagImage, 6.5, 4); }
 	UI.drawFlagOutline(ctx);
-	UiText.writeGenericText(ctx, unit, unit.name, "bold 8px verdana", 0, 35);
+	UiText.writeGenericText(ctx, unit, unit.name, "bold 8px verdana", 21, 35);
 }
 
 export const drawIsolation = (ctx: CanvasRenderingContext2D, unit: Unit) => {
@@ -167,7 +166,7 @@ export const drawIsolation = (ctx: CanvasRenderingContext2D, unit: Unit) => {
 	unit.owner.foreColor = black
 	UI.drawShape(ctx, 0, 0, 1, black, [14.5], [14.5], [25.5, 14.5], [25.5, 21.5], [14.5, 21.5], [14.5, 14.5], [25.5, 21.5], [14.5], [21.5], [25.5, 14.5]);
 	UI.drawEllipse(ctx, 9, 11.5, 22, 13, red, 1.5);
-	UiText.writeGenericText(ctx, unit, "Isolation", "bold 8px tahoma", 0, 10);
+	UiText.writeGenericText(ctx, unit, "Isolation", "bold 8px tahoma", 21, 10);
 	UiText.writeBottomMiddleStrength(ctx, unit);
 	unit.owner.foreColor = fc
 }

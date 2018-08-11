@@ -1,5 +1,4 @@
 import Country from '../country/Country';
-import game from '../Game';
 import { toAscii } from '../misc/convert';
 import Point from '../misc/Point';
 import Unit from '../unit/unit';
@@ -132,9 +131,9 @@ class Hex {
     }
 
     public draw (ctx: CanvasRenderingContext2D) {
-        if (game.hexControlDialogIsOpen) {
-            this.drawFlagsOnHexes(ctx); return;  
-        }
+        // if (game.hexControlDialogIsOpen) {
+        //     this.drawFlagsOnHexes(ctx); return;  
+        // }
 
         if (this.units.length > 0) {
             ctx.drawUnits(this.units, this.unitStartPoint.x, this.unitStartPoint.y);

@@ -1,4 +1,3 @@
-'use strict';
 import Country from '../country/Country';
 import Hex from '../Hex/hex';
 import Map from '../Map/Map';
@@ -9,6 +8,7 @@ import Taskforce from '../Taskforce/taskforce';
 import Unit from '../unit/unit';
 
 class Game {
+    public mapCtx: CanvasRenderingContext2D;
 
     public name: string;
     public mapIndex: number;
@@ -35,7 +35,8 @@ class Game {
     public noSwastikas: boolean;
     public phase: Phase;
 
-    constructor (name: string ) {
+    constructor (name: string, mapCtx: CanvasRenderingContext2D ) {
+        this.mapCtx = mapCtx
         this.name = name
         this.mapIndex = 0
         this.zoomLevel = 1

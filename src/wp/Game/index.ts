@@ -1,3 +1,3 @@
-import game from '../init/init';
+import { game } from '../init/init';
 
 export default game;
