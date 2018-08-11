@@ -25,7 +25,6 @@ class Map {
     public dragging: boolean;
     public hexes: Hex[];
     public currentHex: Hex | null;
-    public getHex: (hexId: number) => Hex;
 
     constructor (theater: string, id: number) {
         this.theater = theater
@@ -37,10 +36,6 @@ class Map {
         this.dragging = false
         this.hexes = []
         this.currentHex = null
-
-        this.getHex = function (hexId: number) {
-            return this.hexes[hexId]
-        }
     }
     
     public createHexes (id: number) {
@@ -90,6 +85,16 @@ class Map {
         }
         dialog.draw();
     }
+
+    public getHex (hexId: number): Hex {
+        // console.log('getting unit for id', hexId); // tslint:disable-line
+        const newLocal = this.hexes[hexId];
+        return newLocal;
+    }
+
+    public getHexFromId (id: number): Hex | undefined {
+        return this.hexes.find((hex: Hex) => hex.id === id);
+    }
     
     // public displayCoordinates () {
     //     var coord = "&nbsp;(" + this.currentX + ", " + this.currentY + ")";
@@ -126,12 +131,6 @@ class Map {
     //     return null;
     // }
     
-    // public getHexFromId (id) {
-    //     var res = null
-    //     this.hexes.forEach(h => { if (h.id == id) {res = h}})
-    //     if (res == null){alert('map.getHexById - invalid hex:' + id)}
-    //     return res
-    // }
     
     // public handleHexClick () {
     //     if (game.hexControlDialogIsOpen) { hexControl.handleHexClick(this.currentHex); return; }

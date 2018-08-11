@@ -2,6 +2,7 @@
 import Country from '../country/Country';
 import Hex from '../Hex/hex';
 import Map from '../Map/Map';
+import Phase from '../Phase/phase';
 import Shipyard from '../Shipyard/shipyard';
 import ShipyardUnit from '../Shipyard/shipyard-unit';
 import Unit from '../unit/unit';
@@ -31,7 +32,7 @@ class Game {
     public currentPhase: number;
     public showUnitTexture: boolean;
     public noSwastikas: boolean;
-
+    public phase: Phase;
 
     constructor (name: string ) {
         this.name = name
@@ -82,11 +83,12 @@ class Game {
         this.taskforces.push(taskforce);        
     }
 
-    public addUnitToHex (unit: Unit, hex: string) {
-        const hexDetails: string[] = hex.split('/');
-        const map: Map = this.maps[hexDetails[0]];
-        const addHex: Hex = map.getHex(parseInt(hexDetails[1], 10));
-        addHex.addUnit(unit)
+public addUnitToHex (unit: Unit, hex: Hex/*hex: string*/) {
+        // const hexDetails: string[] = hex.split('/');
+        // const map: Map = this.maps[hexDetails[0]];
+        // const addHex: Hex = map.getHex(parseInt(hexDetails[1], 10));
+        // addHex.addUnit(unit)
+        hex.addUnit(unit);
     }
 
     // public getAllHighlightedUnits () {
@@ -117,12 +119,12 @@ class Game {
         return this.countries.find((country: Country) => country.name === name) as Country;
     }
 
-    // public setCurrentDate (currentPhaseId, year, season) {
-    //     if (!phase) phase = new WP.Phase();
-    //     phase.initPhases();
-    //     phase.processLoadedPhase(currentPhaseId, year, season);
-    //     phase.refreshPhase();  
-    // }
+    public setCurrentDate (currentPhaseId: number, year: number, season: string) {
+        if (!this.phase) { this.phase = new Phase(); }
+        this.phase.initPhases();
+        // phase.processLoadedPhase(currentPhaseId, year, season);
+        // phase.refreshPhase();  
+    }
 
     public getShipyard (id: number): Shipyard {
         return this.shipyards.find((shipyard: Shipyard) => shipyard.id === id) as Shipyard;     
@@ -287,15 +289,14 @@ class Game {
         // this.handleSelectUnselectInDialog(unit, unitCounter);       
     }
  
-    // public switchTheaters () {
-    //     WP.Misc.Ui.closeAllDialogs();
-    //     game.selectedUnit = null;
-    //     game.state = 0;
-    //     if (game.currentMap == game.maps[0]) game.currentMap = game.maps[1];
-    //     else game.currentMap = game.maps[0];
-    //     onWindowResize();        
-    // }
-    // /**
+    public switchTheaters () {
+        // WP.Misc.Ui.closeAllDialogs();
+        this.selectedUnit = null;
+        this.state = 0;
+        if (this.currentMap === this.maps[0]) { this.currentMap = this.maps[1]; }
+        else { this.currentMap = this.maps[0];}
+        // onWindowResize();        
+    }
 
     // public refreshCurrentTheater () {
     //     WP.Misc.Ui.closeAllDialogs();
@@ -303,6 +304,7 @@ class Game {
     //     game.state = 0;
     //     onWindowResize();
     // }
+
     /**
      * toggles unit texture on and off
      * @param {boolean}  showTexture 

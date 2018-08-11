@@ -45,6 +45,7 @@ export interface IHexData {
 
 export interface IMapData {
   id: number;
+  current?: string;
   type: string;
   hexes: { hex: IHexData[]; };
 }
