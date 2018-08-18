@@ -1,3 +1,4 @@
+import { IMapOpts } from '../../atom/mainMap/MainMap';
 import Country from '../country/Country';
 import Hex from '../Hex/hex';
 import Map from '../Map/Map';
@@ -9,12 +10,13 @@ import Unit from '../unit/unit';
 
 class Game {
     public mapCtx: CanvasRenderingContext2D;
-
+    public mapCanvas: HTMLCanvasElement;
     public name: string;
     public mapIndex: number;
     public zoomLevel: number;
     public type: null;
     public countries: Country[];
+    public mapOpts: IMapOpts;
     public maps: Map[];
     public currentMap: Map;
     public selectedUnit: Unit | null;
@@ -35,16 +37,17 @@ class Game {
     public noSwastikas: boolean;
     public phase: Phase;
 
-    constructor (name: string, mapCtx: CanvasRenderingContext2D ) {
+    constructor (name: string, mapCtx: CanvasRenderingContext2D, mapCanvas: HTMLCanvasElement, mapOpts: IMapOpts) {
         this.mapCtx = mapCtx
+        this.mapCanvas = mapCanvas
         this.name = name
         this.mapIndex = 0
         this.zoomLevel = 1
         this.type = null
         this.countries = []
         this.maps = [
-            new Map("euro", 0),
-            new Map("pac", 1)
+            new Map("euro", 0, mapCtx, mapCanvas, mapOpts),
+            new Map("pac", 1, mapCtx, mapCanvas, mapOpts)
         ]
         this.currentMap = this.maps[0]
         this.selectedUnit = null
@@ -61,7 +64,7 @@ class Game {
         this.currentPhaseId = 0;
         this.currentCoalition = null;
         this.currentPhase = 0;
-
+        this.mapOpts = mapOpts;
         this.showUnitTexture = true;
         this.noSwastikas = true;
 
@@ -274,7 +277,7 @@ class Game {
     //     this.selectedTaskforce = taskforce;     
     // }
     
-    public setSelectedUnit (unit: Unit) {
+    public setSelectedUnit (unit: Unit | null) {
         if (unit === this.selectedUnit) { return; }
 
         // const oldUnit = this.selectedUnit;

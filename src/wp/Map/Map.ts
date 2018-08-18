@@ -1,32 +1,39 @@
-'use strict';
-import game from '../Game';
-import Hex from '../Hex/hex';
-import Stack from '../stack/Stack';
-import Unit from '../unit/unit';
+import { IMapOpts } from '../../atom/mainMap/MainMap'
+import game, { getGame } from '../Game'
+import Hex from '../Hex/hex'
+import Point from '../misc/Point'
+import Stack from '../stack/Stack'
+import Unit from '../unit/unit'
 
 interface IDialog {
     unitHolder: {
-        findStackContaining: (unit: Unit) => Stack;
+        findStackContaining: (unit: Unit) => Stack
     }
-    removeUnitFrom: (dialog: IDialog, unit: Unit) => void;
-    draw: () => void;
+    removeUnitFrom: (dialog: IDialog, unit: Unit) => void
+    draw: () => void
 }
 
-const ctrlPressed = (): boolean => false;
+const ctrlPressed = (): boolean => false
 
 class Map {
+    public mapCtx: CanvasRenderingContext2D
+    public mapCanvas: HTMLCanvasElement
+    public theater: string
+    public width: number
+    public height: number
+    public currentX: number
+    public currentY: number
+    public id: number
+    public dragging: boolean
+    public hexes: Hex[]
+    public currentHex: Hex | null | undefined
+    public mapOpts: IMapOpts
+    public scrollLeft: number
+    public scrollTop: number
 
-    public theater: string;
-    public width: number;
-    public height: number;
-    public currentX: number;
-    public currentY: number;
-    public id: number;
-    public dragging: boolean;
-    public hexes: Hex[];
-    public currentHex: Hex | null;
-
-    constructor (theater: string, id: number) {
+    constructor (theater: string, id: number, mapCtx: CanvasRenderingContext2D, mapCanvas: HTMLCanvasElement, mapOpts: IMapOpts) {
+        this.mapCanvas = mapCanvas
+        this.mapCtx = mapCtx
         this.theater = theater
         this.width = 0
         this.height = 0
@@ -36,16 +43,20 @@ class Map {
         this.dragging = false
         this.hexes = []
         this.currentHex = null
+        this.mapOpts = mapOpts
+        this.setCurrentHex = this.setCurrentHex.bind(this)
+        this.scrollLeft = 0
+        this.scrollTop = 0
     }
     
     public createHexes (id: number) {
-        this.hexes = []
-        let i = 1;
+        this.hexes = [new Hex(0, this, -1, -1)]
+        let i = 1
         for (let x = 0; x < 51; x++) {
             for (let y = 0; y < 40; y++) {
-                if ((id === 0) && (x === 50 && (y % 2 > 0))){ i++; continue; }
-                this.hexes[i] = new Hex(i, this, x, y);
-                i++;
+                if ((id === 0) && (x === 50 && (y % 2 > 0))) { i++; continue }
+                this.hexes[i] = new Hex(i, this, x, y)
+                i++
             }
         }
     }
@@ -56,44 +67,43 @@ class Map {
 
         if (unit.type.toLowerCase() === "cruiser") {
             if (!ctrlPressed() && unit.strength > 2) {
-                unit = unit.breakdownAndCreate(2);
+                unit = unit.breakdownAndCreate(2)
             }
             else if (ctrlPressed() && unit.strength > 6) {
-                unit = unit.breakdownAndCreate(6);
+                unit = unit.breakdownAndCreate(6)
             }
             else {
-                stack.removeUnit(unit);
+                stack.removeUnit(unit)
             }
         }
         else if (unit.factorable && !ctrlPressed() && unit.strength > 1) {
-            unit = unit.breakdownAndCreate(1);
+            unit = unit.breakdownAndCreate(1)
         }
         else if (unit.factorable && ctrlPressed() && unit.strength > 5) {
-            unit = unit.breakdownAndCreate(5);
+            unit = unit.breakdownAndCreate(5)
         }
         else {
-            stack.removeUnit(unit);
+            stack.removeUnit(unit)
         }
         
-        hex.addOrCombineUnit(unit);
+        hex.addOrCombineUnit(unit)
         // hex.clear();
         // hex.draw();
         dialog.removeUnitFrom(dialog, unit) 
         const topUnit = stack.getTopUnit();
         if(topUnit) {
-            game.setSelectedUnit(topUnit);
+            game.setSelectedUnit(topUnit)
         }
-        dialog.draw();
+        dialog.draw()
     }
 
     public getHex (hexId: number): Hex {
         // console.log('getting unit for id', hexId); // tslint:disable-line
-        const newLocal = this.hexes[hexId];
-        return newLocal;
+        return this.hexes[hexId]
     }
 
     public getHexFromId (id: number): Hex | undefined {
-        return this.hexes.find((hex: Hex) => hex.id === id);
+        return this.hexes.find((hex: Hex) => hex.id === id)
     }
     
     // public displayCoordinates () {
@@ -114,60 +124,52 @@ class Map {
     //     }
     // }
     
-    // public getHexAt (point) {
-    //     for (var x = 0; x < this.hexes.length; x++) {
-    //         var hex = this.hexes[x];
-    //         if (!hex || !hex.pixelPoint) continue;
-    //         if (point.x > hex.pixelPoint.x) {
-    //             if (point.x < hex.pixelPoint.x + hex.width) {
-    //                 if (point.y > hex.pixelPoint.y + (hex.size / 4)) {
-    //                     if (point.y < hex.pixelPoint.y + (hex.size * 1.6)) {
-    //                         return hex;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     return null;
-    // }
+    public getHexAt = (point: Point): Hex | undefined  => {
+        return this.hexes.find((hex: Hex, i: number) => 
+            hex &&
+            point.x > hex.pixelPoint.x &&
+            point.x < hex.pixelPoint.x + hex.width &&
+            // point.y > hex.pixelPoint.y &&
+            // point.y < hex.pixelPoint.y + hex.size)
+            point.y > hex.pixelPoint.y + (hex.size / 4) &&
+            point.y < hex.pixelPoint.y + (hex.size * 1.6))
+    }
     
     
-    // public handleHexClick () {
-    //     if (game.hexControlDialogIsOpen) { hexControl.handleHexClick(this.currentHex); return; }
-    //     var unit = game.selectedUnit;
-    //     if (unit && unit.location == 1 && this.currentHex) {
-    //         this.placeUnitFrom(forcepool, unit, this.currentHex);
-    //     }
-    //     if (unit && unit.location == 3 && this.currentHex) {
-    //         this.placeUnitFrom(shipyard, unit, this.currentHex);
-    //     }
-    //     if (unit && unit.location == 4 && this.currentHex) {
-    //         this.placeUnitFrom(taskforce, unit, this.currentHex);
-    //     }
-    //     else {
-    //         this.selectUnit();
-    //         if (game.selectedUnit) {
-    //             this.dragging = true;
-    //         }
-    //     }
+    public handleHexClick () {
+        // if (game.hexControlDialogIsOpen) { hexControl.handleHexClick(this.currentHex); return; }
+        // const unit = game.selectedUnit;
+        // if (unit && unit.location === 1 && this.currentHex) {
+        //     this.placeUnitFrom(forcepool, unit, this.currentHex);
+        // }
+        // if (unit && unit.location === 3 && this.currentHex) {
+        //     this.placeUnitFrom(shipyard, unit, this.currentHex);
+        // }
+        // if (unit && unit.location === 4 && this.currentHex) {
+        //     this.placeUnitFrom(taskforce, unit, this.currentHex);
+        // }
+        // else {
+            this.selectUnit()
+            if (getGame().selectedUnit) {
+                this.dragging = true
+            }
+        // }
 
-    // }
+    }
     
-    // public moveUnitTo (unit, hex) {
-    //     if (unit.hex == hex) return;
+    public moveUnitTo (unit: Unit, hex: Hex) {
+        if (unit.hex === hex) { return }
 
-    //     if (unit.hex) {
-    //             var oldHex = unit.hex;
-    //             oldHex.removeUnit(game.selectedUnit);
-    //             //setTimeout(function () {
-    //             oldHex.clear();
-    //             oldHex.draw();
-    //             //}, 0)
-    //          }
-    //         hex.addUnit(unit);
-    //         hex.clear();
-    //         hex.draw();
-    // }
+        if (unit.hex) {
+            const oldHex = unit.hex;
+            oldHex.removeUnit(unit);
+            oldHex.clear(this.mapCtx)
+            oldHex.draw(this.mapCtx)
+            }
+            hex.addUnit(unit);
+            hex.clear(this.mapCtx);
+            hex.draw(this.mapCtx);
+    }
     
     // public onDoubleClick () {
     //    	var unit = game.selectedUnit;
@@ -185,52 +187,60 @@ class Map {
     //         }
     //     }
     // }
-    
-    // public onMouseMove (e) {
-    //     var map = game.currentMap;
-    //     map.setCurrentHex(e);
-    //     map.displayMapUnitsInHexInfo(false);
-    //     map.displayCoordinates();
 
-    //     if (game.selectedUnit && map.dragging && map.currentHex) {
-    //         if (map.currentHex != game.selectedUnit.hex) {
-    //             map.moveUnitTo(game.selectedUnit, map.currentHex);
-    //         }
-    //     }
-    // }
-    
-    // public onMouseDown () {
-    //     var map = game.currentMap;
-    //     if (game.state == 0) {
-    //         map.handleHexClick();
-    //     }
-    //     else if (game.state == 1) {
-    //         attrition.handleHexClick();
-    //     }        
-    // }
-    
-    // public onMouseUp () {
-    //     var map = game.currentMap;
-    // 	map.dragging = false;
-    // }
-    
-    // public setCurrentHex (e) {
-    //     var point = getPoint('mapCanvas', e);
-    //     point.x += $("#mapDiv").scrollLeft();
-    //     point.y += $("#mapDiv").scrollTop();
+    public setCurrentHex = (evt: MouseEvent) => {
+        const x: number = evt.x + this.scrollLeft
+        const y: number = evt.y - this.mapOpts.rect.top + this.scrollTop
 
-    //     this.currentX = point.x;
-    //     this.currentY = point.y;
-    //     this.currentHex = this.getHexAt(point);       
-    // }
+        const point: Point = new Point(x, y)
+        this.currentHex = this.getHexAt(point) 
+    }
     
-    // public selectUnit () {
-    //     var unit = null;
-    //     if (this.currentHex) { unit = this.currentHex.getTopUnit(); }
-    //     game.setSelectedUnit(unit);
-    // }
+    public onMouseMove (evt: MouseEvent) {
+        this.setCurrentHex(evt)
+        // this.displayMapUnitsInHexInfo(false);
+        // this.displayCoordinates();
+        const selectedUnit = getGame().selectedUnit
+
+        if (selectedUnit && this.dragging && this.currentHex) {
+            if (this.currentHex !== selectedUnit.hex) {
+                this.moveUnitTo(selectedUnit, this.currentHex);
+            }
+        }
+    }
     
+    public onMouseDown () {
+        if (getGame().state === 0) {
+            this.handleHexClick()
+        }
+        // else if (game.state === 1) {
+        //     attrition.handleHexClick();
+        // }        
+    }
+    
+    public onMouseUp () {
+        getGame().currentMap.dragging = false
+    }
+    
+    public onScroll (e: Event) {
+        const target = e.target as HTMLDivElement
+        this.scrollLeft = target.scrollLeft
+        this.scrollTop = target.scrollTop
+    }
+
+    
+    public selectUnit () {
+        const unit: Unit | null = this.currentHex ? this.currentHex.getTopUnit() : null
+        
+        getGame().setSelectedUnit(unit)
+        console.log('selectUnit', unit)
+    }
+
     public drawBackground (mapCtx: CanvasRenderingContext2D) {
+        this.drawHexes(mapCtx)
+    }
+    
+    // public drawBackground (mapCtx: CanvasRenderingContext2D) {
         // var mapImage = new Image()
         // var map = this
         
@@ -256,7 +266,7 @@ class Map {
         //     $('#mapBackgroundDiv').css("background-image", "url(" + url + ")")
         // }
 
-        this.drawHexes(mapCtx)
+        // this.drawHexes(mapCtx)
         // mapNav.refresh()
 
         // var mapBackgroundDiv = $("#mapBackgroundDiv")
@@ -267,7 +277,7 @@ class Map {
 
         // scrollDivRight(getCookie("rightscroll"))
         // scrollDivDown(getCookie("downscroll"))
-        }
+        // }
         // this line assumes the main maps are in the Content/Maps folder, and not from cdn
         // var url = "/Content/Maps/WP" + this.theater + (game.zoomLevel *10) + ".jpg"
         // var url = ''
@@ -293,17 +303,17 @@ class Map {
         this.hexes.forEach(h => h.setZoom(h))
     }
     
-    // public redrawHexesContainingUnits (units) {
-    //     this.hexes.forEach(h =>{
-    //         h.units.forEach(hu => {
-    //             if (units.some(un => un == hu)){
-    //                 h.clear()
-    //                 h.draw()
-    //             }
-    //         })
-    //     })
-    // }
+    public redrawHexesContainingUnits (ctx: CanvasRenderingContext2D, units: Unit[]) {
+        this.hexes.forEach(hex =>{
+            hex.units.forEach(hexUnit => {
+                if (units.some(unit => unit === hexUnit)){
+                    hex.clear(ctx)
+                    hex.draw(ctx)
+                }
+            })
+        })
+    }
     
 }
 
-export default Map;
+export default Map

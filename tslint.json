@@ -4,7 +4,25 @@
     "variable-name": [
       true,
       "allow-leading-underscore"
+    ],
+    /*
+    "no-console": [
+      true,
+      "log",
+      "error"
     ]
+    */
+    "no-console": {
+      "severity": "warning",
+      "options": [
+          "debug",
+          "info",
+          "log",
+          "time",
+          "timeEnd",
+          "trace"
+      ]
+    }
   },
   "linterOptions": {
     "exclude": [

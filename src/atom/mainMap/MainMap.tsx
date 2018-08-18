@@ -1,74 +1,108 @@
-import * as React from 'react';
+import * as React from 'react'
+import Game from '../../wp/Game/game'
 
+export interface IMapOpts {
+  rect: DOMRect
+}
 interface IMainMapProps {
-  url: string;
-  getMapContext: (ctx: CanvasRenderingContext2D | null) => void;
+  url: string
+  getMapContext: (mapCanvas: HTMLCanvasElement, mapCtx: CanvasRenderingContext2D | null, opts: any) => void
+  game: Game
 }
 
 interface IMainMapState {
-  height: number;
-  width: number;
+  height: number
+  width: number
 }
 
 class MainMap extends React.PureComponent<IMainMapProps, IMainMapState> {
-  public canvas: HTMLCanvasElement | null;
-  public ctx: CanvasRenderingContext2D | null;
-  public image: HTMLImageElement;
+  public backgroundCanvas: HTMLCanvasElement | null
+  public backgroundCtx: CanvasRenderingContext2D | null
+  public mapCanvas: HTMLCanvasElement | null
+  public mapCtx: CanvasRenderingContext2D | null
+  public rect: DOMRect
+  public image: HTMLImageElement
+  public mapCanvasRef: React.RefObject<HTMLCanvasElement>
+  public backgroundCanvasRef: React.RefObject<HTMLCanvasElement>
 
   constructor(props: IMainMapProps) {
-    super(props);
+    super(props)
     this.state = {
       height: 0,
       width: 0,
     }
 
-    this.canvas = null;
-    this.ctx = null;
-    this.image = new Image();
+    this.mapCanvas = null
+    this.mapCtx = null
+    this.backgroundCanvas = null
+    this.backgroundCtx = null
+    this.image = new Image()
+    this.mapCanvasRef = React.createRef()
+    this.backgroundCanvasRef = React.createRef()
   }
 
   public componentDidMount(): void {
-    this.canvas = document.getElementById('mapCanvas') as HTMLCanvasElement;
-    if(this.canvas) {
-      this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
+    this.mapCanvas = document.getElementById('mapCanvas') as HTMLCanvasElement;
+    this.rect = this.mapCanvas.getBoundingClientRect() as DOMRect;
+    this.backgroundCanvas = document.getElementById('backgroundCanvas') as HTMLCanvasElement;
+    if(this.mapCanvas) {
+      this.mapCtx = this.mapCanvas.getContext('2d') as CanvasRenderingContext2D;
+      this.updateMap();
+    }
+    if(this.backgroundCanvas) {
+      this.backgroundCtx = this.backgroundCanvas.getContext('2d') as CanvasRenderingContext2D;
       this.updateMap();
     }
   }
 
-  public componentDidUpdate() {
-    this.updateMap();
-  }
-
   public updateMap(): void {
-    const { ctx, image } = this;
-    if(!ctx) {
+    const {
+      backgroundCtx,
+      mapCanvas,
+      mapCtx,
+      image } = this;
+    if(!backgroundCtx) {
       return
     }
-    this.image.onload = () => {
+    image.crossOrigin = 'Anonymous'
+    image.src = this.props.url;  
+    image.onload = () => {
       this.setState({
-        height: this.image.height,
-        width: this.image.width
+        height: image.height,
+        width: image.width
       },
       () => {
-        ctx.drawImage(image, 0, 0, image.width, image.height)
-        if(this.ctx) {
-          this.props.getMapContext(this.ctx);
+        backgroundCtx.drawImage(image, 0, 0, image.width, image.height)
+        if(backgroundCtx) {
+
+          const opts: IMapOpts = {
+            rect: this.rect
+          }
+          this.props.getMapContext(
+            mapCanvas as HTMLCanvasElement,
+            mapCtx as CanvasRenderingContext2D,
+            opts
+          )
         }
       })
-      
-
     }
-
-    image.src = this.props.url;
-    image.crossOrigin = 'anonymous';    
   }
 
   public render(): JSX.Element {
-    const { height, width } = this.state;
+    const { height, width }: { height: number, width: number} = this.state
+
+    const canvasPosition: any = {
+      left: 0,
+      position: 'absolute',  
+      top: 0
+    }
     return (
-      <canvas id="mapCanvas" height={height} width={width}>Your browser does not support this application</canvas>
+      <div style={{position :"relative" }}>    
+        <canvas id="backgroundCanvas" style={canvasPosition}ref={this.backgroundCanvasRef} height={height} width={width}/>
+        <canvas id="mapCanvas" style={canvasPosition} ref={this.mapCanvasRef} height={height} width={width}>Your browser does not support this application</canvas>
+      </div>
     );
   }
 }
 
-export default MainMap;
+export default MainMap

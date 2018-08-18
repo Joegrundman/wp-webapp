@@ -1,4 +1,3 @@
-'use strict';
 import Country from '../country/Country';
 import Game from '../Game/game';
 import Map from '../Map/Map';
@@ -45,7 +44,7 @@ export interface IHexData {
 }
 
 export interface IMapData {
-  id: number;
+  id: string;
   current?: string;
   type: string;
   hexes: { hex: IHexData[]; };
@@ -123,10 +122,11 @@ const loadCountries = (countries: ICountryData[], game: Game) => {
 };
 
 const loadMaps = (maps: IMapData[], game: Game) => {
-  maps.forEach((m: IMapData) => {
-    const map: Map = game.maps[m.id];
-    m.hexes.hex.forEach((hex: IHexData, i: number) => {
-      loadHex(hex, i, map, game);
+  maps.forEach((m: IMapData, i: number) => {
+    // const map = new Map(m.type, parseInt(m.id, 10), mapCtx, mapCanvas);
+    const map = game.maps[i];
+    m.hexes.hex.forEach((hex: IHexData, id: number) => {
+      loadHex(hex, id, map, game);
     });
   });
 }
