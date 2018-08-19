@@ -1,10 +1,10 @@
 import * as React from 'react';
 import MainMap, { IMapOpts } from '../../atom/mainMap/MainMap';
 import { urlMapEur, urlMapPac } from '../../constants/ui-constants';
+import { handleKeyboardEvent, handleKeyupEvent }from '../../wp/Eventing/eventing-keyboard';
 import { getGame } from '../../wp/Game';
 import { initialize } from '../../wp/init/init';
 import locals from './Game.css';
-
 interface IGameState {
   currentMap: string;
   game: any;
@@ -33,6 +33,11 @@ class Game extends React.Component<{}, IGameState> {
     })
   }
 
+  public attachKeyboardEvents() {
+    window.addEventListener('keydown', (e: KeyboardEvent) => handleKeyboardEvent(e.keyCode))
+    window.addEventListener('keyup', (e: KeyboardEvent) => handleKeyupEvent())
+  }
+
   public attachMapEvents() {
     if(!this.state.mapCanvas) {
       return;
@@ -42,6 +47,7 @@ class Game extends React.Component<{}, IGameState> {
 			this.state.mapCanvas.addEventListener('mousemove', this.state.game.currentMap.onMouseMove.bind(this.state.game.currentMap), false);
       this.state.mapCanvas.addEventListener('mousedown', this.state.game.currentMap.onMouseDown.bind(this.state.game.currentMap), false);
       this.state.mapCanvas.addEventListener('mouseup', this.state.game.currentMap.onMouseUp.bind(this.state.game.currentMap), false);
+      this.state.mapCanvas.addEventListener('dblclick', this.state.game.currentMap.onDoubleClick.bind(this.state.game.currentMap), false);
       if(this.mainMapContainer.current) {
         this.mainMapContainer.current.addEventListener('scroll', this.state.game.currentMap.onScroll.bind(this.state.game.currentMap), true)
       }
@@ -65,6 +71,7 @@ class Game extends React.Component<{}, IGameState> {
         },
          () => {
           this.attachMapEvents();
+          this.attachKeyboardEvents();
         });
       }
     });

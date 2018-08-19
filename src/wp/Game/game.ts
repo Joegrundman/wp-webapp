@@ -96,21 +96,12 @@ class Game {
         hex.addUnit(unit);
     }
 
-    // public getAllHighlightedUnits () {
-    //     var units = []
-    //     var i = -1;
-
-    //     for (var ci = 0; ci < this.countries.length; ci++) {
-    //         var ctry = this.countries[ci];
-    //         for (var ui = 0; ui < ctry.units.length; ui++) {
-    //             var unit = ctry.units.length[ui];
-    //             if (!unit) continue;
-    //             if (unit.highlighted)
-    //             units[++i] = unit;
-    //         }
-    //     }  
-    //     return units;
-    // }
+    public getAllHighlightedUnits (): Unit[] {
+        return this.countries
+            .map((cty: Country) => cty.units)
+            .reduce((unitArr: Unit[], cur: Unit[]): Unit[] => unitArr.concat(cur))
+            .filter((unit: Unit) => unit.highlight)
+    }
 
     public getCountry (id: number): Country {
         return this.countries.find((country: Country) => country.id === id) as Country;
@@ -252,11 +243,11 @@ class Game {
     //     return majors;      
     // }
  
-    // public handleSelectUnselectOnBoard (unit) {
-    //     if (unit && unit.hex) {
-    //         unit.hex.draw();
-    //     }        
-    // }
+    public handleSelectUnselectOnBoard (unit: Unit) {
+        if (unit && unit.hex) {
+            unit.hex.draw(this.mapCtx);
+        }        
+    }
     
     // public handleSelectUnselectInDialog (unit, dialog) {
     //     if (!dialog) return;
@@ -280,17 +271,19 @@ class Game {
     public setSelectedUnit (unit: Unit | null) {
         if (unit === this.selectedUnit) { return; }
 
-        // const oldUnit = this.selectedUnit;
+        const oldUnit = this.selectedUnit;
+        if (oldUnit) { oldUnit.isSelected = false }
         this.selectedUnit = unit;
+        if (unit) { unit.isSelected = true }
 
-        // this.handleSelectUnselectOnBoard(oldUnit);
+        if (oldUnit) { this.handleSelectUnselectOnBoard(oldUnit) }
         // this.handleSelectUnselectInDialog(oldUnit, forcepool);
         // this.handleSelectUnselectInDialog(oldUnit, shipsAtSea);
         // this.handleSelectUnselectInDialog(oldUnit, shipyard);
         // this.handleSelectUnselectInDialog(oldUnit, taskforce);
         // this.handleSelectUnselectInDialog(oldUnit, unitCounter);
 
-        // this.handleSelectUnselectOnBoard(unit);
+        if (unit) { this.handleSelectUnselectOnBoard(unit) }
         // this.handleSelectUnselectInDialog(unit, forcepool);
         // this.handleSelectUnselectInDialog(unit, shipsAtSea);
         // this.handleSelectUnselectInDialog(unit, shipyard);

@@ -23,7 +23,7 @@ export interface ICodebreakingResult {
 }
 
 export interface IForcepoolGroupData {
-  i: string;
+  id: string;
   name: string;
 }
 
@@ -94,7 +94,7 @@ export interface IUnitData {
 
 const loadForcepoolGroup = (fpgs: IForcepoolGroupData[], country: Country) => {
   fpgs.forEach((fpg) => {
-    const id: number = parseInt(fpg.i,10);
+    const id: number = parseInt(fpg.id, 10);
     const name: string = fpg.name;
     const group = new ForcepoolGroup(id, name);
     country.addForcepoolGrouping(group);

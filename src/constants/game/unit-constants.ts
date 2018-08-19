@@ -133,5 +133,9 @@ export const sinkableUnitTypes: string[] = [
   'advsub'
 ];
 
+export const lendableUnitTypes: string[] = [
+  
+]
+
 export const unitPxSize: number = 41;
 export const unitArc: number = Math.floor(41/14.33);

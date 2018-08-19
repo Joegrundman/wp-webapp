@@ -25,9 +25,9 @@ export const drawBase = (ctx: CanvasRenderingContext2D, unit: Unit): void => {
 export const drawColorRect = (ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, color: string) => {
 	const blackLineColor: Color = new Color(0, 0, 0);
 	const boxColor: Color = color === 'blue' ?
-		new Color(11, 128, 244) : // blue
+		new Color(11, 128, 244) :
 			color === 'yellow' ?
-				new Color(238, 237, 41) : // yellow
+				new Color(238, 237, 41) :
 				new Color(150, 87, 180) // purple
 
 	ctx.lineWidth = 1;
@@ -185,7 +185,7 @@ export const getShadowColor = (color: Color) => {
 	return new Color(red, green, blue);
 }
 
-export function drawShape (ctx: CanvasRenderingContext2D, doFill: boolean | number, mirror: number, lineWidth: number, color: Color, ...args: number[][]) {
+export const drawShape = (ctx: CanvasRenderingContext2D, doFill: boolean | number, mirror: number, lineWidth: number, color: Color, ...args: number[][]) => {
 	ctx.lineWidth = lineWidth;
 	ctx.beginPath();
 	ctx.strokeStyle = color.toRgb();

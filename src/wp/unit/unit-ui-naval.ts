@@ -597,9 +597,8 @@ export const drawSub = (ctx: CanvasRenderingContext2D, unit: Unit) => {
 }
 
 export const drawTaskForce = (ctx: CanvasRenderingContext2D, unit: Unit) => {
-	if(!unit.owner.flagImage) { return; }
-	ctx.drawImage(unit.owner.flagImage, 6.5, 4);
-	UI.drawFlagOutline(ctx);
+	if(unit.owner.flagImage) { ctx.drawImage(unit.owner.flagImage, 6.5, 4); }
+	UI.drawFlagOutline(ctx)
 	Text.writeGenericText(ctx, unit, "TF" + unit.name, "bold 15px arial", 21, 37);
 }
 

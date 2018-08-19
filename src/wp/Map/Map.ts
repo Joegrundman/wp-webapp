@@ -50,7 +50,7 @@ class Map {
     }
     
     public createHexes (id: number) {
-        this.hexes = [new Hex(0, this, -1, -1)]
+        this.hexes = []
         let i = 1
         for (let x = 0; x < 51; x++) {
             for (let y = 0; y < 40; y++) {
@@ -92,18 +92,17 @@ class Map {
         dialog.removeUnitFrom(dialog, unit) 
         const topUnit = stack.getTopUnit();
         if(topUnit) {
-            game.setSelectedUnit(topUnit)
+            getGame().setSelectedUnit(topUnit)
         }
         dialog.draw()
     }
 
     public getHex (hexId: number): Hex {
-        // console.log('getting unit for id', hexId); // tslint:disable-line
         return this.hexes[hexId]
     }
 
     public getHexFromId (id: number): Hex | undefined {
-        return this.hexes.find((hex: Hex) => hex.id === id)
+        return this.hexes.find((hex: Hex) => hex && hex.id === id)
     }
     
     // public displayCoordinates () {
@@ -117,12 +116,12 @@ class Map {
     //     $("#mousePosition").html(coord);
     // }
     
-    // public displayMapUnitsInHexInfo (force) {
-    //     if (this.currentHex) {
-	// 	if (!window.hexInfo) window.hexInfo = new WP.HexInfo();
-    //         hexInfo.updateFor(this.currentHex, force);
-    //     }
-    // }
+    public displayMapUnitsInHexInfo (force: any) {
+        // if (this.currentHex) {
+		// if (!window.hexInfo) window.hexInfo = new WP.HexInfo();
+        //     hexInfo.updateFor(this.currentHex, force);
+        // }
+    }
     
     public getHexAt = (point: Point): Hex | undefined  => {
         return this.hexes.find((hex: Hex, i: number) => 
@@ -171,22 +170,19 @@ class Map {
             hex.draw(this.mapCtx);
     }
     
-    // public onDoubleClick () {
-    //    	var unit = game.selectedUnit;
-    //     if (unit && unit.location == 1 && map.currentHex) {
-    //         return;
-    //     }
-    //     game.setSelectedUnit(null);
-    //     var map = game.currentMap;
-    //     if (map.currentHex) {
-    //         if (map.currentHex.units && map.currentHex.units.length > 1) {
-    //             map.currentHex.rotateUnits();
-    //             map.currentHex.draw();
-    //             hexInfo.units = null;
-    //             map.displayMapUnitsInHexInfo(true);
-    //         }
-    //     }
-    // }
+    public onDoubleClick () {
+       	const unit = getGame().selectedUnit;
+        if (unit && unit.location === 1 && this.currentHex) {
+            return
+        }
+        getGame().setSelectedUnit(null)
+        if (this.currentHex && this.currentHex.units && this.currentHex.units.length > 1) {
+            this.currentHex.rotateUnits()
+            this.currentHex.draw(this.mapCtx)
+            // hexInfo.units = null;
+        //    this.displayMapUnitsInHexInfo(true);
+        }
+    }
 
     public setCurrentHex = (evt: MouseEvent) => {
         const x: number = evt.x + this.scrollLeft

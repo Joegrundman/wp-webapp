@@ -1,4 +1,3 @@
-'use strict';
 import {
     attritionUnitTypes,
     damageableUnitTypes,
@@ -6,6 +5,7 @@ import {
     factorableUnitTypes,
     invertableUnitTypes,
     isolatableUnitTypes,
+    lendableUnitTypes,
     sinkableUnitTypes,
     unitPxSize
 } from '../../constants/game/unit-constants';
@@ -48,6 +48,7 @@ class Unit {
     public isExploiting: boolean;
     public isIsolated: boolean;
     public isLent: boolean;
+    public isSelected: boolean
     public stack: Stack | null;
 
     constructor (params: IUnitParams) {
@@ -56,7 +57,7 @@ class Unit {
         this.type = params.type || '';
         this.name = params.name || '';
         this.size = unitPxSize;
-        this.factorable = (factorableUnitTypes.indexOf(this.type) > -1)
+        this.factorable = (factorableUnitTypes.indexOf(this.type.toLowerCase()) > -1)
 
         this.strength = params.strength || 0;
         this.movement = params.movement || 0;
@@ -83,6 +84,7 @@ class Unit {
         this.isExploiting = !!params.isExploiting;
         this.isIsolated = !!params.isIsolated;
         this.stack = null;
+        this.isSelected = false;
     }
     
     public canBeCountedInAttrition (): boolean {
@@ -101,6 +103,10 @@ class Unit {
         return isolatableUnitTypes.indexOf(this.type.toLowerCase()) > -1;
     }
     
+    public canBeLent (): boolean {
+        return lendableUnitTypes.indexOf(this.type.toLowerCase()) > -1;
+    }
+
     public canSink (): boolean {
         return sinkableUnitTypes.indexOf(this.type.toLowerCase()) > -1;
     }
@@ -169,9 +175,9 @@ class Unit {
         if (this.isExploiting) { UI.drawExploiting(ctx, this); }
         if (this.isLent) { Misc.drawLent(ctx, this); }
         UI.drawUnitTexture(ctx);
-        // if (game.selectedUnit === this || this.highlight) {
-        //     UI.drawHighlight(ctx, this);
-        // }
+        if (this.isSelected) {
+            UI.drawHighlight(ctx, this);
+        }
 
         ctx.restore();
     }

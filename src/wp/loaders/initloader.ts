@@ -1,10 +1,10 @@
 import Country from '../country/Country';
+import { loadFlag } from '../country/country-flags';
 import Game from '../Game/game';
 import Map from '../Map/Map';
 import Shipyard from '../Shipyard/shipyard';
 import Taskforce from '../Taskforce/taskforce';
 import { loadCodebreaking } from'./commonloader';
-
 export interface ICountryData {
   id: string;
   name: string;
@@ -51,7 +51,7 @@ export interface IMapData {
 }
 
 const loadHex = ((hexData: IHexData, id: number, map: Map, game: Game) => {
-  const hex = map.getHex(id);
+  const hex = map.getHexFromId(id);
   const cityName = hexData.city;
   const ports = hexData.ports;
   const capital = hexData.capital;
@@ -89,15 +89,13 @@ const loadCountries = (countries: ICountryData[], game: Game) => {
     if(cty.codebreaking) {
       loadCodebreaking(cty.codebreaking, country);
     }
-
-    // WP.Country.UI.loadFlag(country);
   });
 
   countries.forEach((cty: ICountryData) => {
     const country: Country = game.getCountry(parseInt(cty.id, 10));
     if (cty.colonyOf) {
-      country.colonyOf = parseInt(cty.colonyOf, 10);
-      const colonyOwner: Country = game.getCountry(country.colonyOf);
+      const colonyOwner: Country = game.getCountry(parseInt(cty.colonyOf, 10))
+      country.colonyOf = colonyOwner
       colonyOwner.addColony(country);
     }
 
@@ -118,6 +116,7 @@ const loadCountries = (countries: ICountryData[], game: Game) => {
       const partOfCountry: Country = game.getCountry(partOfId);
       country.partOf = partOfCountry;
     }
+    loadFlag(country)
   })
 };
 
@@ -126,7 +125,7 @@ const loadMaps = (maps: IMapData[], game: Game) => {
     // const map = new Map(m.type, parseInt(m.id, 10), mapCtx, mapCanvas);
     const map = game.maps[i];
     m.hexes.hex.forEach((hex: IHexData, id: number) => {
-      loadHex(hex, id, map, game);
+      loadHex(hex, id + 1, map, game);
     });
   });
 }

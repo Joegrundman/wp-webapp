@@ -1,4 +1,5 @@
 import Country from '../country/Country'
+import { getGame } from '../Game';
 import Map from '../Map/Map'
 import { toAscii } from '../misc/convert'
 import Point from '../misc/Point'
@@ -92,6 +93,7 @@ class Hex {
             if(unit.canCombineWith(thisUnit)) {
                 unit.strength += thisUnit.strength
                 unit.owner.removeUnit(thisUnit)
+                getGame().setSelectedUnit(unit)
                 this.removeUnit(thisUnit)
             }
         }

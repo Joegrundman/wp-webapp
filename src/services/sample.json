@@ -1753,23 +1753,23 @@
           "groupings": {
             "g": [
               {
-                "i": "6",
+                "id": "6",
                 "name": "Naval Builds"
               },
               {
-                "i": "7",
+                "id": "7",
                 "name": "Air Builds"
               },
               {
-                "i": "8",
+                "id": "8",
                 "name": "Ground Builds"
               },
               {
-                "i": "9",
+                "id": "9",
                 "name": "Other Builds"
               },
               {
-                "i": "11",
+                "id": "11",
                 "name": "Production Partisans"
               }
             ]
@@ -2050,27 +2050,27 @@
           "groupings": {
             "g": [
               {
-                "i": "1",
+                "id": "1",
                 "name": "Fall 39"
               },
               {
-                "i": "2",
+                "id": "2",
                 "name": "Spring 42"
               },
               {
-                "i": "3",
+                "id": "3",
                 "name": "Spring 43"
               },
               {
-                "i": "4",
+                "id": "4",
                 "name": "Spring 44"
               },
               {
-                "i": "5",
+                "id": "5",
                 "name": "Spring 45"
               },
               {
-                "i": "6",
+                "id": "6",
                 "name": "Spring 46"
               }
             ]
@@ -2719,19 +2719,19 @@
           "groupings": {
             "g": [
               {
-                "i": "4",
+                "id": "4",
                 "name": "Naval Builds"
               },
               {
-                "i": "5",
+                "id": "5",
                 "name": "Other Builds"
               },
               {
-                "i": "6",
+                "id": "6",
                 "name": "Partisans"
               },
               {
-                "i": "7",
+                "id": "7",
                 "name": "Production Partisans"
               }
             ]
@@ -4450,19 +4450,19 @@
           "groupings": {
             "g": [
               {
-                "i": "4",
+                "id": "4",
                 "name": "Naval Builds"
               },
               {
-                "i": "5",
+                "id": "5",
                 "name": "Air Builds"
               },
               {
-                "i": "6",
+                "id": "6",
                 "name": "Ground Builds"
               },
               {
-                "i": "7",
+                "id": "7",
                 "name": "Other Builds"
               }
             ]
@@ -4599,11 +4599,11 @@
           "groupings": {
             "g": [
               {
-                "i": "1",
+                "id": "1",
                 "name": "Partisans"
               },
               {
-                "i": "2",
+                "id": "2",
                 "name": "Production Partisans"
               }
             ]
@@ -5740,19 +5740,19 @@
           "groupings": {
             "g": [
               {
-                "i": "4",
+                "id": "4",
                 "name": "Naval Builds"
               },
               {
-                "i": "5",
+                "id": "5",
                 "name": "Other Builds"
               },
               {
-                "i": "6",
+                "id": "6",
                 "name": "Partisans"
               },
               {
-                "i": "7",
+                "id": "7",
                 "name": "Production Partisans"
               }
             ]
@@ -7847,19 +7847,19 @@
           "groupings": {
             "g": [
               {
-                "i": "4",
+                "id": "4",
                 "name": "Naval Builds"
               },
               {
-                "i": "5",
+                "id": "5",
                 "name": "Air Builds"
               },
               {
-                "i": "6",
+                "id": "6",
                 "name": "Ground Builds"
               },
               {
-                "i": "7",
+                "id": "7",
                 "name": "Additional Counters"
               }
             ]
@@ -8567,11 +8567,11 @@
           "groupings": {
             "g": [
               {
-                "i": "1",
+                "id": "1",
                 "name": "Partisans"
               },
               {
-                "i": "2",
+                "id": "2",
                 "name": "Production Partisans"
               }
             ]
@@ -10265,23 +10265,23 @@
           "groupings": {
             "g": [
               {
-                "i": "2",
+                "id": "2",
                 "name": "Naval Builds"
               },
               {
-                "i": "3",
+                "id": "3",
                 "name": "Air Builds"
               },
               {
-                "i": "4",
+                "id": "4",
                 "name": "Ground Builds"
               },
               {
-                "i": "5",
+                "id": "5",
                 "name": "Additional Counters"
               },
               {
-                "i": "7",
+                "id": "7",
                 "name": "Production Partisans"
               }
             ]
@@ -10571,11 +10571,11 @@
           "groupings": {
             "g": [
               {
-                "i": "1",
+                "id": "1",
                 "name": "Partisans"
               },
               {
-                "i": "2",
+                "id": "2",
                 "name": "Production Partisans"
               }
             ]
@@ -10710,11 +10710,11 @@
           "groupings": {
             "g": [
               {
-                "i": "1",
+                "id": "1",
                 "name": "Partisans"
               },
               {
-                "i": "2",
+                "id": "2",
                 "name": "Production Partisans"
               }
             ]
@@ -10996,11 +10996,11 @@
           "groupings": {
             "g": [
               {
-                "i": "1",
+                "id": "1",
                 "name": "Partisans"
               },
               {
-                "i": "2",
+                "id": "2",
                 "name": "Production Partisans"
               }
             ]
@@ -13750,23 +13750,23 @@
           "groupings": {
             "g": [
               {
-                "i": "5",
+                "id": "5",
                 "name": "Naval Builds"
               },
               {
-                "i": "6",
+                "id": "6",
                 "name": "Air Builds"
               },
               {
-                "i": "7",
+                "id": "7",
                 "name": "Ground Builds"
               },
               {
-                "i": "8",
+                "id": "8",
                 "name": "Additional Counters"
               },
               {
-                "i": "9",
+                "id": "9",
                 "name": "DOW +1"
               }
             ]
@@ -14055,11 +14055,11 @@
           "groupings": {
             "g": [
               {
-                "i": "1",
+                "id": "1",
                 "name": "Partisans"
               },
               {
-                "i": "2",
+                "id": "2",
                 "name": "Production Partisans"
               }
             ]
@@ -14203,11 +14203,11 @@
           "groupings": {
             "g": [
               {
-                "i": "2",
+                "id": "2",
                 "name": "Indian Subversion"
               },
               {
-                "i": "3",
+                "id": "3",
                 "name": "Partisans"
               }
             ]
