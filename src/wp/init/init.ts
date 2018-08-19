@@ -1,4 +1,4 @@
-import { IMapOpts } from '../../atom/mainMap/MainMap';
+import { IMapOpts } from '../../components/mainMap/MainMap';
 import {
   fetchGamefile,
   fetchInitfile

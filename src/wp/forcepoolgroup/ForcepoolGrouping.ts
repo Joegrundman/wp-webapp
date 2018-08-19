@@ -1,11 +1,7 @@
-/**
- *  A group for the forcepool dialog
- */
-
 class ForcepoolGrouping {
 
-  private _id: number;
-  private _name: string;
+  private readonly _id: number;
+  private readonly _name: string;
 
   constructor (id: number = -1, name: string = 'unknown') {
     this._id = id;

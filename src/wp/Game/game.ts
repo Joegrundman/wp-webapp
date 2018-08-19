@@ -1,4 +1,4 @@
-import { IMapOpts } from '../../atom/mainMap/MainMap';
+import { IMapOpts } from '../../components/mainMap/MainMap';
 import Country from '../country/Country';
 import Hex from '../Hex/hex';
 import Map from '../Map/Map';
@@ -291,12 +291,19 @@ class Game {
         // this.handleSelectUnselectInDialog(unit, unitCounter);       
     }
  
-    public switchTheaters () {
+    public switchTheaters (/*mapCanvas?: HTMLCanvasElement, mapCtx?: CanvasRenderingContext2D*/) {
         // WP.Misc.Ui.closeAllDialogs();
         this.selectedUnit = null;
         this.state = 0;
+        this.currentMap.clearAllUnits()
         if (this.currentMap === this.maps[0]) { this.currentMap = this.maps[1]; }
         else { this.currentMap = this.maps[0];}
+        
+        this.currentMap.draw(this.mapCtx);
+        // if(mapCanvas && mapCtx) {
+        //     this.mapCanvas = mapCanvas
+        //     this.mapCtx = mapCtx
+        // }
         // onWindowResize();        
     }
 
@@ -306,25 +313,17 @@ class Game {
     //     game.state = 0;
     //     onWindowResize();
     // }
+   
 
-    /**
-     * toggles unit texture on and off
-     * @param {boolean}  showTexture 
-     */    
-    // public toggleShowUnitTexture (showTexture) {
-    //     if (showTexture) { game.showUnitTexture = true; }
-    //     else { game.showUnitTexture = false; }
-    //     game.refreshCurrentTheater();       
-    // }
     /**
      * toggles swastikas on and off
      * @param {boolean}  noSwastikas 
      */   
-    // public toggleNoSwastikas(noSwastikas) {
-    //     if (noSwastikas) { game.noSwastikas = true }
-    //     else { game.noSwastikas = false }
-    //     game.refreshCurrentTheater();
-    // }
+    public toggleNoSwastikas(noSwastikas: boolean) {
+        if (noSwastikas) { this.noSwastikas = true }
+        else { this.noSwastikas = false }
+        // this.refreshCurrentTheater();
+    }
     
 }
 

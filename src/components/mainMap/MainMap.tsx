@@ -1,5 +1,4 @@
 import * as React from 'react'
-import Game from '../../wp/Game/game'
 
 export interface IMapOpts {
   rect: DOMRect
@@ -7,7 +6,6 @@ export interface IMapOpts {
 interface IMainMapProps {
   url: string
   getMapContext: (mapCanvas: HTMLCanvasElement, mapCtx: CanvasRenderingContext2D | null, opts: any) => void
-  game: Game
 }
 
 interface IMainMapState {
@@ -47,11 +45,16 @@ class MainMap extends React.PureComponent<IMainMapProps, IMainMapState> {
     this.backgroundCanvas = document.getElementById('backgroundCanvas') as HTMLCanvasElement;
     if(this.mapCanvas) {
       this.mapCtx = this.mapCanvas.getContext('2d') as CanvasRenderingContext2D;
-      this.updateMap();
     }
     if(this.backgroundCanvas) {
       this.backgroundCtx = this.backgroundCanvas.getContext('2d') as CanvasRenderingContext2D;
-      this.updateMap();
+      this.updateMap()
+    }
+  }
+
+  public componentDidUpdate(props: IMainMapProps) {
+    if(this.props.url !== props.url) {
+      this.updateMap()
     }
   }
 

@@ -1,36 +1,32 @@
-import * as React from 'react';
-import MainMap, { IMapOpts } from '../../atom/mainMap/MainMap';
-import { urlMapEur, urlMapPac } from '../../constants/ui-constants';
-import { handleKeyboardEvent, handleKeyupEvent }from '../../wp/Eventing/eventing-keyboard';
-import { getGame } from '../../wp/Game';
-import { initialize } from '../../wp/init/init';
-import locals from './Game.css';
+import * as React from 'react'
+import MainMap, { IMapOpts } from '../../components/mainMap/MainMap'
+import { urlMapEur, urlMapPac } from '../../constants/ui-constants'
+import { handleKeyboardEvent, handleKeyupEvent }from '../../wp/Eventing/eventing-keyboard'
+import { getGame } from '../../wp/Game'
+import Game from '../../wp/Game/game'
+import { initialize } from '../../wp/init/init'
+import locals from './Game.css'
+
 interface IGameState {
-  currentMap: string;
-  game: any;
-  mapCanvas: HTMLCanvasElement | null;
-  mapCtx: CanvasRenderingContext2D | null;
+  theater: string
+  mapCanvas: HTMLCanvasElement | null
+  mapCtx: CanvasRenderingContext2D | null
+  initialized: boolean
 }
 
-class Game extends React.Component<{}, IGameState> {
-  public mainMapContainer: React.RefObject<HTMLDivElement>;
+class GameBoard extends React.Component<{}, IGameState> {
+  public mainMapContainer: React.RefObject<HTMLDivElement>
 
    constructor(props: {}) {
-    super(props);
+    super(props)
     this.state = {
-      currentMap: urlMapEur,
-      game: null,
+      initialized: false,
       mapCanvas: null,
       mapCtx: null,
+      theater: urlMapEur,
     }
 
-    this.mainMapContainer = React.createRef();
-  }
-
-  public componentDidMount() {
-    this.setState({
-      game: getGame(),
-    })
+    this.mainMapContainer = React.createRef()
   }
 
   public attachKeyboardEvents() {
@@ -39,17 +35,15 @@ class Game extends React.Component<{}, IGameState> {
   }
 
   public attachMapEvents() {
-    if(!this.state.mapCanvas) {
-      return;
-    }
-		if (this.state.mapCanvas.addEventListener) {
-      console.log('attach event listener to', this.state.game)
-			this.state.mapCanvas.addEventListener('mousemove', this.state.game.currentMap.onMouseMove.bind(this.state.game.currentMap), false);
-      this.state.mapCanvas.addEventListener('mousedown', this.state.game.currentMap.onMouseDown.bind(this.state.game.currentMap), false);
-      this.state.mapCanvas.addEventListener('mouseup', this.state.game.currentMap.onMouseUp.bind(this.state.game.currentMap), false);
-      this.state.mapCanvas.addEventListener('dblclick', this.state.game.currentMap.onDoubleClick.bind(this.state.game.currentMap), false);
+    const game: Game = getGame()
+
+		if (this.state.mapCanvas && this.state.mapCanvas.addEventListener) {
+			this.state.mapCanvas.addEventListener('mousemove', game.currentMap.onMouseMove.bind(game.currentMap), false)
+      this.state.mapCanvas.addEventListener('mousedown', game.currentMap.onMouseDown.bind(game.currentMap), false)
+      this.state.mapCanvas.addEventListener('mouseup', game.currentMap.onMouseUp.bind(game.currentMap), false)
+      this.state.mapCanvas.addEventListener('dblclick', game.currentMap.onDoubleClick.bind(game.currentMap), false)
       if(this.mainMapContainer.current) {
-        this.mainMapContainer.current.addEventListener('scroll', this.state.game.currentMap.onScroll.bind(this.state.game.currentMap), true)
+        this.mainMapContainer.current.addEventListener('scroll', game.currentMap.onScroll.bind(game.currentMap), true)
       }
 		}
 	}
@@ -65,38 +59,42 @@ class Game extends React.Component<{}, IGameState> {
         /**
          * Initialize the wp game instance and start the scripts
          */
-        initialize(this.state.mapCtx, this.state.mapCanvas, opts);
-        this.setState({
-          game: getGame(),
-        },
-         () => {
-          this.attachMapEvents();
-          this.attachKeyboardEvents();
-        });
+        if (!this.state.initialized) {
+          initialize(this.state.mapCtx, this.state.mapCanvas, opts)
+          this.attachMapEvents()
+          this.attachKeyboardEvents()
+          this.setState({
+            initialized: true
+          })}
+        else {
+          getGame().switchTheaters()
+        }  
       }
-    });
+    })
   }
 
   public toggleMap = () => {
-    const isEur = this.state.currentMap === urlMapEur;
+    const isEur = this.state.theater === urlMapEur
+    const theater = isEur ? urlMapPac : urlMapEur
+    
     this.setState({
-      currentMap: isEur ? urlMapPac : urlMapEur
-    });
+      theater
+    })
   }
 
   public render(): JSX.Element {
 
-    const map: string = this.state.currentMap;
+    const map: string = this.state.theater;
 
     return (
       <div className={locals.main}>
         <button onClick={this.toggleMap}>toggle map</button>
           <div ref={this.mainMapContainer} className={locals.mapContainer}>
-            <MainMap game={this.state.game} getMapContext={this.getMapContext} url={map}/>
+            <MainMap getMapContext={this.getMapContext} url={map}/>
           </div>
       </div>
     )
   }
 };
 
-export default Game;
+export default GameBoard

@@ -1,8 +1,7 @@
+import ForcepoolGrouping from '../forcepoolgroup/ForcepoolGrouping'
 import Color from '../misc/Color'
 import Unit from '../unit/unit'
 import getCountryColors, { ICountryColors } from './country-colors'
-// import { loadFlag} from './country-flags'
-import ForcepoolGrouping from './ForcepoolGrouping'
 
 class Country {
     public id: number

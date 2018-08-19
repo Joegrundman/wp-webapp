@@ -1,7 +1,7 @@
+import ForcepoolGrouping from '../forcepoolgroup/ForcepoolGrouping';
 import { IUnitParams } from '../unit/i-unit-params'; 
 import Unit from '../unit/unit';
 import Country from './Country';
-import ForcepoolGrouping from './ForcepoolGrouping';
 
 describe('Country', () => {
   const country: Country = new Country(5, 'Sarkan');

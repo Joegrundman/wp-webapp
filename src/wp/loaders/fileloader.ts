@@ -1,6 +1,6 @@
 import CodebreakingResult from '../codebreaking/CodebreakingResult';
 import Country from '../country/Country';
-import ForcepoolGroup from '../country/ForcepoolGrouping';
+import ForcepoolGroup from '../forcepoolgroup/ForcepoolGrouping';
 import Game from '../Game/game';
 import Hex from '../Hex/hex';
 import Map from '../Map/Map';
@@ -197,9 +197,6 @@ const loadHexes = ((map: Map, hexList: string, game: Game) => {
 const loadMaps = ((mapsData: IFLMapData[], game: Game) => {
   mapsData.forEach((m: IFLMapData) => {
     const id: number = +m.id
-    if(m.current) {
-      game.switchTheaters()
-    }
     const map: Map = game.maps[id];
     loadHexes(map, m.hexes, game);
   });

@@ -1,4 +1,4 @@
-import { IMapOpts } from '../../atom/mainMap/MainMap'
+import { IMapOpts } from '../../components/mainMap/MainMap'
 import game, { getGame } from '../Game'
 import Hex from '../Hex/hex'
 import Point from '../misc/Point'
@@ -292,7 +292,11 @@ class Map {
     
     public draw (ctx: CanvasRenderingContext2D) {
         this.setZoom()
-        this.drawBackground(ctx)  
+        this.drawHexes(ctx)  
+    }
+
+    public clearAllUnits() {
+        this.mapCtx.clearRect(0, 0, this.mapCanvas.width, this.mapCanvas.height);
     }
     
     public setZoom () {
