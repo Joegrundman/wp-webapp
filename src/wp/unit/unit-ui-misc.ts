@@ -74,7 +74,7 @@ export const drawBridgehead = (ctx: CanvasRenderingContext2D, unit: Unit) => {
 	ctx.arc(20.5, 20.5, 13, 0, 3.14, false);
 	ctx.fill();
 	UI.drawEllipse(ctx, 7.5, 7.5, 26, 26, darkBlack, 1.3);
-	UiText.writeGenericText(ctx, unit, "BH", "bold 13px helvetica", 0, 26, darkBlack);
+	UiText.writeGenericText(ctx, unit, "BH", "bold 13px helvetica", 21, 26, darkBlack);
 }
 
 export const drawDamage =  (ctx: CanvasRenderingContext2D, unit: Unit) => {
