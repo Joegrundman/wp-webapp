@@ -41,7 +41,7 @@ class Unit {
     public isDamaged: boolean;
     public highlight: string | null;
     public isEliminated: boolean;
-    public isPacific: boolean;
+    public isPacific: boolean | undefined;
     public isSlow: boolean;
     public isSunk: boolean;
     public isInverted: boolean;
@@ -76,7 +76,7 @@ class Unit {
 
         this.isDamaged = false;
         this.isEliminated = false;
-        this.isPacific = false;
+        this.isPacific = params.isPacific;
         this.highlight = null;
         this.isSlow = !!params.isSlow;
         this.isSunk = !!params.isSunk;
@@ -123,6 +123,7 @@ class Unit {
             id: this.id,
             isDamaged: this.isDamaged,
             isInverted: this.isInverted,
+            isPacific: this.isPacific,
             isSlow: this.isSlow,
             isSunk: this.isSunk,
             movement: this.movement,

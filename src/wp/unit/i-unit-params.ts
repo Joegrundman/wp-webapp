@@ -14,4 +14,5 @@ export interface IUnitParams {
   isInverted?: boolean;
   isExploiting?: boolean;
   isIsolated?: boolean;
+  isPacific?: boolean;
 }

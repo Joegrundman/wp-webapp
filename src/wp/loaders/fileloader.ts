@@ -104,9 +104,10 @@ const loadForcepoolGroup = (fpgs: IForcepoolGroupData[], country: Country) => {
 const loadUnits = (units: IUnitData[], country: Country, game: Game) => {
   units.forEach((u) => {
     let hex: Hex | null = null;
+    let mapId: number | null = null;
     if (u.hex) {
       const unitHex: number[] = u.hex.split('/').map((a) => parseInt(a, 10));
-      const mapId: number = unitHex[0];
+      mapId = unitHex[0];
       const hexId: number = unitHex[1];
       const map: Map = game.maps[mapId];
       hex = map.getHex(hexId);
@@ -119,6 +120,7 @@ const loadUnits = (units: IUnitData[], country: Country, game: Game) => {
       isExploiting: u.exploiting === "1",
       isInverted: u.inverted === "1",
       isIsolated: u.isolated === "1",
+      isPacific: mapId === 1,
       isSlow: u.slow === "1",
       isSunk: u.sunk === "1",
       location: u.loc ? parseInt(u.loc, 10): null,
@@ -126,7 +128,6 @@ const loadUnits = (units: IUnitData[], country: Country, game: Game) => {
       name: u.name,
       strength: parseInt(u.strength, 10),
       type: u.type,
-
     }
     const unit: Unit = new Unit(params);
     country.addUnit(unit);

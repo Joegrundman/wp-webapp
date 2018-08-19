@@ -63,7 +63,6 @@ class GameBoard extends React.Component<{}, IGameState> {
       if (this.mainMapContainer.current) {
         this.mainMapContainer.current.addEventListener('scroll', this.scrollListener, true)
       }
-
     }
   }
 
