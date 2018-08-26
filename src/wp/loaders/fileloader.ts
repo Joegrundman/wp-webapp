@@ -1,116 +1,49 @@
-import CodebreakingResult from '../codebreaking/CodebreakingResult';
-import Country from '../country/Country';
-import ForcepoolGroup from '../forcepoolgroup/ForcepoolGrouping';
-import Game from '../Game/game';
-import Hex from '../Hex/hex';
-import Map from '../Map/Map';
-import Shipyard from '../Shipyard/shipyard';
-import ShipyardUnit from '../Shipyard/shipyard-unit';
-import Taskforce from '../Taskforce/taskforce';
-import TaskforceUnit from '../Taskforce/taskforce-unit';
-import { IUnitParams } from '../unit/i-unit-params';
-import Unit from '../unit/unit';
-import { ICodebreakingData, loadCodebreaking } from'./commonloader';
+import CodebreakingResult from '../codebreaking/CodebreakingResult'
+import Country from '../country/Country'
+import ForcepoolGroup from '../forcepoolgroup/ForcepoolGrouping'
+import Game from '../Game/game'
+import Hex from '../Hex/hex'
+import Map from '../Map/Map'
+import Shipyard from '../Shipyard/shipyard'
+import ShipyardUnit from '../Shipyard/shipyard-unit'
+import Taskforce from '../Taskforce/taskforce'
+import TaskforceUnit from '../Taskforce/taskforce-unit'
+import { IUnitParams } from '../unit/i-unit-params'
+import Unit from '../unit/unit'
+import { loadCodebreaking } from'./commonloader'
+import {
+  ICodebreakingResult,
+  ICountryData,
+  IFLMapData,
+  IFLShipyardData,
+  IFLTaskforceData,
+  IForcepoolGroupData,
+  IGameDetails,
+  IShipyardUnitData,
+  ITaskforceUnitData,
+  IUnitData
+} from './interfaces'
 
-export interface IGameDetails {
-  startingYear: string;
-  startingSeason: string;
-  currentPhaseId: string;
+const loadForcepoolGroup = (fpgs: IForcepoolGroupData[], country: Country): void => {
+  fpgs.forEach((fpg: IForcepoolGroupData): void => {
+    const id: number = parseInt(fpg.id, 10)
+    const name: string = fpg.name
+    const group: ForcepoolGroup = new ForcepoolGroup(id, name)
+    country.addForcepoolGrouping(group)
+  })
 }
 
-export interface ICodebreakingResult {
-  value: string;
-}
-
-export interface IForcepoolGroupData {
-  id: string;
-  name: string;
-}
-
-export interface ICountryData {
-  id: string;
-  name: string;
-  units: { unit: IUnitData[]; }
-  coalition?: string;
-  ally?: string;
-  codebreaking?: ICodebreakingData;
-  groupings?: {
-    g: IForcepoolGroupData[]
-  }
-}
-
-export interface IFLMapData {
-  current?: string;
-  id: string;
-  hexes: string;
-}
-
-export interface IShipyardUnitData {
-  id: string,
-  x: string,
-  y: string
-}
-
-export interface ITaskforceUnitData {
-  id: string,
-  x: string,
-  y: string
-}
-
-export interface IFLShipyardData {
-  owner : string;
-  name: string;
-  rate: string;
-  units?: {
-    unit: IShipyardUnitData[];
-  }
-}
-
-export interface IFLTaskforceData {
-  owner: string;
-  size: string;
-  units?: {
-    unit: ITaskforceUnitData[]
-  }
-}
-
-export interface IUnitData {
-  id: string;
-  fpg: string;
-  type: string;
-  hex?: string;
-  name: string;
-  strength: string;
-  moves?: string;
-  loc?: string;
-  slow?: string;
-  stack: string;
-  sunk?: string;
-  damaged?: string;
-  inverted?: string;
-  exploiting?: string;
-  isolated?: string;
-}
-
-const loadForcepoolGroup = (fpgs: IForcepoolGroupData[], country: Country) => {
-  fpgs.forEach((fpg) => {
-    const id: number = parseInt(fpg.id, 10);
-    const name: string = fpg.name;
-    const group = new ForcepoolGroup(id, name);
-    country.addForcepoolGrouping(group);
-  });
-}
-
-const loadUnits = (units: IUnitData[], country: Country, game: Game) => {
-  units.forEach((u) => {
-    let hex: Hex | null = null;
-    let mapId: number | null = null;
+const loadUnits = (units: IUnitData[], country: Country, game: Game): void => {
+  units.forEach((u: IUnitData): void => {
+    let hex: Hex | null = null
+    let mapId: number | null = null
     if (u.hex) {
-      const unitHex: number[] = u.hex.split('/').map((a) => parseInt(a, 10));
-      mapId = unitHex[0];
-      const hexId: number = unitHex[1];
-      const map: Map = game.maps[mapId];
-      hex = map.getHex(hexId);
+      const unitHex: number[] = u.hex.split('/')
+        .map((a: string): number => parseInt(a, 10))
+      mapId = unitHex[0]
+      const hexId: number = unitHex[1]
+      const map: Map = game.maps[mapId]
+      hex = map.getHex(hexId)
     }
     const params: IUnitParams = {
       fpg: parseInt(u.fpg, 10),
@@ -129,136 +62,135 @@ const loadUnits = (units: IUnitData[], country: Country, game: Game) => {
       strength: parseInt(u.strength, 10),
       type: u.type,
     }
-    const unit: Unit = new Unit(params);
-    country.addUnit(unit);
+    const unit: Unit = new Unit(params)
+    country.addUnit(unit)
     if (hex) {
-      game.addUnitToHex(unit, hex);
+      game.addUnitToHex(unit, hex)
     }
-  });
+  })
 }
 
-const loadCountries = ((countries: ICountryData[], game: Game) => {
-  countries.forEach((cty: ICountryData) => {
-    const id = parseInt(cty.id, 10);
-    const country: Country = game.getCountry(id);
-    country.coalition = cty.coalition ? parseInt(cty.coalition, 10) : null;
+const loadCountries = (countries: ICountryData[], game: Game): void => {
+  countries.forEach((cty: ICountryData): void => {
+    const id: number = parseInt(cty.id, 10)
+    const country: Country = game.getCountry(id)
+    country.coalition = cty.coalition ? parseInt(cty.coalition, 10) : null
     if (cty.ally) {
-      country.ally = game.getCountry(parseInt(cty.ally, 10));
+      country.ally = game.getCountry(parseInt(cty.ally, 10))
     }
     if (cty.codebreaking) {
-      loadCodebreaking(cty.codebreaking, country);
+      loadCodebreaking(cty.codebreaking, country)
     }
 
-    if(cty.units && cty.units.unit) {
-      const unitData: IUnitData[] = cty.units.unit;
-      loadUnits(unitData, country, game);
+    if(cty.units) {
+      const unitData: IUnitData[] = cty.units
+      loadUnits(unitData, country, game)
     }
 
-    if(cty.groupings && cty.groupings.g) {
-      const fpgs: IForcepoolGroupData[] = cty.groupings.g
-      loadForcepoolGroup(fpgs, country);
+    if(cty.groupings) {
+      const fpgs: IForcepoolGroupData[] = cty.groupings
+      loadForcepoolGroup(fpgs, country)
     }
-  });
-});
+  })
+}
 
-const loadCodebreakingResults = (codebreakingResults: ICodebreakingResult[], game: Game) => {
-  codebreakingResults.forEach((cbr: ICodebreakingResult) => {
-    const codebreakingResult = new CodebreakingResult();
-    codebreakingResult.readFrom(cbr.value);
+const loadCodebreakingResults = (codebreakingResults: ICodebreakingResult[], game: Game): void => {
+  codebreakingResults.forEach((cbr: ICodebreakingResult): void => {
+    const codebreakingResult: CodebreakingResult = new CodebreakingResult()
+    codebreakingResult.readFrom(cbr.value)
     game.addCodebreakingResult(CodebreakingResult)
   })
 }
 
-const loadGameDetails = (gameDetails: IGameDetails, game: Game) => {
-  const year: number = parseInt(gameDetails.startingYear, 10);
-  const season: string = gameDetails.startingSeason;
-  const currentPhaseId: number = parseInt(gameDetails.currentPhaseId, 10);
-  game.currentYear = year;
-  game.currentSeason = season;
-  game.currentPhaseId = currentPhaseId;
-  game.setCurrentDate(currentPhaseId, year, season);
+const loadGameDetails = (gameDetails: IGameDetails, game: Game): void => {
+  const year: number = parseInt(gameDetails.startingYear, 10)
+  const season: string = gameDetails.startingSeason
+  const currentPhaseId: number = parseInt(gameDetails.currentPhaseId, 10)
+  game.currentYear = year
+  game.currentSeason = season
+  game.currentPhaseId = currentPhaseId
+  game.setCurrentDate(currentPhaseId, year, season)
 };
 
-const loadHexes = ((map: Map, hexList: string, game: Game) => {
+const loadHexes = (map: Map, hexList: string, game: Game): void => {
   const hexes: string[] = hexList
     .split('/')
-    .filter(x => x !== '');
+    .filter((x:string): boolean => x !== '')
 
-  hexes.forEach((hexData: string, i: number) => {
+  hexes.forEach((hexData: string, i: number): void => {
     const hexDetails: number[] = hexData
       .split('^')
-      .map((d) => parseInt(d.replace(/[io]/, ''), 10));
-    const hex = map.getHex(hexDetails[0]);
-    const owner = game.getCountry(hexDetails[1]);
-    hex.owner = owner;
- 
-  }); 
-});
+      .map((d: string): number => parseInt(d.replace(/[io]/, ''), 10))
 
-const loadMaps = ((mapsData: IFLMapData[], game: Game) => {
-  mapsData.forEach((m: IFLMapData) => {
+    const hex: Hex = map.getHex(hexDetails[0])
+    const owner: Country = game.getCountry(hexDetails[1])
+    hex.owner = owner
+  }) 
+}
+
+const loadMaps = (mapsData: IFLMapData[], game: Game): void => {
+  mapsData.forEach((m: IFLMapData): void => {
     const id: number = +m.id
     const map: Map = game.maps[id];
     loadHexes(map, m.hexes, game);
-  });
-});
-
-const loadShipyardUnits = ((shipyardUnits: IShipyardUnitData[], shipyard: Shipyard, game: Game) => {
-  shipyardUnits.forEach((syu) => {
-    const id = parseInt(syu.id, 10);
-    const x = parseInt(syu.x, 10);
-    const y = parseInt(syu.y, 10);
-    const shipyardUnit = new ShipyardUnit(id, x, y);
-        shipyard.addShipyardUnit(shipyardUnit);
   })
-})
-
-const loadShipyards = (shipyards: IFLShipyardData[], game: Game) => {
-  shipyards.forEach((sy) => {
-    const shipyard: Shipyard = game.getShipyardFromName(sy.name);
-    shipyard.rate = parseInt(sy.rate, 10);
-    if(sy.units && sy.units.unit) {
-      loadShipyardUnits(sy.units.unit, shipyard, game);
-    }
-  });
 }
 
-const loadTaskforceUnits = ((taskforceUnits: ITaskforceUnitData[], taskforce: Taskforce, game: Game) => {
-  taskforceUnits.forEach((tfu) => {
-    const id = parseInt(tfu.id, 10);
-    const x = parseInt(tfu.x, 10);
-    const y = parseInt(tfu.y, 10);
-    const taskforceUnit = new TaskforceUnit(id, x, y);
-        taskforce.addTaskforceUnit(taskforceUnit);
+const loadShipyardUnits = (shipyardUnits: IShipyardUnitData[], shipyard: Shipyard, game: Game): void => {
+  shipyardUnits.forEach((syu: IShipyardUnitData): void => {
+    const id: number = parseInt(syu.id, 10)
+    const x: number = parseInt(syu.x, 10)
+    const y: number = parseInt(syu.y, 10)
+    const shipyardUnit: ShipyardUnit = new ShipyardUnit(id, x, y);
+        shipyard.addShipyardUnit(shipyardUnit)
   })
-})
+}
 
-const loadTaskforces = ((taskforces: IFLTaskforceData[], game: Game) => {
-  taskforces.forEach((tf: IFLTaskforceData) => {
-    const owner = tf.owner;
-    const taskforce = game.getTaskforceFromOwner(owner);
-    if (tf.units && tf.units.unit) {
-      loadTaskforceUnits(tf.units.unit, taskforce, game);
+const loadShipyards = (shipyards: IFLShipyardData[], game: Game): void => {
+  shipyards.forEach((sy: IFLShipyardData): void => {
+    const shipyard: Shipyard = game.getShipyardFromName(sy.name)
+    shipyard.rate = parseInt(sy.rate, 10)
+    if(sy.units) {
+      loadShipyardUnits(sy.units, shipyard, game);
     }
-  });
-});
+  })
+}
+
+const loadTaskforceUnits = (taskforceUnits: ITaskforceUnitData[], taskforce: Taskforce, game: Game): void => {
+  taskforceUnits.forEach((tfu: ITaskforceUnitData): void => {
+    const id: number = parseInt(tfu.id, 10)
+    const x: number = parseInt(tfu.x, 10)
+    const y: number = parseInt(tfu.y, 10)
+    const taskforceUnit: TaskforceUnit = new TaskforceUnit(id, x, y)
+        taskforce.addTaskforceUnit(taskforceUnit)
+  })
+}
+
+const loadTaskforces = (taskforces: IFLTaskforceData[], game: Game): void => {
+  taskforces.forEach((tf: IFLTaskforceData): void => {
+    const taskforce: Taskforce = game.getTaskforceFromOwner(tf.owner);
+    if (tf.units) {
+      loadTaskforceUnits(tf.units, taskforce, game);
+    }
+  })
+}
 
 export default ((gamefile: any, game: Game): void => {
   const gameDetails: IGameDetails = {
-    currentPhaseId: gamefile.game.currentPhaseId ? gamefile.game.currentPhaseId : '0',
-    startingSeason: gamefile.game.startingSeason,
-    startingYear: gamefile.game.startingYear,
+    currentPhaseId: gamefile.currentPhaseId ? gamefile.currentPhaseId : '0',
+    startingSeason: gamefile.startingSeason,
+    startingYear: gamefile.startingYear,
   }
-  const codebreakingResults: ICodebreakingResult[] = gamefile.game.codebreaking_history.codebreaking;
-  const countries: ICountryData[] = gamefile.game.countries.country;
-  const maps: IFLMapData[] = gamefile.game.maps.map;
-  const shipyards: IFLShipyardData[] = gamefile.game.shipyards.shipyard;
-  const taskforces: IFLTaskforceData[] = gamefile.game.taskforces.taskforce;
+  const codebreakingResults: ICodebreakingResult[] = gamefile.codebreakingHistory
+  const countries: ICountryData[] = gamefile.countries
+  const maps: IFLMapData[] = gamefile.maps
+  const shipyards: IFLShipyardData[] = gamefile.shipyards
+  const taskforces: IFLTaskforceData[] = gamefile.taskforces
 
-  loadGameDetails(gameDetails, game);
-  loadCodebreakingResults(codebreakingResults, game);
-  loadCountries(countries, game);
+  loadGameDetails(gameDetails, game)
+  loadCodebreakingResults(codebreakingResults, game)
+  loadCountries(countries, game)
   loadMaps(maps, game)
-  loadShipyards(shipyards, game);
-  loadTaskforces(taskforces, game);
-});
+  loadShipyards(shipyards, game)
+  loadTaskforces(taskforces, game)
+})

@@ -1,14 +1,27 @@
-'use strict';
 import { IUnitParams } from './i-unit-params';
 import Unit from './unit';
 
 class AirUnit extends Unit {
-  public isInverted: boolean;
-  public factorable: boolean;
+
+  private _isInverted: boolean;
+  private readonly _factorable: boolean;
+
   constructor(params: IUnitParams) {
     super(params);
-    this.isInverted = !!params.isInverted;
-    this.factorable = true;
+    this._isInverted = !!params.isInverted;
+    this._factorable = true;
+  }
+
+  public get isInverted (): boolean {
+    return this._isInverted
+  }
+
+  public set isInverted (value: boolean) {
+    this._isInverted = value
+  }
+
+  public get factorable (): boolean {
+    return this._factorable
   }
 }
 

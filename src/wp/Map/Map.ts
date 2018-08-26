@@ -229,7 +229,7 @@ class Map {
         const unit: Unit | null = this.currentHex ? this.currentHex.getTopUnit() : null
         
         getGame().setSelectedUnit(unit)
-        console.log('selectUnit', unit)
+        // console.log('selectUnit', unit)
     }
 
     public drawBackground (mapCtx: CanvasRenderingContext2D) {
