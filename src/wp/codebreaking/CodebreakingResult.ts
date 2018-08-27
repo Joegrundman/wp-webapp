@@ -1,4 +1,4 @@
-import { toIntArray } from '../misc/convert';
+import { toIntArray } from 'Misc/convert';
 
 class CodebreakingResult {
   public year: number;

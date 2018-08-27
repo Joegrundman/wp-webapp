@@ -1,4 +1,4 @@
-import Unit from '../unit/unit';
+import Unit from 'Unit/unit';
 import TaskforceUnit from './taskforce-unit';
 
 class Taskforce {

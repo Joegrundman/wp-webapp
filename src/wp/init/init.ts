@@ -1,16 +1,11 @@
-import { IMapOpts } from '../../components/mainMap/MainMap';
+import { IMapOpts } from 'Components/mainMap/MainMap';
+import Game from 'Game/game';
+import fileLoader from 'Loaders/fileloader';
+import initLoader from 'Loaders/initloader';
 import {
   fetchGamefile,
   fetchInitfile
-} from '../../services/gamefile';
-import loadCanvasExtensions from '../canvas/canvas-extensions';
-import Game from '../Game/game';
-import fileLoader from '../loaders/fileloader';
-import initLoader from '../loaders/initloader';
-
-
-loadCanvasExtensions();
-
+} from 'Services/gamefile';
 
 export let game: Game;
 

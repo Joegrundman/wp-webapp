@@ -1,9 +1,10 @@
-import Country from '../country/Country'
+import Country from 'Country/Country'
+import Map from 'Map/Map'
+import { toAscii } from 'Misc/convert'
+import Point from 'Misc/Point'
+import Unit from 'Unit/unit'
+import { drawUnits } from 'Unit/unit-ui';
 import { getGame } from '../Game';
-import Map from '../Map/Map'
-import { toAscii } from '../misc/convert'
-import Point from '../misc/Point'
-import Unit from '../unit/unit'
 import { setHexZoom } from './hex-ui'
 
 class Hex {
@@ -139,7 +140,7 @@ class Hex {
         // }
 
         if (this.units.length > 0) {
-            ctx.drawUnits(this.units, this.unitStartPoint.x, this.unitStartPoint.y)
+            drawUnits(ctx, this.units, this.unitStartPoint.x, this.unitStartPoint.y)
         }
     }
 

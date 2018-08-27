@@ -1,4 +1,4 @@
-import Color from '../misc/Color';
+import Color from 'Misc/Color';
 
 export interface ICountryColors {
 	back: Color;

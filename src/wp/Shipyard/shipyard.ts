@@ -1,4 +1,4 @@
-import Unit from '../unit/unit';
+import Unit from 'Unit/unit';
 import ShipyardUnit from './shipyard-unit';
 
 class Shipyard {

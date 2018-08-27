@@ -1,5 +1,5 @@
-import adjust from '../misc/adjust';
-import Point from '../misc/Point';
+import adjust from 'Misc/adjust';
+import Point from 'Misc/Point';
 import Hex from './hex';
 
 export const setHexZoom = (hex: Hex) => {

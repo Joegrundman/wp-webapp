@@ -1,5 +1,3 @@
-'use strict'
-
 class TaskforceUnit {
     public id: number;
     public x: number;

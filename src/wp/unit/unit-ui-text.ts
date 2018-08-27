@@ -1,4 +1,4 @@
-import Color from '../misc/Color';
+import Color from 'Misc/Color';
 import Unit from './unit';
 import { drawShape } from './unit-ui';
 

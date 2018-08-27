@@ -1,4 +1,4 @@
-import Color from '../misc/Color';
+import Color from 'Misc/Color';
 import Unit from './unit';
 import * as UI from './unit-ui';
 import * as Misc from './unit-ui-misc';

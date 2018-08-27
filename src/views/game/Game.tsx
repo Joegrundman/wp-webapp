@@ -1,10 +1,10 @@
+import MainMap, { IMapOpts } from 'Components/mainMap/MainMap'
+import { urlMapEur, urlMapPac } from 'Constants/ui-constants'
 import * as React from 'react'
-import MainMap, { IMapOpts } from '../../components/mainMap/MainMap'
-import { urlMapEur, urlMapPac } from '../../constants/ui-constants'
-import { handleKeyboardEvent, handleKeyupEvent } from '../../wp/Eventing/eventing-keyboard'
-import { getGame } from '../../wp/Game'
-import Game from '../../wp/Game/game'
-import { initialize } from '../../wp/init/init'
+import { handleKeyboardEvent, handleKeyupEvent } from 'Wp/Eventing/eventing-keyboard'
+import { getGame } from 'Wp/Game'
+import Game from 'Wp/Game/game'
+import { initialize } from 'Wp/init/init'
 import locals from './Game.css'
 
 interface IGameState {

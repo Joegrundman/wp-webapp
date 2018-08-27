@@ -5,13 +5,6 @@
       true,
       "allow-leading-underscore"
     ],
-    /*
-    "no-console": [
-      true,
-      "log",
-      "error"
-    ]
-    */
     "no-console": {
       "severity": "warning",
       "options": [

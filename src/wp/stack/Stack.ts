@@ -1,5 +1,4 @@
-'use strict';
-import Unit from '../unit/unit'
+import Unit from 'Unit/unit'
 
 /**
  * A unit stack is an array of units that will be drawn one on top of the other

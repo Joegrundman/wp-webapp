@@ -1,5 +1,5 @@
-import { unitArc } from '../../constants/game/unit-constants';
-import Color from '../misc/Color';
+import { unitArc } from 'Constants/game/unit-constants';
+import Color from 'Misc/Color';
 import Unit from './unit';
 
 export const drawBase = (ctx: CanvasRenderingContext2D, unit: Unit): void => {
@@ -177,6 +177,25 @@ export const drawRoundRect = (ctx: CanvasRenderingContext2D, sx: number, sy: num
 	ctx.closePath();
 };
 
+export const drawShadow =  (ctx: CanvasRenderingContext2D, sx: number, sy: number, ex: number, ey: number, r: number): void => {
+	const r2d: number = Math.PI / 180;
+	if ((ex - sx) - (2 * r) < 0) { r = ((ex - sx) / 2); } // ensure that the radius isn't too large for x
+	if ((ey - sy) - (2 * r) < 0) { r = ((ey - sy) / 2); } // ensure that the radius isn't too large for y
+	sx = Math.floor(sx);
+	sy = Math.floor(sy);
+	ex = Math.floor(ex);
+	ey = Math.floor(ey);
+	r = Math.floor(r);
+	ctx.beginPath();
+	ctx.moveTo(ex - r, sy);
+	ctx.arc(ex - r, sy + r, r, r2d * 270, r2d * 360, false);
+	ctx.lineTo(ex, ey - r);
+	ctx.arc(ex - r, ey - r, r, r2d * 0, r2d * 90, false);
+	ctx.lineTo(sx + r, ey);
+	ctx.arc(sx + r, ey - r, r, r2d * 90, r2d * 180, false);
+	ctx.closePath();
+}	
+
 export const getShadowColor = (color: Color) => {
 	const mod: number = 30;
 	const red: number = Math.max(0, color.red - mod);
@@ -306,4 +325,39 @@ export const getHighlightColor = (color: Color): Color => {
 	if (g > 255) { g = 255; }
 	if (b > 255) { b = 255; }
 	return new Color(r, g, b);
+}
+
+export const drawUnits = (ctx: CanvasRenderingContext2D, units: Unit[], x: number, y: number, hideUnits: boolean = false, zoomLevel: number = 1): void => {
+	if (hideUnits || !units || units.length < 1) { return; }
+
+	const adjust = (value: number): number => value * zoomLevel;
+
+	const count: number = units.length;
+	let start: number = 0;
+	if (count > 5) {
+		start = units.length - 5;
+	}
+
+	const size: number = units[0].size;
+	let stagger: number = adjust(10);
+	const displayed: number = count - start;
+	if (displayed > 1) {
+		let height: number = ((displayed - 1) * stagger) + size;
+
+		while (height > adjust(50)) {
+			stagger -= 1;
+			height = ((displayed - 1) * stagger) + size;
+		}
+
+		x += (stagger / 2);
+		y += (stagger / 2);
+		if (displayed > 2) { y++; }
+	}
+
+	let i: number = start;
+	while (i < count) {
+		units[i++].draw(ctx, x, y);
+		x -= stagger;
+		y -= stagger;
+	}
 }

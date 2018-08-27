@@ -1,5 +1,5 @@
-import Shipyard from '../Shipyard/shipyard'
-import Taskforce from '../Taskforce/taskforce'
+import Shipyard from 'Shipyard/shipyard'
+import Taskforce from 'Taskforce/taskforce'
 import { IUnitParams } from './i-unit-params'
 import Unit from './unit'
 

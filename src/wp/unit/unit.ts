@@ -8,10 +8,10 @@ import {
     lendableUnitTypes,
     sinkableUnitTypes,
     unitPxSize
-} from '../../constants/game/unit-constants';
-import Country from '../country/Country';
-import Hex from '../Hex/hex';
-import Stack from '../stack/Stack';
+} from 'Constants/game/unit-constants';
+import Country from 'Country/Country';
+import Hex from 'Hex/hex';
+import Stack from 'Stack/Stack';
 import { IUnitParams } from './i-unit-params';
 import drawUnit from './unit-mapping';
 import { drawBase } from './unit-ui';

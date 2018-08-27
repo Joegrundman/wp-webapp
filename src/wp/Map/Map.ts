@@ -1,9 +1,9 @@
-import { IMapOpts } from '../../components/mainMap/MainMap'
+import { IMapOpts } from 'Components/mainMap/MainMap'
+import Hex from 'Hex/hex'
+import Point from 'Misc/Point'
+import Stack from 'Stack/Stack'
+import Unit from 'Unit/unit'
 import game, { getGame } from '../Game'
-import Hex from '../Hex/hex'
-import Point from '../misc/Point'
-import Stack from '../stack/Stack'
-import Unit from '../unit/unit'
 
 interface IDialog {
     unitHolder: {

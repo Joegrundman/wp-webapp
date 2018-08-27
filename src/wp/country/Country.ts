@@ -1,6 +1,6 @@
-import ForcepoolGrouping from '../forcepoolgroup/ForcepoolGrouping'
-import Color from '../misc/Color'
-import Unit from '../unit/unit'
+import ForcepoolGrouping from 'ForcepoolGroup/ForcepoolGrouping'
+import Color from 'Misc/Color'
+import Unit from 'Unit/unit'
 import getCountryColors, { ICountryColors } from './country-colors'
 
 class Country {

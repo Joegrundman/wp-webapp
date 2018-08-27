@@ -1,5 +1,5 @@
-import Codebreaking from '../codebreaking/Codebreaking'
-import Country from '../country/Country'
+import Codebreaking from 'Codebreaking/Codebreaking'
+import Country from 'Country/Country'
 import { ICodebreakingData } from './interfaces'
 
 

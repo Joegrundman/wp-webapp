@@ -1,9 +1,9 @@
-import Country from '../country/Country'
-import { loadFlag } from '../country/country-flags'
-import Game from '../Game/game'
-import Map from '../Map/Map'
-import Shipyard from '../Shipyard/shipyard'
-import Taskforce from '../Taskforce/taskforce'
+import Country from 'Country/Country'
+import { loadFlag } from 'Country/country-flags'
+import Game from 'Game/game'
+import Map from 'Map/Map'
+import Shipyard from 'Shipyard/shipyard'
+import Taskforce from 'Taskforce/taskforce'
 import { loadCodebreaking } from'./commonloader'
 import {
   ICountryData,

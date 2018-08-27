@@ -1,7 +1,7 @@
+import Hex from 'Hex/hex'
+import Map from 'Map/Map'
+import Unit from 'Unit/unit'
 import { getGame } from '../Game'
-import Hex from '../Hex/hex'
-import Map from '../Map/Map'
-import Unit from '../unit/unit'
 
 type KeyboardEventHandler = (
   unit: Unit | null,

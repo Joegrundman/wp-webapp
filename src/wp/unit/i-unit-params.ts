@@ -1,4 +1,4 @@
-import Hex from '../Hex/hex';
+import Hex from 'Hex/hex';
 export interface IUnitParams {
   id: number;
   fpg: number;

@@ -1,4 +1,4 @@
-import { getRelativePosition } from '../Map/map-mouse';
+import { getRelativePosition } from 'Map/map-mouse';
 import Point from './Point';
 
 

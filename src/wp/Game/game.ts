@@ -1,12 +1,12 @@
-import { IMapOpts } from '../../components/mainMap/MainMap';
-import Country from '../country/Country';
-import Hex from '../Hex/hex';
-import Map from '../Map/Map';
-import Phase from '../Phase/phase';
-import Shipyard from '../Shipyard/shipyard';
-import ShipyardUnit from '../Shipyard/shipyard-unit';
-import Taskforce from '../Taskforce/taskforce';
-import Unit from '../unit/unit';
+import { IMapOpts } from 'Components/mainMap/MainMap';
+import Country from 'Country/Country';
+import Hex from 'Hex/hex';
+import Map from 'Map/Map';
+import Phase from 'Phase/phase';
+import Shipyard from 'Shipyard/shipyard';
+import ShipyardUnit from 'Shipyard/shipyard-unit';
+import Taskforce from 'Taskforce/taskforce';
+import Unit from 'Unit/unit';
 
 class Game {
     public mapCtx: CanvasRenderingContext2D;
