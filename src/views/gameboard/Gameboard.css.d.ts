@@ -1,10 +1,10 @@
-export interface IGameCss {
+export interface IGameboardCss {
   'main': string;
   'mapContainer': string;
   'mapEur': string;
   'mapPac': string;
 }
 
-export const locals: IGameCss;
+export const locals: IGameboardCss;
 
 export default locals;

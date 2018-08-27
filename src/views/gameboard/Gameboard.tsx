@@ -1,15 +1,17 @@
 import MainMap, { IMapOpts } from 'Components/mainMap/MainMap'
 import { urlMapEur, urlMapPac } from 'Constants/ui-constants'
+import Game from 'Game/game'
+import { initialize } from 'Init/init'
 import * as React from 'react'
+import locals from 'Views/gameboard/Gameboard.css'
 import { handleKeyboardEvent, handleKeyupEvent } from 'Wp/Eventing/eventing-keyboard'
 import { getGame } from 'Wp/Game'
-import Game from 'Wp/Game/game'
-import { initialize } from 'Wp/init/init'
-import locals from './Game.css'
 
 interface IGameState {
   theater: string
   initialized: boolean
+  windowWidth: number
+  windowHeight: number
 }
 
 class GameBoard extends React.Component<{}, IGameState> {
@@ -29,6 +31,8 @@ class GameBoard extends React.Component<{}, IGameState> {
     this.state = {
       initialized: false,
       theater: urlMapEur,
+      windowHeight: 0,
+      windowWidth: 0,
     }
 
     this.game = null
@@ -40,7 +44,19 @@ class GameBoard extends React.Component<{}, IGameState> {
     this.mouseMoveListener = null
     this.mouseUpListener = null
     this.scrollListener = null
+    
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
+
+  public componentDidMount(): void {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+  
+  public componentWillUnmount(): void {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
 
   public attachKeyboardEvents() {
     window.addEventListener('keydown', (e: KeyboardEvent) => handleKeyboardEvent(e.keyCode))
@@ -114,6 +130,11 @@ class GameBoard extends React.Component<{}, IGameState> {
     })
   }
 
+  public updateWindowDimensions() {
+    this.setState({ windowWidth: window.innerWidth, windowHeight: window.innerHeight });
+  }
+
+
   public render(): JSX.Element {
 
     const map: string = this.state.theater;
@@ -121,7 +142,12 @@ class GameBoard extends React.Component<{}, IGameState> {
     return (
       <div className={locals.main}>
         <button onClick={this.toggleMap}>toggle map</button>
-        <div ref={this.mainMapContainer} className={locals.mapContainer}>
+        <div ref={this.mainMapContainer} 
+          style={{
+            height: `${this.state.windowHeight - 120}px`,
+            width: `${this.state.windowWidth - 60}px`
+          }}
+          className={locals.mapContainer}>
           <MainMap getMapContext={this.getMapContext} url={map} />
         </div>
       </div>
