@@ -1,11 +1,12 @@
 import * as React from 'react'
+import Sidebuttons from '../sidebuttons/Sidebuttons'
 import locals from './Sidebar.css'
 
 class Sidebar extends React.Component {
   public render () {
     return (
       <div className={locals.container} >
-        {this.props.children}
+        <Sidebuttons />
       </div>
     )
   }
