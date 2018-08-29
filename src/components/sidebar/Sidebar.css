@@ -1,0 +1,10 @@
+.container {
+  position: fixed;
+  width: 60px;
+  height: 100%;
+  top: 60px;
+  left: 0;
+  background-color: #343434;
+  z-index: 1;
+  overflow-x: hidden
+}

@@ -1,4 +1,5 @@
 import Header from 'Components/header/Header'
+import Sidebar from 'Components/sidebar/Sidebar'
 import * as React from 'react'
 import GameBoard from 'Views/gameboard/Gameboard'
 import locals from './App.css'
@@ -8,7 +9,10 @@ class App extends React.Component {
     return (
       <div className={locals.App}>
         <Header />
-        <GameBoard />
+        <div>
+          <Sidebar />
+          <GameBoard />       
+        </div>
       </div>
     );
   }

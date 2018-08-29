@@ -42,7 +42,7 @@
       "Stack/*": ["src/wp/stack/*"],
       "Taskforce/*": ["src/wp/Taskforce/*"],
       "Unit/*": ["src/wp/unit/*"],
-      "Util/*": ["src/wp/util/*"],
+      "Util/*": ["src/wp/util/*"]
     }
   },
   "exclude": [

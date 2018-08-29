@@ -3,9 +3,9 @@ import { urlMapEur, urlMapPac } from 'Constants/ui-constants'
 import Game from 'Game/game'
 import { initialize } from 'Init/init'
 import * as React from 'react'
-import locals from 'Views/gameboard/Gameboard.css'
 import { handleKeyboardEvent, handleKeyupEvent } from 'Wp/Eventing/eventing-keyboard'
 import { getGame } from 'Wp/Game'
+import locals from './Gameboard.css'
 
 interface IGameState {
   theater: string

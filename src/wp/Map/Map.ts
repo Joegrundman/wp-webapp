@@ -87,8 +87,6 @@ class Map {
         }
         
         hex.addOrCombineUnit(unit)
-        // hex.clear();
-        // hex.draw();
         dialog.removeUnitFrom(dialog, unit) 
         const topUnit = stack.getTopUnit();
         if(topUnit) {
@@ -185,7 +183,7 @@ class Map {
     }
 
     public setCurrentHex = (evt: MouseEvent) => {
-        const x: number = evt.x + this.scrollLeft
+        const x: number = evt.x - this.mapOpts.rect.left + this.scrollLeft
         const y: number = evt.y - this.mapOpts.rect.top + this.scrollTop
 
         const point: Point = new Point(x, y)
@@ -235,56 +233,6 @@ class Map {
     public drawBackground (mapCtx: CanvasRenderingContext2D) {
         this.drawHexes(mapCtx)
     }
-    
-    // public drawBackground (mapCtx: CanvasRenderingContext2D) {
-        // var mapImage = new Image()
-        // var map = this
-        
-        // mapImage.crossOrigin = "Anonymous"
-
-        // mapImage.onload = function() {
-        //     var mapDiv = $("#mapDiv")
-        //     var menuDiv = $("#menuDiv")
-
-        //     // mapDiv.hide()
-        //     // menuDiv.hide()
-        //     map.width = mapImage.width
-        //     map.height = mapImage.height
-
-        //     WP.Canvas.resizeCanvas(mapCanvas, map)
-        //     WP.Canvas.resizeCanvas(backgroundCanvas, map)
-
-        //     backgroundCtx.drawImage(mapImage, 0, 0, map.width, map.height)
-
-        //     if(WP.Misc.Ui.isiPad() || WP.Misc.Ui.isiPod()) {
-        //             mapCtx.drawImage(mapImage, 0, 0, mapDiv.width(), mapDiv.height(), 0, 0, mapDiv.width(), mapDiv.height())
-        //     } else {
-        //     $('#mapBackgroundDiv').css("background-image", "url(" + url + ")")
-        // }
-
-        // this.drawHexes(mapCtx)
-        // mapNav.refresh()
-
-        // var mapBackgroundDiv = $("#mapBackgroundDiv")
-        // mapBackgroundDiv.height(mapImage.height)
-        // mapBackgroundDiv.width(mapImage.width)
-
-        // mapDiv.show()
-
-        // scrollDivRight(getCookie("rightscroll"))
-        // scrollDivDown(getCookie("downscroll"))
-        // }
-        // this line assumes the main maps are in the Content/Maps folder, and not from cdn
-        // var url = "/Content/Maps/WP" + this.theater + (game.zoomLevel *10) + ".jpg"
-        // var url = ''
-        // if (this.theater == 'euro') {
-        //     url = "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg"
-        // } else {
-        //     url = "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179470/evnyvf9x1ehyxt3ksrkp.jpg"
-        // }
-        
-        // mapImage.src = url
-    // }
     
     public drawHexes (ctx: CanvasRenderingContext2D) {
        this.hexes.forEach(h => h.draw(ctx))
