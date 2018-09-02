@@ -128,6 +128,7 @@ class GameBoard extends React.Component<IGameProps, IGameState> {
   }
   
   public toggleTheater = (): void => {
+    this.removeMapEvents()
     this.props.store.toggleTheater()
   }
 
