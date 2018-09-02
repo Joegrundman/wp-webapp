@@ -1,12 +1,17 @@
 import * as React from 'react'
+import locals from './Sidebutton.css'
 
 interface ISideButtonProps {
   image: string
-  action: () => void
+  action: () => any
+  children?: React.ReactNode
 }
 
-const sidebutton: React.SFC<ISideButtonProps> = ({image, action}): JSX.Element => (
-  <button style={{ background: `url(${image})`, height: '48px', width: '48px', border: 'none' }} onClick={action}/>
+const Sidebutton: React.SFC<ISideButtonProps> = ({ image, action }): JSX.Element => (
+  <button
+    className={locals.button}
+    style={{ background: `url(${image})`}}
+    onClick={action}/>
 )
 
-export default sidebutton
+export default Sidebutton

@@ -1,12 +1,16 @@
 import * as React from 'react'
-import Sidebuttons from '../sidebuttons/Sidebuttons'
+import GameStore from 'Stores/GameStore'
+import SwitchTheaterButton from '../sidebuttons/SwitchTheaterButton'
 import locals from './Sidebar.css'
 
-class Sidebar extends React.Component {
+interface ISidebarProps {
+  store: GameStore
+}
+class Sidebar extends React.Component<ISidebarProps> {
   public render () {
     return (
       <div className={locals.container} >
-        <Sidebuttons />
+        <SwitchTheaterButton store={this.props.store}/>
       </div>
     )
   }

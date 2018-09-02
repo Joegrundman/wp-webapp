@@ -1,20 +1,25 @@
 import MainMap, { IMapOpts } from 'Components/mainMap/MainMap'
-import { urlMapEur, urlMapPac } from 'Constants/ui-constants'
 import Game from 'Game/game'
 import { initialize } from 'Init/init'
+import { observer } from 'mobx-react'
 import * as React from 'react'
+import GameStore from 'Stores/GameStore'
 import { handleKeyboardEvent, handleKeyupEvent } from 'Wp/Eventing/eventing-keyboard'
 import { getGame } from 'Wp/Game'
 import locals from './Gameboard.css'
 
 interface IGameState {
-  theater: string
   initialized: boolean
   windowWidth: number
   windowHeight: number
 }
 
-class GameBoard extends React.Component<{}, IGameState> {
+interface IGameProps {
+  store: GameStore
+}
+
+@observer
+class GameBoard extends React.Component<IGameProps, IGameState> {
   public mainMapContainer: React.RefObject<HTMLDivElement>
   public game: Game | null
   public mapCanvas: HTMLCanvasElement | null
@@ -24,13 +29,12 @@ class GameBoard extends React.Component<{}, IGameState> {
   public mouseMoveListener: EventListenerOrEventListenerObject | null
   public mouseUpListener: EventListenerOrEventListenerObject | null
   public scrollListener: EventListenerOrEventListenerObject | null
-
-  constructor(props: {}) {
+  
+  constructor(props: IGameProps) {
     super(props)
 
     this.state = {
       initialized: false,
-      theater: urlMapEur,
       windowHeight: 0,
       windowWidth: 0,
     }
@@ -45,25 +49,24 @@ class GameBoard extends React.Component<{}, IGameState> {
     this.mouseUpListener = null
     this.scrollListener = null
     
-    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
   }
 
   public componentDidMount(): void {
-    this.updateWindowDimensions();
-    window.addEventListener('resize', this.updateWindowDimensions);
+    this.updateWindowDimensions()
+    window.addEventListener('resize', this.updateWindowDimensions)
   }
   
   public componentWillUnmount(): void {
-    window.removeEventListener('resize', this.updateWindowDimensions);
+    window.removeEventListener('resize', this.updateWindowDimensions)
   }
 
-
-  public attachKeyboardEvents() {
-    window.addEventListener('keydown', (e: KeyboardEvent) => handleKeyboardEvent(e.keyCode))
-    window.addEventListener('keyup', (e: KeyboardEvent) => handleKeyupEvent())
+  public attachKeyboardEvents(): void {
+    window.addEventListener('keydown', (e: KeyboardEvent): void => handleKeyboardEvent(e.keyCode))
+    window.addEventListener('keyup', (e: KeyboardEvent): void => handleKeyupEvent())
   }
 
-  public attachMapEvents() {
+  public attachMapEvents(): void {
 
     if (this.game && this.mapCanvas && this.mapCanvas.addEventListener) {
       this.mouseDownListener = this.game.currentMap.onMouseDown.bind(this.game.currentMap) as EventListenerOrEventListenerObject
@@ -97,7 +100,10 @@ class GameBoard extends React.Component<{}, IGameState> {
 
   }
 
-  public getMapContext = (mapCanvas: HTMLCanvasElement, mapCtx: CanvasRenderingContext2D, opts: IMapOpts) => {
+  public getMapContext = (
+    mapCanvas: HTMLCanvasElement,
+    mapCtx: CanvasRenderingContext2D,
+    opts: IMapOpts): void => {
     this.mapCanvas = mapCanvas
     this.mapCtx = mapCtx
 
@@ -120,35 +126,26 @@ class GameBoard extends React.Component<{}, IGameState> {
       }
     }
   }
-
-  public toggleMap = () => {
-    const isEur = this.state.theater === urlMapEur
-    const theater = isEur ? urlMapPac : urlMapEur
-    this.removeMapEvents()
-    this.setState({
-      theater
-    })
+  
+  public toggleTheater = (): void => {
+    this.props.store.toggleTheater()
   }
 
-  public updateWindowDimensions() {
+  public updateWindowDimensions(): void {
     this.setState({ windowWidth: window.innerWidth, windowHeight: window.innerHeight });
   }
 
-
   public render(): JSX.Element {
-
-    const map: string = this.state.theater;
 
     return (
       <div className={locals.main}>
-        <button onClick={this.toggleMap}>toggle map</button>
         <div ref={this.mainMapContainer} 
           style={{
             height: `${this.state.windowHeight - 120}px`,
             width: `${this.state.windowWidth - 60}px`
           }}
           className={locals.mapContainer}>
-          <MainMap getMapContext={this.getMapContext} url={map} />
+          <MainMap getMapContext={this.getMapContext} url={this.props.store.theater} />
         </div>
       </div>
     )

@@ -73,7 +73,7 @@ class Hex {
         unit.hex = this
     }
 
-    public addOrCombineUnit (unit: Unit) {
+    public addOrCombineUnit (unit: Unit): void {
         for(const thisUnit of this.units) {
             if (unit.canCombineWith(thisUnit)) {
                 thisUnit.strength += unit.strength
