@@ -1,5 +1,6 @@
 import * as React from 'react'
 import GameStore from 'Stores/GameStore'
+import ShowShipyardButton from '../sidebuttons/ShowShipyardButton'
 import SwitchTheaterButton from '../sidebuttons/SwitchTheaterButton'
 import locals from './Sidebar.css'
 
@@ -11,6 +12,7 @@ class Sidebar extends React.Component<ISidebarProps> {
     return (
       <div className={locals.container} >
         <SwitchTheaterButton store={this.props.store}/>
+        <ShowShipyardButton store={this.props.store}/>
       </div>
     )
   }

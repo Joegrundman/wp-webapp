@@ -1,4 +1,4 @@
-import switchTheaterImg from 'Assets/Buttons/switchTheaters.png'
+import showShipyardImg from 'Assets/Buttons/shipyards.png'
 import Sidebutton from 'Atoms/sidebutton/Sidebutton'
 import * as React from 'react'
 import GameStore from 'Stores/GameStore'
@@ -7,7 +7,7 @@ interface ISidebarProps {
   store: GameStore
 }
 
-const switchTheaterBtn: React.SFC<ISidebarProps> = ({ store }): JSX.Element => {
+const ShowShipyardBtn: React.SFC<ISidebarProps> = ({ store }): JSX.Element => {
 
   const handleAction = (): void => {
     store.toggleTheater()
@@ -15,8 +15,8 @@ const switchTheaterBtn: React.SFC<ISidebarProps> = ({ store }): JSX.Element => {
 
   return (
   <div>
-    <Sidebutton image={switchTheaterImg} action={handleAction}/>
+    <Sidebutton image={showShipyardImg} action={handleAction}/>
   </div>
 )}
 
-export default switchTheaterBtn
+export default ShowShipyardBtn
