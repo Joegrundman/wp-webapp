@@ -2,7 +2,9 @@ import { URL_MAP_EUR, URL_MAP_PAC } from 'Constants/ui-constants'
 import { observable } from 'mobx'
 
 class GameStore {
+
   @observable public theater: string = URL_MAP_EUR
+  @observable public showDialogPanel: boolean = false
 
   public setTheater (theater: string): void {
     this.theater = theater
@@ -14,6 +16,10 @@ class GameStore {
     } else {
       this.theater = URL_MAP_EUR
     }
+  }
+
+  public toggleDialogPanel (): void {
+    this.showDialogPanel = !this.showDialogPanel
   }
 }
 

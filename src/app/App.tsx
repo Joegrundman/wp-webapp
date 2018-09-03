@@ -1,3 +1,4 @@
+import DialogPanel from 'Components/dialogpanel/DialogPanel'
 import Header from 'Components/header/Header'
 import Sidebar from 'Components/sidebar/Sidebar'
 import * as React from 'react'
@@ -12,6 +13,7 @@ class App extends React.Component {
           <Header />
             <div>
               <Sidebar store={gameStore}/>
+              <DialogPanel store={gameStore}/>
               <GameBoard store={gameStore}/>
             </div>        
         </div>

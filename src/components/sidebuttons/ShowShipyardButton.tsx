@@ -10,7 +10,7 @@ interface ISidebarProps {
 const ShowShipyardBtn: React.SFC<ISidebarProps> = ({ store }): JSX.Element => {
 
   const handleAction = (): void => {
-    store.toggleTheater()
+    store.toggleDialogPanel()
   }
 
   return (
