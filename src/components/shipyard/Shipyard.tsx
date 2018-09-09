@@ -3,7 +3,7 @@ import * as React from 'react'
 import { getGame } from 'Wp/Game'
 import locals from './Shipyard.css'
 
-interface IShipyardProps {
+interface IShipyardState {
   currentShipyard: number
 }
 
@@ -20,11 +20,10 @@ const shipyards = [
   'Leningrad',
   'Sevastopol',
   'Canada',
-  'Australia',
-  'German Captured'
+  'Australia'
 ]
 
-class Shipyard extends React.Component<{}, IShipyardProps> {
+class Shipyard extends React.Component<{}, IShipyardState> {
   public syBgContext: CanvasRenderingContext2D | null
   public syContext: CanvasRenderingContext2D | null
 

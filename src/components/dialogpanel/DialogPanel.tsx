@@ -2,6 +2,7 @@ import { observer } from 'mobx-react'
 import * as React from 'react'
 import GameStore from 'Stores/GameStore'
 import Shipyard from '../shipyard/Shipyard'
+import Taskforce from '../taskforce/Taskforce'
 import locals from './DialogPanel.css'
 
 interface IDialogPanelProps {
@@ -14,6 +15,7 @@ class DialogPanel extends React.Component<IDialogPanelProps> {
   public getDialog(): JSX.Element | '' {
     switch(this.props.store.currentActiveDialog) {
       case 'shipyard': return (<Shipyard />)
+      case 'taskforce': return (<Taskforce />)
       default: return ''
     }
   }

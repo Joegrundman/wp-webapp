@@ -1,0 +1,13 @@
+.header {
+  color: #cdcdcd;
+}
+
+.subheaderWithArrows {
+  display: flex;
+  justify-content: space-between;
+}
+
+.subheaderCenterText {
+  margin-top: 0;
+  color: #cdcdcd;
+}
