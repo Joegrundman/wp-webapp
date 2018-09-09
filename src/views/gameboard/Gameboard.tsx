@@ -142,7 +142,7 @@ class GameBoard extends React.Component<IGameProps, IGameState> {
       <div className={locals.main}>
         <div ref={this.mainMapContainer} 
           style={{
-            height: `${this.state.windowHeight - 120}px`,
+            height: `${this.state.windowHeight - 90}px`,
             width: `${this.state.windowWidth - 60}px`
           }}
           className={locals.mapContainer}>
