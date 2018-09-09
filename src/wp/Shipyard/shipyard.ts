@@ -1,4 +1,6 @@
 import Unit from 'Unit/unit';
+import { getGame } from 'Wp/Game';
+import Holder from '../UnitHolder/unitholder';
 import ShipyardUnit from './shipyard-unit';
 
 class Shipyard {
@@ -12,7 +14,7 @@ class Shipyard {
     public dragging: boolean;
     public currentSquareX: number;
     public currentSquareY: number;
-   
+    public syContext: CanvasRenderingContext2D | null
 
     constructor (id: number, name: string, owner: string, rate: number) {
  
@@ -24,7 +26,8 @@ class Shipyard {
         this.shipyardUnits = [];
         this.currentSquareX = -1;
         this.currentSquareY = -1;
-        this.dragging = false;   
+        this.dragging = false;
+        this.syContext = null;
     }
   
     public addShipyardUnit (shipyardUnit: ShipyardUnit) {
@@ -150,21 +153,22 @@ class Shipyard {
     /**
      * Draws the units onto the shipyard display
      */    
-    // public draw () {
-    //     var syd = game.getShipyards($('#syYard').val());
-    //     var cty = game.getCountryFromName(syd.owner);
-    //     var units = []
-    //   	var holder = WP.UnitHolder.unitHolderBuilder(shipyardCtx, $("#syDetails"));
+    public draw () {
+        const units: Unit[] = []
+        //   var holder = WP.UnitHolder.unitHolderBuilder(shipyardCtx, $("#syDetails"));
+        if(!this.syContext) { return }
+
+        const holder: Holder = new Holder(this.syContext);
     
-    //     syd.shipyardUnits.forEach(syUnit => {
-    //         var unit = game.getUnitForShipyard(syUnit.id, syUnit.x, syUnit.y)
-    //         units.push(unit)
-    //     })
+        this.shipyardUnits.forEach(syUnit => {
+            const unit: Unit | null = getGame().getUnitForShipyard(syUnit.id, syUnit.x, syUnit.y)
+            if (unit){ units.push(unit) }
+        })
         
-    //     holder.units = units;
-    //     holder.drawShipyard();
-    //     shipyard.unitHolder = holder;
-    // }
+        holder.units = units;
+        holder.drawShipyard();
+        this.unitHolder = holder;
+    }
 }
 
 export default Shipyard;

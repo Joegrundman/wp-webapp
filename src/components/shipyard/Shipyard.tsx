@@ -1,5 +1,6 @@
 import ArrowButton from 'Atoms/arrowbutton/ArrowButton';
 import * as React from 'react'
+import { getGame } from 'Wp/Game'
 import locals from './Shipyard.css'
 
 interface IShipyardProps {
@@ -18,25 +19,33 @@ const shipyards = [
   'Marseilles',
   'Leningrad',
   'Sevastopol',
+  'Canada',
   'Australia',
   'German Captured'
 ]
 
 class Shipyard extends React.Component<{}, IShipyardProps> {
   public syBgContext: CanvasRenderingContext2D | null
+  public syContext: CanvasRenderingContext2D | null
+
   constructor(props: any){
+
     super(props)
     this.state = {
       currentShipyard: 0
     }
 
     this.syBgContext = null
+    this.syContext = null
   }
 
   public componentDidMount (): void {
-    const canvas: HTMLCanvasElement = document.getElementById('shipyardCanvasBackground') as HTMLCanvasElement
-    this.syBgContext = canvas.getContext('2d') as CanvasRenderingContext2D
+    const syBgCanvas: HTMLCanvasElement = document.getElementById('shipyardCanvasBackground') as HTMLCanvasElement
+    this.syBgContext = syBgCanvas.getContext('2d') as CanvasRenderingContext2D
+    const syCanvas: HTMLCanvasElement = document.getElementById('shipyardCanvas') as HTMLCanvasElement
+    this.syContext = syCanvas.getContext('2d') as CanvasRenderingContext2D
     this.drawShipyardBackground();
+    getGame().setSelectedShipyard(shipyards[this.state.currentShipyard], this.syContext)
   }
 
   public drawShipyardBackground (): void {
@@ -89,7 +98,8 @@ class Shipyard extends React.Component<{}, IShipyardProps> {
     
     this.setState({
       currentShipyard
-    })
+    },
+    () => getGame().setSelectedShipyard(shipyards[this.state.currentShipyard], this.syContext as CanvasRenderingContext2D ))
   }
 
   public incrementCurrentShipyard = () => {
@@ -99,7 +109,8 @@ class Shipyard extends React.Component<{}, IShipyardProps> {
 
     this.setState({
       currentShipyard
-    })
+    },
+    () => getGame().setSelectedShipyard(shipyards[this.state.currentShipyard], this.syContext as CanvasRenderingContext2D))
   }
 
   public render (): JSX.Element {

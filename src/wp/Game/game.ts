@@ -23,6 +23,7 @@ class Game {
     public gameType: string;
     public shipyards: Shipyard[];
     public taskforces: any[];
+    public selectedShipyard: Shipyard | null;
     public selectedTaskforce: any;
     public state: number;
     public newspaper: string;
@@ -141,6 +142,15 @@ class Game {
         return this.taskforces.find((taskforce: Taskforce) => taskforce.owner === owner);
     }
 
+    public setSelectedShipyard (shipyardName: string, syCtx: CanvasRenderingContext2D) {
+        this.selectedShipyard =
+            this.shipyards.find(sy => sy.name === shipyardName) || null
+        if(this.selectedShipyard) {
+            this.selectedShipyard.syContext = syCtx
+            this.selectedShipyard.draw()
+        }
+    }
+
     /**
      * gets a unit from the shipyard
      * @param {number} id - the unit id
@@ -149,21 +159,19 @@ class Game {
      * @results {object}  unit
      */
  
-    // public getUnitForShipyard (id: number, x: number, y: number): Unit {
-    //     let res = null
-    //     this.countries.forEach(cty => {
-    //         cty.units.forEach(cu => {
-    //             if (cu.id === id) {
-    //                 cu.holderX = x
-    //                 cu.holderY = y
-    //                 res = cu
-    //             }
-    //         })
-    //     })
-
-        
-    //     return res as Unit     
-    // }
+    public getUnitForShipyard (id: number, x: number, y: number): Unit | null {
+        let res = null
+        this.countries.forEach(cty => {
+            cty.units.forEach(cu => {
+                if (cu.id === id) {
+                    cu.holderX = x
+                    cu.holderY = y
+                    res = cu
+                }
+            })
+        })
+        return res   
+    }
  
     // public getTaskforceFromUnit (unitId) {
     //     var res = null
