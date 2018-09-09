@@ -11,6 +11,7 @@ const ShowShipyardBtn: React.SFC<ISidebarProps> = ({ store }): JSX.Element => {
 
   const handleAction = (): void => {
     store.toggleDialogPanel()
+    store.setCurrentActiveDialog('shipyard')
   }
 
   return (

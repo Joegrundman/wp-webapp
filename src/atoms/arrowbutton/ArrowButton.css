@@ -1,0 +1,20 @@
+.button {
+  height: 2rem;
+  width: 2rem;
+  background-color: #2a2a2a;
+  color: #cdcdcd;
+  margin: 0 0.5rem;
+  outline: none;
+  border-radius: 3px;
+}
+
+.button:hover {
+  color: #fafafa;
+  border-color: #fafafa;
+}
+
+.text {
+  font-size: 2rem;
+  margin-top: -7px;
+  margin-left: -1px;
+}
