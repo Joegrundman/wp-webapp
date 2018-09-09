@@ -101,7 +101,7 @@ class MainMap extends React.PureComponent<IMainMapProps, IMainMapState> {
     }
     return (
       <div style={{position :"relative" }}>    
-        <canvas id="backgroundCanvas" style={canvasPosition}ref={this.backgroundCanvasRef} height={height} width={width}/>
+        <canvas id="backgroundCanvas" style={canvasPosition} ref={this.backgroundCanvasRef} height={height} width={width}/>
         <canvas id="mapCanvas" style={canvasPosition} ref={this.mapCanvasRef} height={height} width={width}>Your browser does not support this application</canvas>
       </div>
     );

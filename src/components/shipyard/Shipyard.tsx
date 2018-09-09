@@ -23,18 +23,63 @@ const shipyards = [
 ]
 
 class Shipyard extends React.Component<{}, IShipyardProps> {
+  public syBgContext: CanvasRenderingContext2D | null
   constructor(props: any){
     super(props)
     this.state = {
       currentShipyard: 0
     }
+
+    this.syBgContext = null
   }
 
-  public componentDidMount () {
-    // const canvas = document.getElementById('shipyardCanvas') as HTMLCanvasElement
-    // const ctx: CanvasRenderingContext2D = canvas.getContext('2d') as CanvasRenderingContext2D
-    // ctx.fillStyle= '#ff0000'
-    // ctx.fillRect(20, 20, 40, 40)
+  public componentDidMount (): void {
+    const canvas: HTMLCanvasElement = document.getElementById('shipyardCanvasBackground') as HTMLCanvasElement
+    this.syBgContext = canvas.getContext('2d') as CanvasRenderingContext2D
+    this.drawShipyardBackground();
+  }
+
+  public drawShipyardBackground (): void {
+    if(!this.syBgContext) {
+      return
+    }
+    this.syBgContext.strokeStyle= '#cdcdcd'
+    this.syBgContext.lineWidth = 1
+
+    for(let i: number = 28.5; i < 330; i += 68 ) {
+      this.syBgContext.beginPath()
+      this.syBgContext.moveTo(i, 0)
+      this.syBgContext.lineTo(i, 368)
+      this.syBgContext.closePath()
+      this.syBgContext.stroke()
+    }
+
+    const seasons: string[] = ['  spring', 'summer', '    fall', '  winter']
+    this.syBgContext.font = "15px sans-serif"
+    this.syBgContext.fillStyle = '#cdcdcd'
+
+    seasons.forEach((season: string, i: number): void => {
+      if(!this.syBgContext) { return }
+      this.syBgContext.fillText(season, 36 + (68 * i), 18)
+    })
+
+    for (let i: number = 28.5; i < 410; i += 68) {
+      this.syBgContext.beginPath()
+      this.syBgContext.moveTo(0, i)
+      this.syBgContext.lineTo(300, i)
+      this.syBgContext.closePath()
+      this.syBgContext.stroke()
+    }
+
+    const levels: string[] = ['5', '4', '3', '2', '1']
+    this.syBgContext.font = "18px sans-serif"
+    levels.forEach((level: string, i: number): void => {
+      if(!this.syBgContext) { return }
+      this.syBgContext.fillText(level, 8, 68 + (68 * i))
+    })
+
+    this.syBgContext.font = "15px sans-serif"
+    this.syBgContext.fillText('Waiting for repair', 100, 400)
   }
 
   public decrementCurrentShipyard = () => {
@@ -59,10 +104,10 @@ class Shipyard extends React.Component<{}, IShipyardProps> {
 
   public render (): JSX.Element {
 
-    // const shipyardCanvasStyle = {
-    //   height: '40rem',
-    //   width: '18rem'
-    // }
+    const shipyardCanvasSize = {
+      height: 470,
+      width: 300
+    }
     return (
       <div>
         <h1 className={locals.header}>Shipyards</h1>
@@ -71,8 +116,19 @@ class Shipyard extends React.Component<{}, IShipyardProps> {
           <h2 className={locals.subheaderCenterText}>{shipyards[this.state.currentShipyard]}</h2>
           <ArrowButton direction="right" action={this.incrementCurrentShipyard}/>
         </div>
-        
-        {/* <canvas id="shipyardCanvas" style={shipyardCanvasStyle}/> */}
+        <div className={locals.canvasContainer} style={{width: shipyardCanvasSize.width}}>
+          <canvas
+            className={locals.shipyardCanvas}
+            id="shipyardCanvasBackground"
+            height={shipyardCanvasSize.height}
+            width={shipyardCanvasSize.width}/>
+          <canvas
+            className={locals.shipyardCanvas}
+            id="shipyardCanvas"
+            height={shipyardCanvasSize.height}
+            width={shipyardCanvasSize.width}/>
+        </div>
+
       </div>
     )
   }
