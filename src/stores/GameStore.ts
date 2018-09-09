@@ -23,6 +23,26 @@ class GameStore {
     this.showDialogPanel = !this.showDialogPanel
   }
 
+  public openDialogPanel (): void {
+    this.showDialogPanel = true
+  }
+
+  public handleDialogButton(dialog: string): void {
+    if(this.showDialogPanel && this.currentActiveDialog !== dialog) {
+      this.setCurrentActiveDialog(dialog)
+    } else if(this.showDialogPanel && this.currentActiveDialog === dialog) {
+      this.closeDialogPanel()
+      this.setCurrentActiveDialog('')
+    } else {
+      this.openDialogPanel()
+      this.setCurrentActiveDialog(dialog)
+    }  
+  }
+
+  public closeDialogPanel (): void {
+    this.showDialogPanel = false
+  }
+
   public setCurrentActiveDialog (dialog: string): void {
     this.currentActiveDialog = dialog
   }

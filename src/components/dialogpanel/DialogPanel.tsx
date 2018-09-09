@@ -11,7 +11,7 @@ interface IDialogPanelProps {
 @observer
 class DialogPanel extends React.Component<IDialogPanelProps> {
 
-  public getDialog() {
+  public getDialog(): JSX.Element | '' {
     switch(this.props.store.currentActiveDialog) {
       case 'shipyard': return (<Shipyard />)
       default: return ''
