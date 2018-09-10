@@ -5,7 +5,7 @@ import Shipyard from '../shipyard/Shipyard'
 import Taskforce from '../taskforce/Taskforce'
 import locals from './DialogPanel.css'
 
-interface IDialogPanelProps {
+export interface IDialogPanelProps {
   store: GameStore
 }
 

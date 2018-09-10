@@ -17,30 +17,97 @@ ShallowWrapper {
     "nodeType": "host",
     "props": Object {
       "children": Array [
-        <header
-          className={undefined}
-        >
-          <img
-            alt="logo"
-            className={undefined}
-            src={undefined}
+        <Header />,
+        <div>
+          <Sidebar
+            store={
+              GameStore {
+                "currentActiveDialog": "",
+                "showDialogPanel": false,
+                "theater": "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                Symbol(mobx did run lazy initializers): true,
+                Symbol(mobx administration): ObservableObjectAdministration$$1 {
+                  "defaultEnhancer": [Function],
+                  "keysAtom": Atom$$1 {
+                    "diffValue": 0,
+                    "isBeingObserved": false,
+                    "isPendingUnobservation": false,
+                    "lastAccessedBy": 0,
+                    "lowestObserverState": 2,
+                    "name": "GameStore@1.keys",
+                    "observers": Set {},
+                  },
+                  "name": "GameStore@1",
+                  "target": [Circular],
+                  "values": Map {
+                    "theater" => "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                    "showDialogPanel" => false,
+                    "currentActiveDialog" => "",
+                  },
+                },
+              }
+            }
           />
-          <h1
-            className={undefined}
-          >
-            Welcome to React
-          </h1>
-        </header>,
-        <p
-          className={undefined}
-        >
-          To get started, edit 
-          <code>
-            src/App.tsx
-          </code>
-           and save to reload.
-        </p>,
-        <GameBoard />,
+          <DialogPanel
+            store={
+              GameStore {
+                "currentActiveDialog": "",
+                "showDialogPanel": false,
+                "theater": "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                Symbol(mobx did run lazy initializers): true,
+                Symbol(mobx administration): ObservableObjectAdministration$$1 {
+                  "defaultEnhancer": [Function],
+                  "keysAtom": Atom$$1 {
+                    "diffValue": 0,
+                    "isBeingObserved": false,
+                    "isPendingUnobservation": false,
+                    "lastAccessedBy": 0,
+                    "lowestObserverState": 2,
+                    "name": "GameStore@1.keys",
+                    "observers": Set {},
+                  },
+                  "name": "GameStore@1",
+                  "target": [Circular],
+                  "values": Map {
+                    "theater" => "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                    "showDialogPanel" => false,
+                    "currentActiveDialog" => "",
+                  },
+                },
+              }
+            }
+          />
+          <GameBoard
+            store={
+              GameStore {
+                "currentActiveDialog": "",
+                "showDialogPanel": false,
+                "theater": "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                Symbol(mobx did run lazy initializers): true,
+                Symbol(mobx administration): ObservableObjectAdministration$$1 {
+                  "defaultEnhancer": [Function],
+                  "keysAtom": Atom$$1 {
+                    "diffValue": 0,
+                    "isBeingObserved": false,
+                    "isPendingUnobservation": false,
+                    "lastAccessedBy": 0,
+                    "lowestObserverState": 2,
+                    "name": "GameStore@1.keys",
+                    "observers": Set {},
+                  },
+                  "name": "GameStore@1",
+                  "target": [Circular],
+                  "values": Map {
+                    "theater" => "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                    "showDialogPanel" => false,
+                    "currentActiveDialog" => "",
+                  },
+                },
+              }
+            }
+          />
+        </div>,
+        <Footer />,
       ],
       "className": undefined,
     },
@@ -49,88 +116,221 @@ ShallowWrapper {
       Object {
         "instance": null,
         "key": undefined,
+        "nodeType": "class",
+        "props": Object {},
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
         "nodeType": "host",
         "props": Object {
           "children": Array [
-            <img
-              alt="logo"
-              className={undefined}
-              src={undefined}
+            <Sidebar
+              store={
+                GameStore {
+                  "currentActiveDialog": "",
+                  "showDialogPanel": false,
+                  "theater": "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                  Symbol(mobx did run lazy initializers): true,
+                  Symbol(mobx administration): ObservableObjectAdministration$$1 {
+                    "defaultEnhancer": [Function],
+                    "keysAtom": Atom$$1 {
+                      "diffValue": 0,
+                      "isBeingObserved": false,
+                      "isPendingUnobservation": false,
+                      "lastAccessedBy": 0,
+                      "lowestObserverState": 2,
+                      "name": "GameStore@1.keys",
+                      "observers": Set {},
+                    },
+                    "name": "GameStore@1",
+                    "target": [Circular],
+                    "values": Map {
+                      "theater" => "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                      "showDialogPanel" => false,
+                      "currentActiveDialog" => "",
+                    },
+                  },
+                }
+              }
             />,
-            <h1
-              className={undefined}
-            >
-              Welcome to React
-            </h1>,
+            <DialogPanel
+              store={
+                GameStore {
+                  "currentActiveDialog": "",
+                  "showDialogPanel": false,
+                  "theater": "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                  Symbol(mobx did run lazy initializers): true,
+                  Symbol(mobx administration): ObservableObjectAdministration$$1 {
+                    "defaultEnhancer": [Function],
+                    "keysAtom": Atom$$1 {
+                      "diffValue": 0,
+                      "isBeingObserved": false,
+                      "isPendingUnobservation": false,
+                      "lastAccessedBy": 0,
+                      "lowestObserverState": 2,
+                      "name": "GameStore@1.keys",
+                      "observers": Set {},
+                    },
+                    "name": "GameStore@1",
+                    "target": [Circular],
+                    "values": Map {
+                      "theater" => "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                      "showDialogPanel" => false,
+                      "currentActiveDialog" => "",
+                    },
+                  },
+                }
+              }
+            />,
+            <GameBoard
+              store={
+                GameStore {
+                  "currentActiveDialog": "",
+                  "showDialogPanel": false,
+                  "theater": "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                  Symbol(mobx did run lazy initializers): true,
+                  Symbol(mobx administration): ObservableObjectAdministration$$1 {
+                    "defaultEnhancer": [Function],
+                    "keysAtom": Atom$$1 {
+                      "diffValue": 0,
+                      "isBeingObserved": false,
+                      "isPendingUnobservation": false,
+                      "lastAccessedBy": 0,
+                      "lowestObserverState": 2,
+                      "name": "GameStore@1.keys",
+                      "observers": Set {},
+                    },
+                    "name": "GameStore@1",
+                    "target": [Circular],
+                    "values": Map {
+                      "theater" => "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                      "showDialogPanel" => false,
+                      "currentActiveDialog" => "",
+                    },
+                  },
+                }
+              }
+            />,
           ],
-          "className": undefined,
         },
         "ref": null,
         "rendered": Array [
           Object {
             "instance": null,
             "key": undefined,
-            "nodeType": "host",
+            "nodeType": "class",
             "props": Object {
-              "alt": "logo",
-              "className": undefined,
-              "src": undefined,
+              "store": GameStore {
+                "currentActiveDialog": "",
+                "showDialogPanel": false,
+                "theater": "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                Symbol(mobx did run lazy initializers): true,
+                Symbol(mobx administration): ObservableObjectAdministration$$1 {
+                  "defaultEnhancer": [Function],
+                  "keysAtom": Atom$$1 {
+                    "diffValue": 0,
+                    "isBeingObserved": false,
+                    "isPendingUnobservation": false,
+                    "lastAccessedBy": 0,
+                    "lowestObserverState": 2,
+                    "name": "GameStore@1.keys",
+                    "observers": Set {},
+                  },
+                  "name": "GameStore@1",
+                  "target": [Circular],
+                  "values": Map {
+                    "theater" => "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                    "showDialogPanel" => false,
+                    "currentActiveDialog" => "",
+                  },
+                },
+              },
             },
             "ref": null,
             "rendered": null,
-            "type": "img",
+            "type": [Function],
           },
           Object {
             "instance": null,
             "key": undefined,
-            "nodeType": "host",
+            "nodeType": "class",
             "props": Object {
-              "children": "Welcome to React",
-              "className": undefined,
+              "store": GameStore {
+                "currentActiveDialog": "",
+                "showDialogPanel": false,
+                "theater": "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                Symbol(mobx did run lazy initializers): true,
+                Symbol(mobx administration): ObservableObjectAdministration$$1 {
+                  "defaultEnhancer": [Function],
+                  "keysAtom": Atom$$1 {
+                    "diffValue": 0,
+                    "isBeingObserved": false,
+                    "isPendingUnobservation": false,
+                    "lastAccessedBy": 0,
+                    "lowestObserverState": 2,
+                    "name": "GameStore@1.keys",
+                    "observers": Set {},
+                  },
+                  "name": "GameStore@1",
+                  "target": [Circular],
+                  "values": Map {
+                    "theater" => "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                    "showDialogPanel" => false,
+                    "currentActiveDialog" => "",
+                  },
+                },
+              },
             },
             "ref": null,
-            "rendered": "Welcome to React",
-            "type": "h1",
+            "rendered": null,
+            "type": [Function],
           },
-        ],
-        "type": "header",
-      },
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "children": Array [
-            "To get started, edit ",
-            <code>
-              src/App.tsx
-            </code>,
-            " and save to reload.",
-          ],
-          "className": undefined,
-        },
-        "ref": null,
-        "rendered": Array [
-          "To get started, edit ",
           Object {
             "instance": null,
             "key": undefined,
-            "nodeType": "host",
+            "nodeType": "class",
             "props": Object {
-              "children": "src/App.tsx",
+              "store": GameStore {
+                "currentActiveDialog": "",
+                "showDialogPanel": false,
+                "theater": "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                Symbol(mobx did run lazy initializers): true,
+                Symbol(mobx administration): ObservableObjectAdministration$$1 {
+                  "defaultEnhancer": [Function],
+                  "keysAtom": Atom$$1 {
+                    "diffValue": 0,
+                    "isBeingObserved": false,
+                    "isPendingUnobservation": false,
+                    "lastAccessedBy": 0,
+                    "lowestObserverState": 2,
+                    "name": "GameStore@1.keys",
+                    "observers": Set {},
+                  },
+                  "name": "GameStore@1",
+                  "target": [Circular],
+                  "values": Map {
+                    "theater" => "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                    "showDialogPanel" => false,
+                    "currentActiveDialog" => "",
+                  },
+                },
+              },
             },
             "ref": null,
-            "rendered": "src/App.tsx",
-            "type": "code",
+            "rendered": null,
+            "type": [Function],
           },
-          " and save to reload.",
         ],
-        "type": "p",
+        "type": "div",
       },
       Object {
         "instance": null,
         "key": undefined,
-        "nodeType": "class",
+        "nodeType": "function",
         "props": Object {},
         "ref": null,
         "rendered": null,
@@ -146,30 +346,97 @@ ShallowWrapper {
       "nodeType": "host",
       "props": Object {
         "children": Array [
-          <header
-            className={undefined}
-          >
-            <img
-              alt="logo"
-              className={undefined}
-              src={undefined}
+          <Header />,
+          <div>
+            <Sidebar
+              store={
+                GameStore {
+                  "currentActiveDialog": "",
+                  "showDialogPanel": false,
+                  "theater": "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                  Symbol(mobx did run lazy initializers): true,
+                  Symbol(mobx administration): ObservableObjectAdministration$$1 {
+                    "defaultEnhancer": [Function],
+                    "keysAtom": Atom$$1 {
+                      "diffValue": 0,
+                      "isBeingObserved": false,
+                      "isPendingUnobservation": false,
+                      "lastAccessedBy": 0,
+                      "lowestObserverState": 2,
+                      "name": "GameStore@1.keys",
+                      "observers": Set {},
+                    },
+                    "name": "GameStore@1",
+                    "target": [Circular],
+                    "values": Map {
+                      "theater" => "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                      "showDialogPanel" => false,
+                      "currentActiveDialog" => "",
+                    },
+                  },
+                }
+              }
             />
-            <h1
-              className={undefined}
-            >
-              Welcome to React
-            </h1>
-          </header>,
-          <p
-            className={undefined}
-          >
-            To get started, edit 
-            <code>
-              src/App.tsx
-            </code>
-             and save to reload.
-          </p>,
-          <GameBoard />,
+            <DialogPanel
+              store={
+                GameStore {
+                  "currentActiveDialog": "",
+                  "showDialogPanel": false,
+                  "theater": "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                  Symbol(mobx did run lazy initializers): true,
+                  Symbol(mobx administration): ObservableObjectAdministration$$1 {
+                    "defaultEnhancer": [Function],
+                    "keysAtom": Atom$$1 {
+                      "diffValue": 0,
+                      "isBeingObserved": false,
+                      "isPendingUnobservation": false,
+                      "lastAccessedBy": 0,
+                      "lowestObserverState": 2,
+                      "name": "GameStore@1.keys",
+                      "observers": Set {},
+                    },
+                    "name": "GameStore@1",
+                    "target": [Circular],
+                    "values": Map {
+                      "theater" => "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                      "showDialogPanel" => false,
+                      "currentActiveDialog" => "",
+                    },
+                  },
+                }
+              }
+            />
+            <GameBoard
+              store={
+                GameStore {
+                  "currentActiveDialog": "",
+                  "showDialogPanel": false,
+                  "theater": "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                  Symbol(mobx did run lazy initializers): true,
+                  Symbol(mobx administration): ObservableObjectAdministration$$1 {
+                    "defaultEnhancer": [Function],
+                    "keysAtom": Atom$$1 {
+                      "diffValue": 0,
+                      "isBeingObserved": false,
+                      "isPendingUnobservation": false,
+                      "lastAccessedBy": 0,
+                      "lowestObserverState": 2,
+                      "name": "GameStore@1.keys",
+                      "observers": Set {},
+                    },
+                    "name": "GameStore@1",
+                    "target": [Circular],
+                    "values": Map {
+                      "theater" => "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                      "showDialogPanel" => false,
+                      "currentActiveDialog" => "",
+                    },
+                  },
+                }
+              }
+            />
+          </div>,
+          <Footer />,
         ],
         "className": undefined,
       },
@@ -178,88 +445,221 @@ ShallowWrapper {
         Object {
           "instance": null,
           "key": undefined,
+          "nodeType": "class",
+          "props": Object {},
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
           "nodeType": "host",
           "props": Object {
             "children": Array [
-              <img
-                alt="logo"
-                className={undefined}
-                src={undefined}
+              <Sidebar
+                store={
+                  GameStore {
+                    "currentActiveDialog": "",
+                    "showDialogPanel": false,
+                    "theater": "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                    Symbol(mobx did run lazy initializers): true,
+                    Symbol(mobx administration): ObservableObjectAdministration$$1 {
+                      "defaultEnhancer": [Function],
+                      "keysAtom": Atom$$1 {
+                        "diffValue": 0,
+                        "isBeingObserved": false,
+                        "isPendingUnobservation": false,
+                        "lastAccessedBy": 0,
+                        "lowestObserverState": 2,
+                        "name": "GameStore@1.keys",
+                        "observers": Set {},
+                      },
+                      "name": "GameStore@1",
+                      "target": [Circular],
+                      "values": Map {
+                        "theater" => "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                        "showDialogPanel" => false,
+                        "currentActiveDialog" => "",
+                      },
+                    },
+                  }
+                }
               />,
-              <h1
-                className={undefined}
-              >
-                Welcome to React
-              </h1>,
+              <DialogPanel
+                store={
+                  GameStore {
+                    "currentActiveDialog": "",
+                    "showDialogPanel": false,
+                    "theater": "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                    Symbol(mobx did run lazy initializers): true,
+                    Symbol(mobx administration): ObservableObjectAdministration$$1 {
+                      "defaultEnhancer": [Function],
+                      "keysAtom": Atom$$1 {
+                        "diffValue": 0,
+                        "isBeingObserved": false,
+                        "isPendingUnobservation": false,
+                        "lastAccessedBy": 0,
+                        "lowestObserverState": 2,
+                        "name": "GameStore@1.keys",
+                        "observers": Set {},
+                      },
+                      "name": "GameStore@1",
+                      "target": [Circular],
+                      "values": Map {
+                        "theater" => "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                        "showDialogPanel" => false,
+                        "currentActiveDialog" => "",
+                      },
+                    },
+                  }
+                }
+              />,
+              <GameBoard
+                store={
+                  GameStore {
+                    "currentActiveDialog": "",
+                    "showDialogPanel": false,
+                    "theater": "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                    Symbol(mobx did run lazy initializers): true,
+                    Symbol(mobx administration): ObservableObjectAdministration$$1 {
+                      "defaultEnhancer": [Function],
+                      "keysAtom": Atom$$1 {
+                        "diffValue": 0,
+                        "isBeingObserved": false,
+                        "isPendingUnobservation": false,
+                        "lastAccessedBy": 0,
+                        "lowestObserverState": 2,
+                        "name": "GameStore@1.keys",
+                        "observers": Set {},
+                      },
+                      "name": "GameStore@1",
+                      "target": [Circular],
+                      "values": Map {
+                        "theater" => "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                        "showDialogPanel" => false,
+                        "currentActiveDialog" => "",
+                      },
+                    },
+                  }
+                }
+              />,
             ],
-            "className": undefined,
           },
           "ref": null,
           "rendered": Array [
             Object {
               "instance": null,
               "key": undefined,
-              "nodeType": "host",
+              "nodeType": "class",
               "props": Object {
-                "alt": "logo",
-                "className": undefined,
-                "src": undefined,
+                "store": GameStore {
+                  "currentActiveDialog": "",
+                  "showDialogPanel": false,
+                  "theater": "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                  Symbol(mobx did run lazy initializers): true,
+                  Symbol(mobx administration): ObservableObjectAdministration$$1 {
+                    "defaultEnhancer": [Function],
+                    "keysAtom": Atom$$1 {
+                      "diffValue": 0,
+                      "isBeingObserved": false,
+                      "isPendingUnobservation": false,
+                      "lastAccessedBy": 0,
+                      "lowestObserverState": 2,
+                      "name": "GameStore@1.keys",
+                      "observers": Set {},
+                    },
+                    "name": "GameStore@1",
+                    "target": [Circular],
+                    "values": Map {
+                      "theater" => "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                      "showDialogPanel" => false,
+                      "currentActiveDialog" => "",
+                    },
+                  },
+                },
               },
               "ref": null,
               "rendered": null,
-              "type": "img",
+              "type": [Function],
             },
             Object {
               "instance": null,
               "key": undefined,
-              "nodeType": "host",
+              "nodeType": "class",
               "props": Object {
-                "children": "Welcome to React",
-                "className": undefined,
+                "store": GameStore {
+                  "currentActiveDialog": "",
+                  "showDialogPanel": false,
+                  "theater": "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                  Symbol(mobx did run lazy initializers): true,
+                  Symbol(mobx administration): ObservableObjectAdministration$$1 {
+                    "defaultEnhancer": [Function],
+                    "keysAtom": Atom$$1 {
+                      "diffValue": 0,
+                      "isBeingObserved": false,
+                      "isPendingUnobservation": false,
+                      "lastAccessedBy": 0,
+                      "lowestObserverState": 2,
+                      "name": "GameStore@1.keys",
+                      "observers": Set {},
+                    },
+                    "name": "GameStore@1",
+                    "target": [Circular],
+                    "values": Map {
+                      "theater" => "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                      "showDialogPanel" => false,
+                      "currentActiveDialog" => "",
+                    },
+                  },
+                },
               },
               "ref": null,
-              "rendered": "Welcome to React",
-              "type": "h1",
+              "rendered": null,
+              "type": [Function],
             },
-          ],
-          "type": "header",
-        },
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": Array [
-              "To get started, edit ",
-              <code>
-                src/App.tsx
-              </code>,
-              " and save to reload.",
-            ],
-            "className": undefined,
-          },
-          "ref": null,
-          "rendered": Array [
-            "To get started, edit ",
             Object {
               "instance": null,
               "key": undefined,
-              "nodeType": "host",
+              "nodeType": "class",
               "props": Object {
-                "children": "src/App.tsx",
+                "store": GameStore {
+                  "currentActiveDialog": "",
+                  "showDialogPanel": false,
+                  "theater": "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                  Symbol(mobx did run lazy initializers): true,
+                  Symbol(mobx administration): ObservableObjectAdministration$$1 {
+                    "defaultEnhancer": [Function],
+                    "keysAtom": Atom$$1 {
+                      "diffValue": 0,
+                      "isBeingObserved": false,
+                      "isPendingUnobservation": false,
+                      "lastAccessedBy": 0,
+                      "lowestObserverState": 2,
+                      "name": "GameStore@1.keys",
+                      "observers": Set {},
+                    },
+                    "name": "GameStore@1",
+                    "target": [Circular],
+                    "values": Map {
+                      "theater" => "http://res.cloudinary.com/druzhkwmt/image/upload/v1456179368/b3oj0apypmsiu1zsypwl.jpg",
+                      "showDialogPanel" => false,
+                      "currentActiveDialog" => "",
+                    },
+                  },
+                },
               },
               "ref": null,
-              "rendered": "src/App.tsx",
-              "type": "code",
+              "rendered": null,
+              "type": [Function],
             },
-            " and save to reload.",
           ],
-          "type": "p",
+          "type": "div",
         },
         Object {
           "instance": null,
           "key": undefined,
-          "nodeType": "class",
+          "nodeType": "function",
           "props": Object {},
           "ref": null,
           "rendered": null,

@@ -1,12 +1,13 @@
 import * as React from 'react';
 import locals from './ArrowButton.css';
 
-interface IArrowButtonProps {
-  direction?: string
+
+export interface IArrowButtonProps {
+  direction?: string,
   action: () => any
 }
 
-const ArrowButton: React.SFC<IArrowButtonProps> = ({action, direction = 'left'}) => (
+const ArrowButton: React.SFC<IArrowButtonProps> = ({action, direction = 'left'}: IArrowButtonProps): JSX.Element => (
   <button
     className={locals.button}
     onClick={action}>
