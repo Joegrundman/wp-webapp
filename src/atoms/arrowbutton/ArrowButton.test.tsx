@@ -25,6 +25,12 @@ describe('<ArrowButton/>', () => {
     expect(component).toMatchSnapshot()
   })
 
+  it('should render as expected with no direction property passed in', () => {
+    const props: IArrowButtonProps = { action: jest.fn() }
+    const component: ShallowWrapper = shallow(<ArrowButton {...props} />)
+    expect(component).toMatchSnapshot()
+  })
+
   it('should have an action that is triggered when clicked', () => {
     const component: ShallowWrapper = shallow(<ArrowButton {...defaultProps} />)
     component.find('button').first().simulate('click')
