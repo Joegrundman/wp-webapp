@@ -52,12 +52,14 @@
     "node_modules",
     "build",
     "config",
+    "coverage",
     "public",
     ".sonarlint",
     "scripts",
     "acceptance-tests",
     "webpack",
     "jest",
-    "src/setupTests.ts"
+    "src/setupTests.ts",
+    "jest.config.js"
   ]
 }

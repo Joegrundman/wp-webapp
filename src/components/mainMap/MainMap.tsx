@@ -8,16 +8,16 @@ export interface IMainMapProps {
   getMapContext: (mapCanvas: HTMLCanvasElement, mapCtx: CanvasRenderingContext2D | null, opts: any) => void
 }
 
-interface IMainMapState {
+export interface IMainMapState {
   height: number
   width: number
 }
 
 class MainMap extends React.PureComponent<IMainMapProps, IMainMapState> {
-  public backgroundCanvas: HTMLCanvasElement | null
-  public backgroundCtx: CanvasRenderingContext2D | null
-  public mapCanvas: HTMLCanvasElement | null
-  public mapCtx: CanvasRenderingContext2D | null
+  public backgroundCanvas: HTMLCanvasElement
+  public backgroundCtx: CanvasRenderingContext2D
+  public mapCanvas: HTMLCanvasElement 
+  public mapCtx: CanvasRenderingContext2D
   public rect: DOMRect
   public image: HTMLImageElement
   public mapCanvasRef: React.RefObject<HTMLCanvasElement>
@@ -29,11 +29,7 @@ class MainMap extends React.PureComponent<IMainMapProps, IMainMapState> {
       height: 0,
       width: 0,
     }
-
-    this.mapCanvas = null
-    this.mapCtx = null
-    this.backgroundCanvas = null
-    this.backgroundCtx = null
+  
     this.image = new Image()
     this.mapCanvasRef = React.createRef()
     this.backgroundCanvasRef = React.createRef()
@@ -43,52 +39,42 @@ class MainMap extends React.PureComponent<IMainMapProps, IMainMapState> {
     this.mapCanvas = document.getElementById('mapCanvas') as HTMLCanvasElement;
     this.rect = this.mapCanvas.getBoundingClientRect() as DOMRect;
     this.backgroundCanvas = document.getElementById('backgroundCanvas') as HTMLCanvasElement;
-    if(this.mapCanvas) {
-      this.mapCtx = this.mapCanvas.getContext('2d') as CanvasRenderingContext2D;
-    }
-    if(this.backgroundCanvas) {
-      this.backgroundCtx = this.backgroundCanvas.getContext('2d') as CanvasRenderingContext2D;
-      this.updateMap()
-    }
+    this.mapCtx = this.mapCanvas.getContext('2d') as CanvasRenderingContext2D;
+    this.backgroundCtx = this.backgroundCanvas.getContext('2d') as CanvasRenderingContext2D;
+    this.updateMap()
   }
 
-  public componentDidUpdate(props: IMainMapProps) {
+  public componentDidUpdate(props: IMainMapProps): void {
     if(this.props.url !== props.url) {
       this.updateMap()
     }
   }
 
-  public updateMap(): void {
-    const {
-      backgroundCtx,
-      mapCanvas,
-      mapCtx,
-      image } = this;
-    if(!backgroundCtx) {
-      return
-    }
-    image.crossOrigin = 'Anonymous'
-    image.src = this.props.url;  
-    image.onload = () => {
-      this.setState({
-        height: image.height,
-        width: image.width
-      },
-      () => {
-        backgroundCtx.drawImage(image, 0, 0, image.width, image.height)
-        if(backgroundCtx) {
+  public onMapLoad = (): void => {
+    this.setState({
+      height: this.image.height,
+      width: this.image.width
+    },
+    (): void => {
 
-          const opts: IMapOpts = {
-            rect: this.rect
-          }
-          this.props.getMapContext(
-            mapCanvas as HTMLCanvasElement,
-            mapCtx as CanvasRenderingContext2D,
-            opts
-          )
-        }
-      })
-    }
+      this.backgroundCtx.drawImage(this.image, 0, 0, this.image.width, this.image.height)
+
+      const opts: IMapOpts = {
+        rect: this.rect
+      }
+
+      this.props.getMapContext(
+        this.mapCanvas as HTMLCanvasElement,
+        this.mapCtx as CanvasRenderingContext2D,
+        opts
+      )
+    })
+  }
+
+  public updateMap(): void {
+    this.image.crossOrigin = 'Anonymous'
+    this.image.src = this.props.url
+    this.image.onload = this.onMapLoad
   }
 
   public render(): JSX.Element {
@@ -101,8 +87,21 @@ class MainMap extends React.PureComponent<IMainMapProps, IMainMapState> {
     }
     return (
       <div style={{position :"relative" }}>    
-        <canvas id="backgroundCanvas" style={canvasPosition} ref={this.backgroundCanvasRef} height={height} width={width}/>
-        <canvas id="mapCanvas" style={canvasPosition} ref={this.mapCanvasRef} height={height} width={width}>Your browser does not support this application</canvas>
+        <canvas
+          id="backgroundCanvas"
+          style={canvasPosition}
+          ref={this.backgroundCanvasRef}
+          height={height}
+          width={width}
+        />
+        <canvas
+          id="mapCanvas"
+          style={canvasPosition}
+          ref={this.mapCanvasRef}
+          height={height}
+          width={width}
+        >Your browser does not support this application
+        </canvas>
       </div>
     );
   }
