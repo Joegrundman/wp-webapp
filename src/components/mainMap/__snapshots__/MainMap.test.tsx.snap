@@ -1,0 +1,409 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MainMap/> @render should render as expected with defaultProps 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <MainMap
+    getMapContext={[MockFunction]}
+    url="eur"
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <canvas
+          height={0}
+          id="backgroundCanvas"
+          style={
+            Object {
+              "left": 0,
+              "position": "absolute",
+              "top": 0,
+            }
+          }
+          width={0}
+        />,
+        <canvas
+          height={0}
+          id="mapCanvas"
+          style={
+            Object {
+              "left": 0,
+              "position": "absolute",
+              "top": 0,
+            }
+          }
+          width={0}
+        >
+          Your browser does not support this application
+        </canvas>,
+      ],
+      "style": Object {
+        "position": "relative",
+      },
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "height": 0,
+          "id": "backgroundCanvas",
+          "style": Object {
+            "left": 0,
+            "position": "absolute",
+            "top": 0,
+          },
+          "width": 0,
+        },
+        "ref": Object {
+          "current": null,
+        },
+        "rendered": null,
+        "type": "canvas",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "Your browser does not support this application",
+          "height": 0,
+          "id": "mapCanvas",
+          "style": Object {
+            "left": 0,
+            "position": "absolute",
+            "top": 0,
+          },
+          "width": 0,
+        },
+        "ref": Object {
+          "current": null,
+        },
+        "rendered": "Your browser does not support this application",
+        "type": "canvas",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <canvas
+            height={0}
+            id="backgroundCanvas"
+            style={
+              Object {
+                "left": 0,
+                "position": "absolute",
+                "top": 0,
+              }
+            }
+            width={0}
+          />,
+          <canvas
+            height={0}
+            id="mapCanvas"
+            style={
+              Object {
+                "left": 0,
+                "position": "absolute",
+                "top": 0,
+              }
+            }
+            width={0}
+          >
+            Your browser does not support this application
+          </canvas>,
+        ],
+        "style": Object {
+          "position": "relative",
+        },
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "height": 0,
+            "id": "backgroundCanvas",
+            "style": Object {
+              "left": 0,
+              "position": "absolute",
+              "top": 0,
+            },
+            "width": 0,
+          },
+          "ref": Object {
+            "current": null,
+          },
+          "rendered": null,
+          "type": "canvas",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Your browser does not support this application",
+            "height": 0,
+            "id": "mapCanvas",
+            "style": Object {
+              "left": 0,
+              "position": "absolute",
+              "top": 0,
+            },
+            "width": 0,
+          },
+          "ref": Object {
+            "current": null,
+          },
+          "rendered": "Your browser does not support this application",
+          "type": "canvas",
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+    "attachTo": undefined,
+    "hydrateIn": undefined,
+  },
+}
+`;
+
+exports[`<MainMap/> @render should render as expected with exact height and width in state 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <MainMap
+    getMapContext={[MockFunction]}
+    url="eur"
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <canvas
+          height={300}
+          id="backgroundCanvas"
+          style={
+            Object {
+              "left": 0,
+              "position": "absolute",
+              "top": 0,
+            }
+          }
+          width={500}
+        />,
+        <canvas
+          height={300}
+          id="mapCanvas"
+          style={
+            Object {
+              "left": 0,
+              "position": "absolute",
+              "top": 0,
+            }
+          }
+          width={500}
+        >
+          Your browser does not support this application
+        </canvas>,
+      ],
+      "style": Object {
+        "position": "relative",
+      },
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "height": 300,
+          "id": "backgroundCanvas",
+          "style": Object {
+            "left": 0,
+            "position": "absolute",
+            "top": 0,
+          },
+          "width": 500,
+        },
+        "ref": Object {
+          "current": null,
+        },
+        "rendered": null,
+        "type": "canvas",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "Your browser does not support this application",
+          "height": 300,
+          "id": "mapCanvas",
+          "style": Object {
+            "left": 0,
+            "position": "absolute",
+            "top": 0,
+          },
+          "width": 500,
+        },
+        "ref": Object {
+          "current": null,
+        },
+        "rendered": "Your browser does not support this application",
+        "type": "canvas",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <canvas
+            height={300}
+            id="backgroundCanvas"
+            style={
+              Object {
+                "left": 0,
+                "position": "absolute",
+                "top": 0,
+              }
+            }
+            width={500}
+          />,
+          <canvas
+            height={300}
+            id="mapCanvas"
+            style={
+              Object {
+                "left": 0,
+                "position": "absolute",
+                "top": 0,
+              }
+            }
+            width={500}
+          >
+            Your browser does not support this application
+          </canvas>,
+        ],
+        "style": Object {
+          "position": "relative",
+        },
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "height": 300,
+            "id": "backgroundCanvas",
+            "style": Object {
+              "left": 0,
+              "position": "absolute",
+              "top": 0,
+            },
+            "width": 500,
+          },
+          "ref": Object {
+            "current": null,
+          },
+          "rendered": null,
+          "type": "canvas",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Your browser does not support this application",
+            "height": 300,
+            "id": "mapCanvas",
+            "style": Object {
+              "left": 0,
+              "position": "absolute",
+              "top": 0,
+            },
+            "width": 500,
+          },
+          "ref": Object {
+            "current": null,
+          },
+          "rendered": "Your browser does not support this application",
+          "type": "canvas",
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+    "attachTo": undefined,
+    "hydrateIn": undefined,
+  },
+}
+`;

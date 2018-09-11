@@ -3,7 +3,7 @@ import * as React from 'react'
 export interface IMapOpts {
   rect: DOMRect
 }
-interface IMainMapProps {
+export interface IMainMapProps {
   url: string
   getMapContext: (mapCanvas: HTMLCanvasElement, mapCtx: CanvasRenderingContext2D | null, opts: any) => void
 }
