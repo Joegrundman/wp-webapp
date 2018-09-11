@@ -24,8 +24,8 @@ const shipyards = [
 ]
 
 class Shipyard extends React.Component<{}, IShipyardState> {
-  public syBgContext: CanvasRenderingContext2D | null
-  public syContext: CanvasRenderingContext2D | null
+  public syBgContext: CanvasRenderingContext2D
+  public syContext: CanvasRenderingContext2D
 
   constructor(props: any){
 
@@ -34,8 +34,6 @@ class Shipyard extends React.Component<{}, IShipyardState> {
       currentShipyard: 0
     }
 
-    this.syBgContext = null
-    this.syContext = null
   }
 
   public componentDidMount (): void {
@@ -48,9 +46,6 @@ class Shipyard extends React.Component<{}, IShipyardState> {
   }
 
   public drawShipyardBackground (): void {
-    if(!this.syBgContext) {
-      return
-    }
     this.syBgContext.strokeStyle= '#cdcdcd'
     this.syBgContext.lineWidth = 1
 
@@ -67,7 +62,6 @@ class Shipyard extends React.Component<{}, IShipyardState> {
     this.syBgContext.fillStyle = '#cdcdcd'
 
     seasons.forEach((season: string, i: number): void => {
-      if(!this.syBgContext) { return }
       this.syBgContext.fillText(season, 36 + (68 * i), 18)
     })
 
@@ -82,7 +76,6 @@ class Shipyard extends React.Component<{}, IShipyardState> {
     const levels: string[] = ['5', '4', '3', '2', '1']
     this.syBgContext.font = "18px sans-serif"
     levels.forEach((level: string, i: number): void => {
-      if(!this.syBgContext) { return }
       this.syBgContext.fillText(level, 8, 68 + (68 * i))
     })
 
@@ -90,7 +83,7 @@ class Shipyard extends React.Component<{}, IShipyardState> {
     this.syBgContext.fillText('Waiting for repair', 100, 400)
   }
 
-  public decrementCurrentShipyard = () => {
+  public decrementCurrentShipyard = (): void => {
     const currentShipyard = this.state.currentShipyard === 0 ?
       shipyards.length -1 :
       this.state.currentShipyard - 1
@@ -98,10 +91,10 @@ class Shipyard extends React.Component<{}, IShipyardState> {
     this.setState({
       currentShipyard
     },
-    () => getGame().setSelectedShipyard(shipyards[this.state.currentShipyard], this.syContext as CanvasRenderingContext2D ))
+    (): void => getGame().setSelectedShipyard(shipyards[this.state.currentShipyard], this.syContext as CanvasRenderingContext2D ))
   }
 
-  public incrementCurrentShipyard = () => {
+  public incrementCurrentShipyard = (): void => {
     const currentShipyard = this.state.currentShipyard < shipyards.length - 1 ?
       this.state.currentShipyard + 1 :
       0
@@ -109,7 +102,7 @@ class Shipyard extends React.Component<{}, IShipyardState> {
     this.setState({
       currentShipyard
     },
-    () => getGame().setSelectedShipyard(shipyards[this.state.currentShipyard], this.syContext as CanvasRenderingContext2D))
+    (): void => getGame().setSelectedShipyard(shipyards[this.state.currentShipyard], this.syContext as CanvasRenderingContext2D))
   }
 
   public render (): JSX.Element {
