@@ -1,6 +1,7 @@
 import * as React from 'react'
 import locals from './Sidebutton.css'
 
+
 interface ISideButtonProps {
   image: string
   action: () => any
