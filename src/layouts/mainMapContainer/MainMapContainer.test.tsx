@@ -1,10 +1,10 @@
 import { shallow } from 'enzyme'
 import * as React from 'react'
-import Header from './Header'
+import MainMapContainer from './MainMapContainer'
 
-describe('<Header />', () => {
+describe('<MainMapContainer />', () => {
   it('should render as expected', () => {
-    const component = shallow(<Header />)
+    const component = shallow(<MainMapContainer />)
     expect(component).toMatchSnapshot()
   })
 })
