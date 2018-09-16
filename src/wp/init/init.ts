@@ -1,7 +1,7 @@
 import { IMapOpts } from 'Components/mainMap/MainMap';
 import Game from 'Game/game';
-import fileLoader from 'Loaders/fileloader';
-import initLoader from 'Loaders/initloader';
+import loadGameFile from 'Loaders/fileloader';
+import loadInitializationFile from 'Loaders/initloader';
 import {
   fetchGamefile,
   fetchInitfile
@@ -14,10 +14,10 @@ export const initialize = (mapCtx: CanvasRenderingContext2D, mapCanvas: HTMLCanv
   const initFile = fetchInitfile();
   const gamefile = fetchGamefile();
   
-  initLoader(initFile, gameInstance);
-  fileLoader(gamefile, gameInstance);
+  loadInitializationFile(initFile, gameInstance);
+  loadGameFile(gamefile, gameInstance);
   game = gameInstance;
-  console.log('game', game) // tslint:disable-line
+  console.log('game', game);
   game.currentMap.draw(mapCtx);
 }
 
