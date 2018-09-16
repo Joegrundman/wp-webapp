@@ -9,7 +9,7 @@ interface ITaskforceState {
 
 const taskforceOwners: string[]= [
   'Britain',
-  'USA',
+  'US',
   'France',
   'Russia',
   'Germany',
@@ -74,7 +74,8 @@ class Taskforce extends React.Component<{}, ITaskforceState> {
     this.state.currentTaskforceOwner - 1
     this.setState({
       currentTaskforceOwner
-    })
+    },
+    (): void => getGame().setSelectedTaskforce(taskforceOwners[this.state.currentTaskforceOwner], this.tfContext as CanvasRenderingContext2D ))
   }
 
   public changeTaskforceOwnerForward = () => {
@@ -84,7 +85,8 @@ class Taskforce extends React.Component<{}, ITaskforceState> {
 
     this.setState({
       currentTaskforceOwner
-    })
+    },
+    (): void => getGame().setSelectedTaskforce(taskforceOwners[this.state.currentTaskforceOwner], this.tfContext as CanvasRenderingContext2D ))
   }
 
   public render () {

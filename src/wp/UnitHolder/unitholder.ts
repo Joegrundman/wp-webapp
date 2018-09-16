@@ -136,8 +136,8 @@ class UnitHolder {
              if(!stack.units.length) { return } 
              const unitX: number = stack.units[0].holderX as number
              const unitY: number = stack.units[0].holderY as number
-             x = -24 + (unitX * 68)
-             y = 44 + (unitY * 68)
+             x = -22 + (unitX * 62.5)
+             y = 8 + (unitY * 62.5)
              drawUnits(this.ctx, stack.units, x, y)
              stack.x = x
              stack.y = y
