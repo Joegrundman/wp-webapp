@@ -14,6 +14,8 @@ describe('Country', () => {
     type: 'arm',
   }
   const unit: Unit = new Unit(unitParams);
+  const colony: Country = new Country(10, 'Florin');
+
 
   it('should create an instance of a country class', () => {
     expect(country.name).toBe('Sarkan');
@@ -28,6 +30,12 @@ describe('Country', () => {
   it('should have an addUnit method that adds a unit to the country units array', () => {
     country.addUnit(unit);
     expect(country.units[0]).toBe(unit);
+  });
+
+  it('should have an addColony method that adds a country to the country colonies array', () => {
+    country.addColony(colony);
+    expect(country.colonies[0]).toBe(colony);
+    expect(colony.colonyOf).toBe(country)
   });
 
   it('should have a getUnit method that returns the specified unit in the units array', () => {
