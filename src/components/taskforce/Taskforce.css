@@ -11,3 +11,17 @@
   margin-top: 0;
   color: #cdcdcd;
 }
+
+.canvasContainer {
+  border: 1px solid #cdcdcd;
+  border-radius: 3px;
+  position: relative;
+  margin: 0 auto;
+  overflow: scroll;
+}
+
+.taskforceCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
