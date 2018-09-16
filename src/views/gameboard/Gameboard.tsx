@@ -14,21 +14,21 @@ interface IGameState {
   windowHeight: number
 }
 
-interface IGameProps {
+export interface IGameProps {
   store: GameStore
 }
 
 @observer
 class GameBoard extends React.Component<IGameProps, IGameState> {
   public mainMapContainer: React.RefObject<HTMLDivElement>
-  public game: Game | null
-  public mapCanvas: HTMLCanvasElement | null
-  public mapCtx: CanvasRenderingContext2D | null
-  public doubleClickListener: EventListenerOrEventListenerObject | null
-  public mouseDownListener: EventListenerOrEventListenerObject | null
-  public mouseMoveListener: EventListenerOrEventListenerObject | null
-  public mouseUpListener: EventListenerOrEventListenerObject | null
-  public scrollListener: EventListenerOrEventListenerObject | null
+  public game: Game
+  public mapCanvas: HTMLCanvasElement
+  public mapCtx: CanvasRenderingContext2D
+  public doubleClickListener: EventListenerOrEventListenerObject
+  public mouseDownListener: EventListenerOrEventListenerObject
+  public mouseMoveListener: EventListenerOrEventListenerObject
+  public mouseUpListener: EventListenerOrEventListenerObject
+  public scrollListener: EventListenerOrEventListenerObject
   
   constructor(props: IGameProps) {
     super(props)
@@ -38,17 +38,7 @@ class GameBoard extends React.Component<IGameProps, IGameState> {
       windowHeight: 0,
       windowWidth: 0,
     }
-
-    this.game = null
-    this.mapCanvas = null
-    this.mapCtx = null
     this.mainMapContainer = React.createRef()
-    this.doubleClickListener = null
-    this.mouseDownListener = null
-    this.mouseMoveListener = null
-    this.mouseUpListener = null
-    this.scrollListener = null
-    
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
   }
 
@@ -67,37 +57,30 @@ class GameBoard extends React.Component<IGameProps, IGameState> {
   }
 
   public attachMapEvents(): void {
+    this.mouseDownListener = this.game.currentMap.onMouseDown.bind(this.game.currentMap)
+    this.mouseMoveListener = this.game.currentMap.onMouseMove.bind(this.game.currentMap)
+    this.mouseUpListener = this.game.currentMap.onMouseUp.bind(this.game.currentMap)
+    this.scrollListener = this.game.currentMap.onScroll.bind(this.game.currentMap)
+    this.doubleClickListener = this.game.currentMap.onDoubleClick.bind(this.game.currentMap)
 
-    if (this.game && this.mapCanvas && this.mapCanvas.addEventListener) {
-      this.mouseDownListener = this.game.currentMap.onMouseDown.bind(this.game.currentMap) as EventListenerOrEventListenerObject
-      this.mouseMoveListener = this.game.currentMap.onMouseMove.bind(this.game.currentMap) as EventListenerOrEventListenerObject
-      this.mouseUpListener = this.game.currentMap.onMouseUp.bind(this.game.currentMap) as EventListenerOrEventListenerObject
-      this.scrollListener = this.game.currentMap.onScroll.bind(this.game.currentMap) as EventListenerOrEventListenerObject
-      this.doubleClickListener = this.game.currentMap.onDoubleClick.bind(this.game.currentMap) as EventListenerOrEventListenerObject
-
-      this.mapCanvas.addEventListener('mousemove', this.mouseMoveListener, false)
-      this.mapCanvas.addEventListener('mousedown', this.mouseDownListener, false)
-      this.mapCanvas.addEventListener('mouseup', this.mouseUpListener, false)
-      this.mapCanvas.addEventListener('dblclick', this.doubleClickListener, false)
-      if (this.mainMapContainer.current) {
-        this.mainMapContainer.current.addEventListener('scroll', this.scrollListener, true)
-      }
+    this.mapCanvas.addEventListener('mousemove', this.mouseMoveListener, false)
+    this.mapCanvas.addEventListener('mousedown', this.mouseDownListener, false)
+    this.mapCanvas.addEventListener('mouseup', this.mouseUpListener, false)
+    this.mapCanvas.addEventListener('dblclick', this.doubleClickListener, false)
+    if (this.mainMapContainer.current) {
+      this.mainMapContainer.current.addEventListener('scroll', this.scrollListener, true)
     }
   }
 
   public removeMapEvents(): void {
-
-    if (this.game && this.mapCanvas && this.mapCanvas.removeEventListener) {
-      this.mapCanvas.removeEventListener('mousemove', this.mouseMoveListener as EventListenerOrEventListenerObject, false)
-      this.mapCanvas.removeEventListener('mousedown', this.mouseDownListener as EventListenerOrEventListenerObject, false)
-      this.mapCanvas.removeEventListener('mouseup', this.mouseUpListener as EventListenerOrEventListenerObject, false)
-      this.mapCanvas.removeEventListener('dblclick', this.doubleClickListener as EventListenerOrEventListenerObject, false)
-      if (this.mainMapContainer.current) {
-        this.mainMapContainer.current.removeEventListener('scroll', this.scrollListener as EventListenerOrEventListenerObject, true)
-      }
-      this.game.currentMap.mapCanvas = this.mapCanvas
+    this.mapCanvas.removeEventListener('mousemove', this.mouseMoveListener, false)
+    this.mapCanvas.removeEventListener('mousedown', this.mouseDownListener, false)
+    this.mapCanvas.removeEventListener('mouseup', this.mouseUpListener, false)
+    this.mapCanvas.removeEventListener('dblclick', this.doubleClickListener, false)
+    if (this.mainMapContainer.current) {
+      this.mainMapContainer.current.removeEventListener('scroll', this.scrollListener as EventListenerOrEventListenerObject, true)
     }
-
+    this.game.currentMap.mapCanvas = this.mapCanvas
   }
 
   public getMapContext = (
@@ -120,10 +103,8 @@ class GameBoard extends React.Component<IGameProps, IGameState> {
       })
     }
     else {
-      if (this.game) {
-        this.game.switchTheaters()
-        this.attachMapEvents()
-      }
+      this.game.switchTheaters()
+      this.attachMapEvents()
     }
   }
   
