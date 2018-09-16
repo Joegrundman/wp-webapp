@@ -207,7 +207,7 @@ describe('<Gameboard />', (): void => {
             }
           }
         }
-
+        // @ts-ignore
         instance.mainMapContainer = {
           // @ts-ignore
           current: {
@@ -249,7 +249,7 @@ describe('<Gameboard />', (): void => {
             mapCanvas: null
           }
         }
-
+        // @ts-ignore
         instance.mainMapContainer = {
           // @ts-ignore
           current: {
