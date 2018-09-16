@@ -11,39 +11,39 @@ describe('<Taskforce />', (): void => {
   })
 
   describe('methods', (): void => {
-    describe('changeCountryBack', (): void => {
+    describe('changeTaskforceOwnerBack', (): void => {
       it('should move to the previous country', () => {
         const component: ShallowWrapper = shallow(<Taskforce />)
         const instance = component.instance() as Taskforce
-        instance.setState({ currentCountry: 3 })
-        instance.changeCountryBack()
-        expect(instance.state.currentCountry).toBe(2)
+        instance.setState({ currentTaskforceOwner: 3 })
+        instance.changeTaskforceOwnerBack()
+        expect(instance.state.currentTaskforceOwner).toBe(2)
       })
 
-      it('should cycle the currentCountry to the end of the list if at zero', () => {
+      it('should cycle the currentTaskforceOwner to the end of the list if at zero', () => {
         const component: ShallowWrapper = shallow(<Taskforce />)
         const instance = component.instance() as Taskforce
-        instance.setState({ currentCountry:  0})
-        instance.changeCountryBack()
-        expect(instance.state.currentCountry).toBe(6)
+        instance.setState({ currentTaskforceOwner:  0})
+        instance.changeTaskforceOwnerBack()
+        expect(instance.state.currentTaskforceOwner).toBe(6)
       })
     })
 
-    describe('changeCountryForward', (): void => {
-      it('should increment the currentCountry', () => {
+    describe('changeTaskforceOwnerForward', (): void => {
+      it('should increment the currentTaskforceOwner', () => {
         const component: ShallowWrapper = shallow(<Taskforce />)
         const instance = component.instance() as Taskforce
-        instance.setState({ currentCountry: 5 })
-        instance.changeCountryForward()
-        expect(instance.state.currentCountry).toBe(6)
+        instance.setState({ currentTaskforceOwner: 5 })
+        instance.changeTaskforceOwnerForward()
+        expect(instance.state.currentTaskforceOwner).toBe(6)
       })
 
-      it('should cycle the currentCountry to the start of the list if at the end', () => {
+      it('should cycle the currentTaskforceOwner to the start of the list if at the end', () => {
         const component: ShallowWrapper = shallow(<Taskforce />)
         const instance = component.instance() as Taskforce
-        instance.setState({ currentCountry:  6})
-        instance.changeCountryForward()
-        expect(instance.state.currentCountry).toBe(0)
+        instance.setState({ currentTaskforceOwner:  6})
+        instance.changeTaskforceOwnerForward()
+        expect(instance.state.currentTaskforceOwner).toBe(0)
       })
     })
   })

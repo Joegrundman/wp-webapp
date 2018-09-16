@@ -110,6 +110,39 @@ class UnitHolder {
             stack.y = y
         }
     }
+
+    public drawTaskforce() {
+        if (this.holderShouldRedraw()) {
+         for (let i = this.units.length - 1; i > -1; i--) {
+             let matchingStack = this.units[i].findStackWithSameAddress(this.stacks);
+             if (matchingStack < 0) {
+                 this.stacks[this.stacks.length] = new Stack();
+                 matchingStack = this.stacks.length - 1;
+             }
+ 
+             const stackToAdd = this.stacks[matchingStack];
+             stackToAdd.units.push(this.units[i]);
+         }
+         this.drawTaskforceStacks();
+         }
+     }
+     
+     public drawTaskforceStacks(): void{
+         
+         let x: number;
+         let y: number;
+ 
+         for(const stack of this.stacks) {
+             if(!stack.units.length) { return } 
+             const unitX: number = stack.units[0].holderX as number
+             const unitY: number = stack.units[0].holderY as number
+             x = -24 + (unitX * 68)
+             y = 44 + (unitY * 68)
+             drawUnits(this.ctx, stack.units, x, y)
+             stack.x = x
+             stack.y = y
+         }
+     }
     
 //     public drawTaskforce () {
 // 	if (WP.UnitHolder.needsDraw(this)) {

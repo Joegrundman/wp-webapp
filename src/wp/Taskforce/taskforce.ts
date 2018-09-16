@@ -1,4 +1,6 @@
 import Unit from 'Unit/unit';
+import { getGame } from 'Wp/Game';
+import Holder from '../UnitHolder/unitholder';
 import TaskforceUnit from './taskforce-unit';
 
 class Taskforce {
@@ -11,6 +13,7 @@ class Taskforce {
     public currentSquareX: number | null;
     public currentSquareY: number | null;
     public dragging: boolean;
+    public tfContext: CanvasRenderingContext2D | null
 
     constructor (id: number, owner: string, size: number) {
         this.id = id;
@@ -20,7 +23,8 @@ class Taskforce {
         this.unitHolder = null;
         this.currentSquareX = null;
         this.currentSquareY = null;
-        this.dragging = false;       
+        this.dragging = false;
+        this.tfContext = null;       
     }
     
     public addTaskforceUnit (taskforceUnit: TaskforceUnit) {
@@ -37,6 +41,23 @@ class Taskforce {
             tfUnit.x = unit.holderX;
             tfUnit.y = unit.holderY;
         }   
+    }
+
+    public draw () {
+        const units: Unit[] = []
+        //   var holder = WP.UnitHolder.unitHolderBuilder(shipyardCtx, $("#syDetails"));
+        if(!this.tfContext) { return }
+
+        const holder: Holder = new Holder(this.tfContext);
+    
+        this.taskforceUnits.forEach(tfUnit => {
+            const unit: Unit | null = getGame().getUnitForTaskforce(tfUnit.id, tfUnit.x, tfUnit.y)
+            if (unit){ units.push(unit) }
+        })
+        
+        holder.units = units;
+        holder.drawTaskforce();
+        this.unitHolder = holder;
     }
 
     // public draw () {

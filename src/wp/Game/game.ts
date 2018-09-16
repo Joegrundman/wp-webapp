@@ -6,6 +6,7 @@ import Phase from 'Phase/phase';
 import Shipyard from 'Shipyard/shipyard';
 import ShipyardUnit from 'Shipyard/shipyard-unit';
 import Taskforce from 'Taskforce/taskforce';
+import TaskforceUnit from 'Taskforce/taskforce-unit';
 import Unit from 'Unit/unit';
 
 class Game {
@@ -142,7 +143,7 @@ class Game {
         return this.taskforces.find((taskforce: Taskforce) => taskforce.owner === owner);
     }
 
-    public setSelectedShipyard (shipyardName: string, syCtx: CanvasRenderingContext2D) {
+    public setSelectedShipyard (shipyardName: string, syCtx: CanvasRenderingContext2D): void {
         this.selectedShipyard =
             this.shipyards.find(sy => sy.name === shipyardName) || null
         if(this.selectedShipyard) {
@@ -173,18 +174,11 @@ class Game {
         return res   
     }
  
-    // public getTaskforceFromUnit (unitId) {
-    //     var res = null
-    //     this.taskforces.forEach(tf => {
-    //         tf.taskforceUnits.forEach(tfu => {
-    //             if (tfu.id == unitId) { res = tf }
-    //         })
-    //     })
-    //     if (res == null) {
-    //      alert("Game.getTaskforce from unit: Unknown taskforce with: " + unitId);           
-    //     }
-    //     return res;   
-    // }
+    public getTaskforceFromUnit (unitId: number): Taskforce {  
+        return this.taskforces.find((taskforce: Taskforce) =>
+        taskforce.taskforceUnits.some((unit: TaskforceUnit) => unit.id === unitId)
+        ) as Taskforce;  
+    }
     
 
     // public getTaskforces (id) {
@@ -225,7 +219,19 @@ class Game {
     //     }
     //     return res        
     // }
- 
+    public getUnitForTaskforce (id: number, x: number, y: number): Unit | null {
+        let res = null
+        this.countries.forEach(cty => {
+            cty.units.forEach(cu => {
+                if (cu.id === id) {
+                    cu.holderX = x
+                    cu.holderY = y
+                    res = cu
+                }
+            })
+        })
+        return res   
+    }
     // public getUnitFromCountryForGridDialog (id, x, y) {
     //     var res = null
     //     this.countries.forEach(cty => {
@@ -271,10 +277,14 @@ class Game {
     //     $("#infoBarTopLeftGameDiv").show();        
     // }
      
-    // public setSelectedTaskforce (taskforce) {
-    //     if (taskforce == this.selectedTaskforce) return;
-    //     this.selectedTaskforce = taskforce;     
-    // }
+    public setSelectedTaskforce (taskforceName: string, tfCtx: CanvasRenderingContext2D): void {
+        this.selectedTaskforce =
+        this.taskforces.find(tf => tf.owner === taskforceName) || null
+        if(this.selectedTaskforce) {
+            this.selectedTaskforce.tfContext = tfCtx
+            this.selectedTaskforce.draw()
+        }
+    }
     
     public setSelectedUnit (unit: Unit | null) {
         if (unit === this.selectedUnit) { return; }

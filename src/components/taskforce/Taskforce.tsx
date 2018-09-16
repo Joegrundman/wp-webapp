@@ -1,12 +1,13 @@
 import ArrowButton from 'Atoms/arrowbutton/ArrowButton';
 import * as React from 'react'
+import { getGame } from 'Wp/Game'
 import locals from './Taskforce.css'
 
 interface ITaskforceState {
-  currentCountry: number
+  currentTaskforceOwner: number
 }
 
-const countries: string[]= [
+const taskforceOwners: string[]= [
   'Britain',
   'USA',
   'France',
@@ -23,7 +24,7 @@ class Taskforce extends React.Component<{}, ITaskforceState> {
   constructor(props: any) {
     super(props)
     this.state = {
-      currentCountry: 0
+      currentTaskforceOwner: 0
     }
   }
 
@@ -33,7 +34,7 @@ class Taskforce extends React.Component<{}, ITaskforceState> {
     const tfCanvas: HTMLCanvasElement = document.getElementById('taskforceCanvas') as HTMLCanvasElement
     this.tfContext = tfCanvas.getContext('2d') as CanvasRenderingContext2D
     this.drawTaskforceBackground();
-    // getGame().setSelectedShipyard(shipyards[this.state.currentShipyard], this.syContext)
+    getGame().setSelectedTaskforce(taskforceOwners[this.state.currentTaskforceOwner], this.tfContext)
   }
 
   public drawTaskforceBackground (): void {
@@ -67,22 +68,22 @@ class Taskforce extends React.Component<{}, ITaskforceState> {
     })
   }
 
-  public changeCountryBack = () => {
-    const currentCountry = this.state.currentCountry === 0 ?
-    countries.length -1 :
-    this.state.currentCountry - 1
+  public changeTaskforceOwnerBack = () => {
+    const currentTaskforceOwner = this.state.currentTaskforceOwner === 0 ?
+    taskforceOwners.length -1 :
+    this.state.currentTaskforceOwner - 1
     this.setState({
-      currentCountry
+      currentTaskforceOwner
     })
   }
 
-  public changeCountryForward = () => {
-    const currentCountry = this.state.currentCountry < countries.length - 1 ?
-      this.state.currentCountry + 1 :
+  public changeTaskforceOwnerForward = () => {
+    const currentTaskforceOwner = this.state.currentTaskforceOwner < taskforceOwners.length - 1 ?
+      this.state.currentTaskforceOwner + 1 :
       0
 
     this.setState({
-      currentCountry
+      currentTaskforceOwner
     })
   }
 
@@ -101,9 +102,9 @@ class Taskforce extends React.Component<{}, ITaskforceState> {
       <div>
         <h1 className={locals.header} >Taskforces</h1>
         <div className={locals.subheaderWithArrows}>
-          <ArrowButton direction="left" action={this.changeCountryBack}/>
-          <h2 className={locals.subheaderCenterText}>{countries[this.state.currentCountry]}</h2>
-          <ArrowButton direction="right" action={this.changeCountryForward}/>
+          <ArrowButton direction="left" action={this.changeTaskforceOwnerBack}/>
+          <h2 className={locals.subheaderCenterText}>{taskforceOwners[this.state.currentTaskforceOwner]}</h2>
+          <ArrowButton direction="right" action={this.changeTaskforceOwnerForward}/>
         </div>
         <div className={locals.canvasContainer} style={{height: tfContainerSize.height, width: tfContainerSize.width}}>
           <canvas
