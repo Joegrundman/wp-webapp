@@ -39,6 +39,28 @@ ShallowWrapper {
             direction="right"
           />
         </div>,
+        <div
+          className={undefined}
+          style={
+            Object {
+              "height": 470,
+              "width": 300,
+            }
+          }
+        >
+          <canvas
+            className={undefined}
+            height={750}
+            id="taskforceCanvasBackground"
+            width={500}
+          />
+          <canvas
+            className={undefined}
+            height={750}
+            id="taskforceCanvas"
+            width={500}
+          />
+        </div>,
       ],
     },
     "ref": null,
@@ -118,6 +140,64 @@ ShallowWrapper {
         ],
         "type": "div",
       },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <canvas
+              className={undefined}
+              height={750}
+              id="taskforceCanvasBackground"
+              width={500}
+            />,
+            <canvas
+              className={undefined}
+              height={750}
+              id="taskforceCanvas"
+              width={500}
+            />,
+          ],
+          "className": undefined,
+          "style": Object {
+            "height": 470,
+            "width": 300,
+          },
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "className": undefined,
+              "height": 750,
+              "id": "taskforceCanvasBackground",
+              "width": 500,
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "canvas",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "className": undefined,
+              "height": 750,
+              "id": "taskforceCanvas",
+              "width": 500,
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "canvas",
+          },
+        ],
+        "type": "div",
+      },
     ],
     "type": "div",
   },
@@ -148,6 +228,28 @@ ShallowWrapper {
             <ArrowButton
               action={[Function]}
               direction="right"
+            />
+          </div>,
+          <div
+            className={undefined}
+            style={
+              Object {
+                "height": 470,
+                "width": 300,
+              }
+            }
+          >
+            <canvas
+              className={undefined}
+              height={750}
+              id="taskforceCanvasBackground"
+              width={500}
+            />
+            <canvas
+              className={undefined}
+              height={750}
+              id="taskforceCanvas"
+              width={500}
             />
           </div>,
         ],
@@ -225,6 +327,64 @@ ShallowWrapper {
               "ref": null,
               "rendered": null,
               "type": [Function],
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <canvas
+                className={undefined}
+                height={750}
+                id="taskforceCanvasBackground"
+                width={500}
+              />,
+              <canvas
+                className={undefined}
+                height={750}
+                id="taskforceCanvas"
+                width={500}
+              />,
+            ],
+            "className": undefined,
+            "style": Object {
+              "height": 470,
+              "width": 300,
+            },
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "className": undefined,
+                "height": 750,
+                "id": "taskforceCanvasBackground",
+                "width": 500,
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "canvas",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "className": undefined,
+                "height": 750,
+                "id": "taskforceCanvas",
+                "width": 500,
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "canvas",
             },
           ],
           "type": "div",

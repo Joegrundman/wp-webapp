@@ -2,6 +2,28 @@ import { shallow, ShallowWrapper } from 'enzyme'
 import * as React from 'react'
 import Taskforce from './Taskforce'
 
+
+jest.mock('Wp/Game', () => ({
+  getGame: jest.fn(() => ({
+    setSelectedTaskforce: jest.fn()
+  }))
+}))
+
+jest.spyOn(document, 'getElementById').mockImplementation(() => {
+  return {
+    getBoundingClientRect: jest.fn(() => ({x: 20, y: 30})),
+    getContext: jest.fn(() => ({
+      beginPath: jest.fn(),
+      closePath: jest.fn(),
+      drawImage: jest.fn(),
+      fillText: jest.fn(),
+      lineTo: jest.fn(),
+      moveTo: jest.fn(),
+      stroke: jest.fn()
+    }))
+  }
+})
+
 describe('<Taskforce />', (): void => {
   describe('@render', (): void => {
     it('should render as expected with default props', () => {
