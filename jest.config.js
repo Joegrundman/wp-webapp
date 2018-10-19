@@ -71,7 +71,7 @@ module.exports = {
   ],
   globals: {
     "ts-jest": {
-      tsConfigFile: "/Users/joe/Documents/Programs/wp/wp-webapp/tsconfig.test.json"
+      tsConfigFile: "tsconfig.test.json"
     }
   }
 }
