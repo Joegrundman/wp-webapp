@@ -18,6 +18,8 @@
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "paths" : {
       "App/*": ["src/app/*"],
       "Assets/*": ["src/assets/*"],
@@ -60,6 +62,7 @@
     "webpack",
     "jest",
     "src/setupTests.ts",
-    "jest.config.js"
+    "jest.config.js",
+    "bump.js"
   ]
 }

@@ -22,8 +22,8 @@ const getFlagFileName = (country: Country): string => {
 	return `${name}${fileExt}`
 };
 
-export const loadFlag = (country: Country) => {
+export const loadFlag = (country: Country): void => {
 	const image: string = require('../../assets/Flags/' + getFlagFileName(country))
 	country.flagImage = new Image();
-	country.flagImage.src = image
+	country.flagImage.src = image;
 };

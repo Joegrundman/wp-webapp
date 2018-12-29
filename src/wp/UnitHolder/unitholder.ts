@@ -21,23 +21,6 @@ class UnitHolder {
         this.stacks = []
         this.stackSimilar = false;
     }
-    
-    // static needsDraw(holder) {
-    //     holder.stacks = []
-    //     holder.ctx.clearRect(0, 0, holder.ctx.canvas.width, holder.ctx.canvas.height);
-	// 	if (holder.units && holder.units.length > 0) { 
-    //         return true; 
-    //      }
-	// 	return false;
-    // }
-    
-    // static unitHolderBuilder (ctx, div) {
-    //     var holder = new WP.UnitHolder();
-	// 	ctx.canvas.width = div.width() - 5;
-	// 	ctx.canvas.height = div.height() - 5;
-	// 	holder.ctx = ctx;
-	// 	return holder;
-    // }
 
     public holderShouldRedraw (): boolean {
      this.stacks = []
@@ -143,37 +126,6 @@ class UnitHolder {
              stack.y = y
          }
      }
-    
-//     public drawTaskforce () {
-// 	if (WP.UnitHolder.needsDraw(this)) {
-// 		for (var i = this.units.length - 1; i > -1; i--) {
-// 			var matchingStack = this.units[i].findStackWithSameAddress(this.stacks);
-// 			if (matchingStack < 0) {
-// 				this.stacks[this.stacks.length] = new WP.UnitStack();
-// 				matchingStack = this.stacks.length - 1;
-// 			}
-
-// 			var stackToAdd = this.stacks[matchingStack];
-// 			stackToAdd.units.push(this.units[i]);
-// 		}
-// 		this.drawTaskforceStacks();
-// 	}
-// }
-
-    // public drawTaskforceStacks () {
-    //     var x;
-    //     var y;
-
-    //     for (var s = 0; s < this.stacks.length; s++) {
-    //         var unit_x = this.stacks[s].units[0].holderX;
-    //         var unit_y = this.stacks[s].units[0].holderY;
-    //         x = 4 + (unit_x * 58);
-    //         y = 7 + (unit_y * 58);
-    //         this.ctx.drawUnits(this.stacks[s].units, x, y);
-    //         this.stacks[s].x = x;
-    //         this.stacks[s].y = y;
-    //     }
-    // }
 
     public drawAllStacks (): void {
         const md: number = 12;

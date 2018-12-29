@@ -52,7 +52,7 @@ const loadCountries = (countries: ICountryData[], game: Game): void => {
     if(cty.codebreaking) {
       loadCodebreaking(cty.codebreaking, country)
     }
-  })
+  });
 
   countries.forEach((cty: ICountryData) => {
     const country: Country = game.getCountry(parseInt(cty.id, 10))
@@ -79,8 +79,11 @@ const loadCountries = (countries: ICountryData[], game: Game): void => {
       const partOfCountry: Country = game.getCountry(partOfId)
       country.partOf = partOfCountry
     }
-    loadFlag(country)
-  })
+
+    loadFlag(country);
+    
+  });
+
 }
 
 const loadMaps = (maps: IMapData[], game: Game): void => {
